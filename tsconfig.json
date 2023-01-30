@@ -16,13 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
-    "paths": {
-      "@assets/*": ["assets/*"],
-      "@shared/*": ["shared/*"],
-      "@components/*": ["components/*"]
-    }
   },
   "include": ["src/**/*"],
-  "exclude": ["vite.config.ts", "coverage", "dist"],
+  "exclude": ["vite.config.ts", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
