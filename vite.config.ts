@@ -10,7 +10,7 @@ export default defineConfig({
     target: 'esnext',
     minify: true,
     lib: {
-      entry: path.resolve(__dirname, 'src/index.tsx'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'mui-admin',
       fileName: format => `mui-admin.${format}.js`
     },
