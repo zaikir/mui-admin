@@ -1,9 +1,7 @@
 import react from '@vitejs/plugin-react'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import dts from 'vite-plugin-dts'
-import { ViteAliases } from 'vite-aliases'
 import { defineConfig } from 'vite'
-
 
 const path = require('path')
 

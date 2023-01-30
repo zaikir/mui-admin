@@ -1,5 +1,6 @@
-import React from 'react'
+import { Box } from "@mui/material";
+import React from "react";
 
 export function Test() {
-  return <div>Hello, world</div>
+  return <Box>Hello, world</Box>;
 }
