@@ -25,7 +25,7 @@ export default function SortColumn({ row, colDef }: IconButtonColumnProps) {
   const { showAlert } = notifications;
 
   const sortedRowsSortValues = useMemo(
-    () => rowsSortValues && rowsSortValues.sort((a, b) => a - b),
+    () => rowsSortValues?.sort((a, b) => a - b),
     [rowsSortValues],
   );
 

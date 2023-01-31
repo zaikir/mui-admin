@@ -129,7 +129,7 @@ const HasuraDataTable = forwardRef(
           (x, idx) => (x.id ?? idx.toString()) === state.tab,
         );
 
-      if (selectedTab && selectedTab.filter) {
+      if (selectedTab?.filter) {
         filters.push(selectedTab.filter);
       }
 

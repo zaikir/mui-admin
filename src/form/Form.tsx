@@ -125,7 +125,7 @@ const Form = forwardRef(
     });
 
     useEffect(() => {
-      if (!fetcherState || !fetcherState.fetchedEntity) {
+      if (!fetcherState?.fetchedEntity) {
         return;
       }
 

@@ -474,7 +474,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         disableDensitySelector
         disableColumnSelector
         onRowDoubleClick={(event, ...other) => {
-          if (editable && editable.onEdit) {
+          if (editable?.onEdit) {
             editable.onEdit(event.row);
           }
 

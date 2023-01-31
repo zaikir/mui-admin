@@ -41,7 +41,7 @@ export default function IconButtonColumn({
           if (onClick) {
             await onClick(row, context);
           }
-        } catch (err) {
+        } catch {
           showAlert(configuration.translations.unexpectedError, 'error');
         } finally {
           setIsLoading(false);
