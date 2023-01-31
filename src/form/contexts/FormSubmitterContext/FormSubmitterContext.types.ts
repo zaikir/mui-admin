@@ -1,5 +1,4 @@
-import type { FormElementRef } from "packages/mui-admin";
-
+import type { FormElementRef } from "form/Form.types";
 import type { PromiseOrValue } from "types";
 
 export type FormSubmitterField = {

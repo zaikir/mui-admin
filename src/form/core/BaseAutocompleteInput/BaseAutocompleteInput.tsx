@@ -111,7 +111,7 @@ export default function BaseAutocompleteInput<
                 return typeof result === "number" ? result?.toString() : result;
               }
 
-              return rest.options.find((x) => x.value === option)?.text || "";
+              return rest.options.find((x) => x.value === option)?.text ?? "";
             };
 
         return (

@@ -14,6 +14,7 @@ overrides:
     parserOptions:
       project: './tsconfig.json'
 rules:
+  @typescript-eslint/prefer-nullish-coalescing: 0
   lines-between-class-members:
     - warn
     - always

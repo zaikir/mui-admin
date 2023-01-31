@@ -1,4 +1,3 @@
-import { FormElementRef } from "packages/mui-admin";
 import {
   createContext,
   PropsWithChildren,
@@ -9,6 +8,7 @@ import {
 } from "react";
 
 import { NotificationsContext } from "contexts/NotificationsContext";
+import { FormElementRef } from "form/Form.types";
 import { PromiseOrValue } from "types";
 
 import {
@@ -51,7 +51,7 @@ export function FormSubmitter({
       const { source, selection, ignoreFields } = hasuraProps;
 
       const Source = source.charAt(0).toUpperCase() + source.slice(1);
-      const selections = ((await selection) || ["__typename"]).join(" ");
+      const selections = ((await selection) ?? ["__typename"]).join(" ");
 
       const where = (() => {
         if (!entityId) {
@@ -202,7 +202,7 @@ export function FormSubmitter({
       });
 
       const fieldsToDelete = [
-        ...(ignoreFields || []),
+        ...(ignoreFields ?? []),
         ...defaultResolvers.map((resolver) => resolver.name),
         ...manyToManyResolvers.map((resolver) => resolver.name),
         ...fieldsWithoutResolver.map((x) => x.name),

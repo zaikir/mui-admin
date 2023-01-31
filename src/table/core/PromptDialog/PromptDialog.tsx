@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 // eslint-disable-next-line import/no-cycle
-import { ConfigurationType } from "packages/mui-admin";
+import type { ConfigurationType } from "contexts/ConfigurationContext";
 import { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 import type { Omit } from "type-zoo/types";
 
