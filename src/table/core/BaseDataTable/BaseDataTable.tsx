@@ -474,7 +474,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         disableDensitySelector
         disableColumnSelector
         onRowDoubleClick={(event, ...other) => {
-          if (editable?.onEdit) {
+          // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+          if (editable && editable.onEdit) {
             editable.onEdit(event.row);
           }
 

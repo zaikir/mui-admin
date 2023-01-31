@@ -45,7 +45,7 @@ export default function SortColumn({ row, colDef }: IconButtonColumnProps) {
           notifications,
         });
       }
-    } catch (err) {
+    } catch {
       showAlert(configuration.translations.unexpectedError, 'error');
     } finally {
       setIsLoading(false);
