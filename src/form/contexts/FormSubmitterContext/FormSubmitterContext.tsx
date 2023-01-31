@@ -9,7 +9,6 @@ import {
 
 import { NotificationsContext } from 'contexts/NotificationsContext';
 import { FormElementRef } from 'form/Form.types';
-import { PromiseOrValue } from 'types';
 
 import {
   FormHasuraSubmitterProps,
@@ -20,6 +19,7 @@ import {
   FormSubmitterHasuraManyToManyValueResolver,
   FormSubmitterProps,
 } from './FormSubmitterContext.types';
+import { PromiseOrValue } from '../../..';
 import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
 
 export const FormSubmitterContext =

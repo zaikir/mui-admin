@@ -1,4 +1,4 @@
-import type { HasuraSelectProps } from 'types';
+import type { HasuraSelectProps } from 'table/DataTable.types';
 
 import type {
   BaseDataTableProps,

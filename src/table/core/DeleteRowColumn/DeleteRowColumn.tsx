@@ -6,8 +6,8 @@ import { useContext, useMemo, useState } from 'react';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import { NotificationsContext } from 'contexts/NotificationsContext';
-import { PromiseOrValue } from 'types';
 
+import { PromiseOrValue } from '../../../';
 import { ShowAlertProps } from '../ConfirmDialog';
 
 type ColDefType = GridStateColDef<any, any, any> & {

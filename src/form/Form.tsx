@@ -32,7 +32,7 @@ import {
   parseFormStateFromQuery,
   updateFormStateInQuery,
 } from './utils/formPersistenceUtils';
-import { PromiseOrValue } from '../types';
+import { PromiseOrValue } from '../index';
 
 export type FormProps<TFields extends FieldValues> = PropsWithChildren<
   UseFormProps<TFields> & {

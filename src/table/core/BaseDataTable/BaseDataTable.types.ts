@@ -3,8 +3,8 @@ import type { GridColDef } from '@mui/x-data-grid';
 
 import { ConfigurationType } from 'contexts/ConfigurationContext';
 import { NotificationsContextType } from 'contexts/NotificationsContext';
-import { PromiseOrValue } from 'types';
 
+import { PromiseOrValue } from '../../../';
 import { ShowAlertProps } from '../ConfirmDialog';
 import { RowsCustomFilterDef } from '../RowsCustomFilterForm';
 import type {

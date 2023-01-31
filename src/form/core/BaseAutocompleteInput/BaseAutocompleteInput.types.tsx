@@ -1,8 +1,7 @@
 import { AutocompleteProps, TextFieldProps } from '@mui/material';
 import type { Omit } from 'type-zoo/types';
 
-import { PromiseOrValue } from 'types';
-
+import { PromiseOrValue } from '../../../';
 import { BaseInputProps } from '../BaseInput';
 import { InternalNumberInputProps } from '../NumberInput';
 

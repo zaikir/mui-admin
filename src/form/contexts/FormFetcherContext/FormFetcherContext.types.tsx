@@ -1,4 +1,4 @@
-import { PromiseOrValue } from 'types';
+import { PromiseOrValue } from '../../../index';
 
 type Selector = string | null;
 

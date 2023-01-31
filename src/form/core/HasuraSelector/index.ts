@@ -1,1 +1,4 @@
-export { default as HasuraSelector } from './HasuraSelector';
+export {
+  default as HasuraSelector,
+  type HasuraSelectorRef,
+} from './HasuraSelector';

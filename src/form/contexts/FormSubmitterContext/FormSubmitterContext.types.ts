@@ -1,5 +1,6 @@
 import type { FormElementRef } from 'form/Form.types';
-import type { PromiseOrValue } from 'types';
+
+import type { PromiseOrValue } from '../../../';
 
 export type FormSubmitterField = {
   name: string;

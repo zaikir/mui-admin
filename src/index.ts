@@ -71,7 +71,10 @@ export {
   type HasuraAutocompleteInputProps,
   type HasuraAutocompleteRef,
 } from './form/core/HasuraAutocompleteInput';
-export { HasuraSelector } from './form/core/HasuraSelector';
+export {
+  HasuraSelector,
+  type HasuraSelectorRef,
+} from './form/core/HasuraSelector';
 export { InputClearButton } from './form/core/InputClearButton';
 export { MaskedInput } from './form/core/MaskedInput';
 export {
@@ -127,6 +130,17 @@ export {
   type BaseDataTableColumnDef,
   type BaseDataTableEditColumnDef,
   type BaseDataTableProps,
+  type BaseDataInnerState,
+  type BaseDataTableDeleteColumnDef,
+  type BaseDataTableIconButtonColumnDef,
+  type BaseDataTableRef,
+  type BaseDataTableRelationshipColumnDef,
+  type BaseDataTableSelectColumnDef,
+  type BaseDataTableSortColumnDef,
+  type BaseDataTableState,
+  type BaseDataTableTitle,
+  type BaseTableEvents,
+  type BaseTablePersistence,
 } from './table/core/BaseDataTable';
 export {
   ConfirmDialog,
@@ -199,4 +213,5 @@ export {
 } from './table/utils/tablePersistenceUtils';
 
 /* OTHER */
-export type { PromiseOrValue, HasuraOrderBy, HasuraSelectProps } from './types';
+export type PromiseOrValue<T> = Promise<T> | T;
+export type { HasuraOrderBy, HasuraSelectProps } from './table/DataTable.types';

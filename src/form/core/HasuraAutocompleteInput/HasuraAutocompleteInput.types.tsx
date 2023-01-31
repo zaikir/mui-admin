@@ -1,7 +1,7 @@
 import { Ref } from 'react';
 import type { Omit } from 'type-zoo';
 
-import { HasuraSelectProps } from 'types';
+import { HasuraSelectProps } from 'table/DataTable.types';
 
 import {
   AutocompleteOption,
