@@ -190,6 +190,12 @@ export {
 export { SortColumn } from './table/core/SortColumn';
 export { default as DataTable } from './table/DataTable';
 export type { DataTableProps, DataTableRef } from './table/DataTable.types';
+// shared
+export { AbsoluteBox } from './shared/components/AbsoluteBox';
+export {
+  FormDialog,
+  type FormDialogProps,
+} from './shared/components/FormDialog';
 
 /* UTILS */
 // shared

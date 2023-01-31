@@ -52,6 +52,8 @@ export type ConfigurationType = {
     attachmentsFileMenuDelete: string;
     addNewAutocompleteValue: string;
     cancel: string;
+    save: string;
+    create: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -119,6 +121,8 @@ export const DefaultConfiguration: ConfigurationType = {
     attachmentsFileMenuDelete: 'Delete',
     addNewAutocompleteValue: 'Add value',
     cancel: 'Cancel',
+    save: 'Save',
+    create: 'Create',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
@@ -161,9 +165,9 @@ export const DefaultConfiguration: ConfigurationType = {
       warning: { variant: 'warning', ...defaultSnackbarOptions },
     },
     snackbars: {
-      entityCreated: { text: 'Сохранено', variant: 'success' },
-      entityUpdated: { text: 'Сохранено', variant: 'success' },
-      entityDeleted: { text: 'Удалено', variant: 'success' },
+      entityCreated: { text: 'Saved', variant: 'success' },
+      entityUpdated: { text: 'Saved', variant: 'success' },
+      entityDeleted: { text: 'Deleted', variant: 'success' },
     },
   },
 };
