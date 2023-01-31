@@ -8,24 +8,24 @@ import {
   Radio,
   RadioGroup,
   RadioGroupProps,
-} from "@mui/material";
-import { useContext } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+} from '@mui/material';
+import { useContext } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
 
-export type RadioGroupItemType = MenuItemTypeMap<object, "li">["props"] & {
+export type RadioGroupItemType = MenuItemTypeMap<object, 'li'>['props'] & {
   text: string;
   value: string | number;
 };
 
 export type RadioGroupInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<RadioGroupProps, "name"> & {
+    Omit<RadioGroupProps, 'name'> & {
       items: RadioGroupItemType[];
       helperText?: string;
-      label?: FormControlLabelProps["label"];
+      label?: FormControlLabelProps['label'];
       onChange?: (value: any) => void;
     };
 
@@ -66,7 +66,7 @@ export default function RadioGroupInput<TFields extends FieldValues>({
         <FormControl
           required={required}
           error={!!error}
-          size={dense ? "small" : undefined}
+          size={dense ? 'small' : undefined}
           sx={{ ml: 1 }}
           disabled={readOnly}
         >
@@ -75,7 +75,7 @@ export default function RadioGroupInput<TFields extends FieldValues>({
               required={required}
               error={!!error}
               sx={{
-                fontSize: "0.8rem",
+                fontSize: '0.8rem',
               }}
             >
               {label}
@@ -87,7 +87,7 @@ export default function RadioGroupInput<TFields extends FieldValues>({
             row={rest.row ?? true}
             onChange={(event) => {
               onChange(event);
-              if (typeof rest.onChange === "function") {
+              if (typeof rest.onChange === 'function') {
                 rest.onChange(event);
               }
             }}
@@ -102,7 +102,7 @@ export default function RadioGroupInput<TFields extends FieldValues>({
                   control={
                     <Radio
                       sx={{
-                        color: error ? "error.main" : undefined,
+                        color: error ? 'error.main' : undefined,
                       }}
                       checked={isChecked}
                     />
@@ -117,7 +117,7 @@ export default function RadioGroupInput<TFields extends FieldValues>({
               );
             })}
           </RadioGroup>
-          <FormHelperText>{error?.message || helperText || " "}</FormHelperText>
+          <FormHelperText>{error?.message || helperText || ' '}</FormHelperText>
         </FormControl>
       )}
     />

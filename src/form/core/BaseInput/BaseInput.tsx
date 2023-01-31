@@ -1,6 +1,6 @@
-import { Skeleton } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useContext, useEffect } from "react";
+import { Skeleton } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useContext, useEffect } from 'react';
 import {
   Controller,
   ControllerFieldState,
@@ -9,27 +9,27 @@ import {
   FieldValues,
   Path,
   UseFormStateReturn,
-} from "react-hook-form";
+} from 'react-hook-form';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormFetcherHasuraFieldResolver } from "../../contexts/FormFetcherContext";
-import { FormFetcherContext } from "../../contexts/FormFetcherContext/FormFetcherContext";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormFetcherHasuraFieldResolver } from '../../contexts/FormFetcherContext';
+import { FormFetcherContext } from '../../contexts/FormFetcherContext/FormFetcherContext';
 import {
   FormSubmitterContext,
   FormSubmitterValueResolver,
-} from "../../contexts/FormSubmitterContext";
-import { FormTabContext } from "../../contexts/FormTabContext";
-import { FormTabsContext } from "../../contexts/FormTabsContext";
+} from '../../contexts/FormSubmitterContext';
+import { FormTabContext } from '../../contexts/FormTabContext';
+import { FormTabsContext } from '../../contexts/FormTabsContext';
 
 type GridProps = React.ComponentProps<typeof Grid>;
 
 export type InputGridProps = {
   grid?: boolean;
-  xs?: GridProps["xs"];
-  sm?: GridProps["sm"];
-  md?: GridProps["md"];
-  lg?: GridProps["lg"];
-  xl?: GridProps["xl"];
+  xs?: GridProps['xs'];
+  sm?: GridProps['sm'];
+  md?: GridProps['md'];
+  lg?: GridProps['lg'];
+  xl?: GridProps['xl'];
 };
 
 export type BaseInputProps<TFields extends FieldValues> = {
@@ -48,7 +48,7 @@ export type BaseInputProps<TFields extends FieldValues> = {
 export type InputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> & {
     render: (props: BaseInputRenderProps<TFields>) => React.ReactElement;
-    rules?: ControllerProps["rules"];
+    rules?: ControllerProps['rules'];
     skeleton?: boolean;
   };
 
@@ -92,7 +92,7 @@ export default function BaseInput<TFields extends FieldValues>({
     formFetcherContext.register(
       formFetcherValueResolver || formFetcherValueResolver === null
         ? { name, resolver: formFetcherValueResolver }
-        : name
+        : name,
     );
 
     return () => {
@@ -202,7 +202,7 @@ export default function BaseInput<TFields extends FieldValues>({
       md={md}
       lg={lg}
       xl={xl}
-      sx={{ display: "flex", alignItems: "center" }}
+      sx={{ display: 'flex', alignItems: 'center' }}
     >
       {content}
     </Grid>

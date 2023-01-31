@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useWatch } from "react-hook-form";
+import { useEffect, useMemo, useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 
 export default function FormGetter(props: {
   names?: string[];
@@ -29,7 +29,7 @@ export default function FormGetter(props: {
   const memoizedContent = useMemo(
     () => (!render ? null : (render(processedValues) as JSX.Element)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [render, memoizationKey]
+    [render, memoizationKey],
   );
 
   return memoizedContent;

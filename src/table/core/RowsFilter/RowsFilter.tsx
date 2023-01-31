@@ -1,14 +1,14 @@
-import { Box } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 
-import { RowsFilterProps } from "./RowsFilter.types";
-import { AddCustomFilterButton } from "../AddCustomFilterButton";
+import { RowsFilterProps } from './RowsFilter.types';
+import { AddCustomFilterButton } from '../AddCustomFilterButton';
 import {
   RowsCustomFilterForm,
   RowsCustomFilterInput,
-} from "../RowsCustomFilterForm";
-import { RowsSearchFilter } from "../RowsSearchFilter";
-import { RowsTabsFilter } from "../RowsTabsFilter";
+} from '../RowsCustomFilterForm';
+import { RowsSearchFilter } from '../RowsSearchFilter';
+import { RowsTabsFilter } from '../RowsTabsFilter';
 
 export default function RowsFilter({
   initialState,
@@ -29,19 +29,19 @@ export default function RowsFilter({
     RowsCustomFilterInput[]
   >(
     Object.entries(initialState.filters)
-      .map(([key]) => key.split("_").map((x) => parseInt(x, 10)))
+      .map(([key]) => key.split('_').map((x) => parseInt(x, 10)))
       .sort((a, b) => a[1] - b[1])
       .flatMap(([filterIdx, inputIdx]) => {
         const filter = customFilter?.filters[filterIdx];
 
         if (!filter) {
           // eslint-disable-next-line no-console
-          console.error("Wrong filter index");
+          console.error('Wrong filter index');
           return [];
         }
 
         return [{ ...filter, id: `${filterIdx}_${inputIdx}` }];
-      })
+      }),
   );
 
   const isFirstRender = useRef(true);
@@ -110,14 +110,14 @@ export default function RowsFilter({
             // eslint-disable-next-line no-nested-ternary
             tabsFilter.actionButton ? (
               tabsFilter.actionButton
-            ) : !searchFilter?.position || searchFilter?.position === "tabs" ? (
+            ) : !searchFilter?.position || searchFilter?.position === 'tabs' ? (
               <Box sx={{ flex: 1, pl: 2, mb: -1 }}>{searchFilterContent}</Box>
             ) : null
           }
         />
       )}
-      {(searchFilter?.position === "full" ||
-        ((searchFilter?.position ?? "tabs") === "tabs" && !tabsFilter)) &&
+      {(searchFilter?.position === 'full' ||
+        ((searchFilter?.position ?? 'tabs') === 'tabs' && !tabsFilter)) &&
         searchFilterContent}
       {customFilter && customFilterInputs.length > 0 && (
         <RowsCustomFilterForm
@@ -126,7 +126,7 @@ export default function RowsFilter({
           inputs={customFilterInputs}
           onDeleteInput={(input) => {
             setCustomFilterInputs(
-              customFilterInputs.filter((x) => x !== input)
+              customFilterInputs.filter((x) => x !== input),
             );
 
             const temp = { ...customFilterValue };

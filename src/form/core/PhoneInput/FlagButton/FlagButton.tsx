@@ -1,6 +1,6 @@
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
-import Flag from "../Flag/Flag";
+import Flag from '../Flag/Flag';
 
 export type FlagButtonProps = IconButtonProps & {
   isoCode: any | null;
@@ -20,7 +20,7 @@ function FlagButton(props: FlagButtonProps) {
         role=""
         disableRipple
         // @ts-ignore
-        sx={{ pointerEvents: "none" }}
+        sx={{ pointerEvents: 'none' }}
         component="span"
       >
         <Flag isoCode={isoCode} />
@@ -35,8 +35,8 @@ function FlagButton(props: FlagButtonProps) {
       aria-label="Select country"
       className="MuiTelInput-IconButton"
       aria-haspopup="listbox"
-      aria-controls={isFlagsMenuOpened ? "select-country" : undefined}
-      aria-expanded={isFlagsMenuOpened ? "true" : "false"}
+      aria-controls={isFlagsMenuOpened ? 'select-country' : undefined}
+      aria-expanded={isFlagsMenuOpened ? 'true' : 'false'}
       tabIndex={-1}
     >
       <Flag isoCode={isoCode} />

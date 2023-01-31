@@ -1,1 +1,1 @@
-export { default as PhoneColumn } from "./PhoneColumn";
+export { default as PhoneColumn } from './PhoneColumn';

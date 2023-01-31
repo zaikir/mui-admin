@@ -1,13 +1,13 @@
-import type { HasuraSelectProps } from "types";
+import type { HasuraSelectProps } from 'types';
 
 import type {
   BaseDataTableProps,
   BaseDataTableColumnDef,
-} from "../BaseDataTable";
-import type { ShowAlertProps } from "../ConfirmDialog";
-import type { RowsCustomFilterDef } from "../RowsCustomFilterForm";
-import type { RowsSearchFilterProps } from "../RowsSearchFilter";
-import type { DataTableTabFilter } from "../RowsTabsFilter";
+} from '../BaseDataTable';
+import type { ShowAlertProps } from '../ConfirmDialog';
+import type { RowsCustomFilterDef } from '../RowsCustomFilterForm';
+import type { RowsSearchFilterProps } from '../RowsSearchFilter';
+import type { DataTableTabFilter } from '../RowsTabsFilter';
 
 type HasuraDataTableColumnSortFunc = (sort: string) => Record<string, any>[];
 
@@ -20,7 +20,7 @@ export type HasuraDeleteProps = {
 
 export type HasuraDataTableColumnDef<
   T1 = string | undefined | false,
-  T2 = boolean | undefined
+  T2 = boolean | undefined,
 > = BaseDataTableColumnDef & {
   selector?: T1;
   sortable?: T2;
@@ -51,7 +51,7 @@ export type HasuraDataTableProps = Omit<
     HasuraDataTableSearchFilter,
     HasuraDataTableCustomFilter
   >,
-  "rows" | "onDelete" | "ref" | "skeletonLoading"
+  'rows' | 'onDelete' | 'ref' | 'skeletonLoading'
 > & {
   source: string;
   deleteProps?: HasuraDeleteProps;

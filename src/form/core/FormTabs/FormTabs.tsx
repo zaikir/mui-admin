@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, tabsClasses } from "@mui/material";
+import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
 import {
   useCallback,
   useContext,
@@ -6,20 +6,20 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { NotificationsContext } from "contexts/NotificationsContext";
+import { NotificationsContext } from 'contexts/NotificationsContext';
 import {
   FormTabsContext,
   FormTabsContextType,
-} from "form/contexts/FormTabsContext";
+} from 'form/contexts/FormTabsContext';
 import {
   parseFormTabsStateFromQuery,
   updateFormTabsStateInQuery,
-} from "form/utils/formTabsPersistenceUtils";
+} from 'form/utils/formTabsPersistenceUtils';
 
-import { FormTabDef, FormTabsProps } from "./FormTabs.types";
-import { FormErrorsListener } from "../FormErrorsListener";
+import { FormTabDef, FormTabsProps } from './FormTabs.types';
+import { FormErrorsListener } from '../FormErrorsListener';
 
 export default function FormTabs({
   tabs,
@@ -30,11 +30,11 @@ export default function FormTabs({
   children,
   ...rest
 }: FormTabsProps) {
-  const firstTabId = tabs[0] ? tabs[0].id || "0" : "0";
+  const firstTabId = tabs[0] ? tabs[0].id || '0' : '0';
 
   const initialTab = (() => {
-    if (persistStateMode === "query") {
-      const queryPrefix = "queryPrefix" in rest ? rest.queryPrefix : undefined;
+    if (persistStateMode === 'query') {
+      const queryPrefix = 'queryPrefix' in rest ? rest.queryPrefix : undefined;
       const { tab } = parseFormTabsStateFromQuery(queryPrefix);
 
       return tab ?? firstTabId;
@@ -49,7 +49,7 @@ export default function FormTabs({
 
   const tabsWithIds = useMemo<(FormTabDef & { id: number | string })[]>(
     () => tabs.map((x, idx) => ({ ...x, id: x.id || idx.toString() })),
-    [tabs]
+    [tabs],
   );
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -63,7 +63,7 @@ export default function FormTabs({
     if (!fields.current.find((x) => x.name === name)) {
       fields.current.splice(
         fields.current.findIndex((x) => x.name === name),
-        1
+        1,
       );
     }
   }, []);
@@ -75,7 +75,7 @@ export default function FormTabs({
       register,
       unregister,
     }),
-    [tab, setTab, register, unregister]
+    [tab, setTab, register, unregister],
   );
 
   const handleTabChange = (newTab: string) => {
@@ -85,14 +85,14 @@ export default function FormTabs({
       tabsProps.onChange(null as any, newTab);
     }
 
-    if (persistStateMode === "query") {
-      const queryPrefix = "queryPrefix" in rest ? rest.queryPrefix : undefined;
+    if (persistStateMode === 'query') {
+      const queryPrefix = 'queryPrefix' in rest ? rest.queryPrefix : undefined;
 
       updateFormTabsStateInQuery(
         {
           ...(newTab !== firstTabId && { tab: newTab }),
         },
-        queryPrefix
+        queryPrefix,
       );
     }
   };
@@ -108,16 +108,16 @@ export default function FormTabs({
     <FormTabsContext.Provider value={tabsContextData}>
       <Box
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
+          display: 'flex',
+          flexWrap: 'wrap',
           pb: 3,
-          alignItems: "center",
+          alignItems: 'center',
           ...tabsWrapperStyle,
         }}
       >
         <Tabs
           {...tabsProps}
-          variant={tabsProps?.variant ?? "scrollable"}
+          variant={tabsProps?.variant ?? 'scrollable'}
           allowScrollButtonsMobile={tabsProps?.allowScrollButtonsMobile ?? true}
           value={tab}
           onChange={(event, newTab) => {
@@ -126,7 +126,7 @@ export default function FormTabs({
           sx={{
             px: 0,
             [`& .${tabsClasses.scrollButtons}`]: {
-              "&.Mui-disabled": { opacity: 0.3 },
+              '&.Mui-disabled': { opacity: 0.3 },
             },
             ...tabsProps?.sx,
           }}
@@ -138,7 +138,7 @@ export default function FormTabs({
               value={id}
               label={label}
               icon={icon}
-              iconPosition={tabProps?.iconPosition ?? "start"}
+              iconPosition={tabProps?.iconPosition ?? 'start'}
               sx={{
                 height: 48,
                 minHeight: 48,
@@ -176,7 +176,7 @@ export default function FormTabs({
           }
 
           handleTabChange(errorsWithTab[0].tab);
-          showAlert(errorsWithTab[0].text ?? "Error", "error");
+          showAlert(errorsWithTab[0].text ?? 'Error', 'error');
         }}
       />
       {children}

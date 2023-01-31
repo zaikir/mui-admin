@@ -1,12 +1,12 @@
-import { Skeleton, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useMemo } from "react";
+import { Skeleton, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useMemo } from 'react';
 
-import FileAvatar from "./AttachmentsZoneFile";
+import FileAvatar from './AttachmentsZoneFile';
 import {
   AttachmentsZoneFile,
   AttachmentsZoneFilesProps,
-} from "./AttachmentsZoneFiles.types";
+} from './AttachmentsZoneFiles.types';
 
 export default function AttachmentsZoneFiles({
   files,
@@ -34,9 +34,9 @@ export default function AttachmentsZoneFiles({
           acc[item.attachmentType].push(item);
 
           return acc;
-        }, {} as Record<string, AttachmentsZoneFile[]>)
+        }, {} as Record<string, AttachmentsZoneFile[]>),
       ).map(([title, items]) => ({ title, items })),
-    [files, isLoading, skeletonFiles]
+    [files, isLoading, skeletonFiles],
   );
 
   return (

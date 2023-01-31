@@ -1,22 +1,22 @@
-import { Box, FormHelperText, TextFieldProps, Typography } from "@mui/material";
-import { DatePickerProps } from "@mui/x-date-pickers";
-import { MuiOtpInput } from "@zaidulin_kirill/mui-otp-input";
-import { useRef } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+import { Box, FormHelperText, TextFieldProps, Typography } from '@mui/material';
+import { DatePickerProps } from '@mui/x-date-pickers';
+import { MuiOtpInput } from '@zaidulin_kirill/mui-otp-input';
+import { useRef } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
 
 type MuiOtpInputProps = React.ComponentProps<typeof MuiOtpInput>;
 
 export type VerificationCodeInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
     MuiOtpInputProps & {
-      onBlur?: TextFieldProps["onBlur"];
-      onChange?: DatePickerProps<string, any>["onChange"];
-      helperText?: TextFieldProps["helperText"];
-      sx?: TextFieldProps["sx"];
+      onBlur?: TextFieldProps['onBlur'];
+      onChange?: DatePickerProps<string, any>['onChange'];
+      helperText?: TextFieldProps['helperText'];
+      sx?: TextFieldProps['sx'];
       autoFocus?: boolean;
-      label?: TextFieldProps["label"];
+      label?: TextFieldProps['label'];
     };
 
 export default function VerificationCodeInput<TFields extends FieldValues>({
@@ -56,7 +56,7 @@ export default function VerificationCodeInput<TFields extends FieldValues>({
           <Box
             ref={submitButtonRef}
             component="button"
-            sx={{ display: "none" }}
+            sx={{ display: 'none' }}
             type="submit"
             area-hidden
           />
@@ -67,19 +67,19 @@ export default function VerificationCodeInput<TFields extends FieldValues>({
           )}
           <MuiOtpInput
             {...rest}
-            value={value || ""}
+            value={value || ''}
             onComplete={() => {
               submitButtonRef.current.click();
             }}
             onBlur={(e) => {
               onBlur();
-              if (typeof rest.onBlur === "function") {
+              if (typeof rest.onBlur === 'function') {
                 rest.onBlur(e);
               }
             }}
             onChange={(newValue) => {
               onChange(newValue);
-              if (typeof rest.onChange === "function") {
+              if (typeof rest.onChange === 'function') {
                 rest.onChange(newValue);
               }
             }}

@@ -1,7 +1,7 @@
-import { forwardRef, useContext } from "react";
-import { IMaskInput } from "react-imask";
+import { forwardRef, useContext } from 'react';
+import { IMaskInput } from 'react-imask';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
 
 export type InternalNumberInputProps = {
   scale?: number;
@@ -10,7 +10,7 @@ export type InternalNumberInputProps = {
   min?: number;
   max?: number;
   padFractionalZeros?: boolean;
-  unmask?: boolean | "typed";
+  unmask?: boolean | 'typed';
   parse?: boolean;
   thousandsSeparator?: string;
 };
@@ -44,7 +44,7 @@ export const InternalNumberInput = forwardRef<
       inputRef={ref}
       onAccept={(x: any) => {
         const newValue = (() => {
-          if (x == null || (typeof x === "string" && !x.trim().length)) {
+          if (x == null || (typeof x === 'string' && !x.trim().length)) {
             // @ts-ignore
             return parse ?? true ? null : x;
           }

@@ -2,18 +2,18 @@ import {
   InputAdornment,
   InputBaseComponentProps,
   TextFieldProps,
-} from "@mui/material";
-import { forwardRef, useContext, useMemo, useRef, useState } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
-import { IMaskInput } from "react-imask";
+} from '@mui/material';
+import { forwardRef, useContext, useMemo, useRef, useState } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
+import { IMaskInput } from 'react-imask';
 
-import FlagButton from "./FlagButton/FlagButton";
-import { FlagsMenu } from "./FlagsMenu";
-import { parsePhone, PhoneTemplates } from "./phones";
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { BaseInput, BaseInputProps } from "../BaseInput";
-import { BaseTextField } from "../BaseTextField";
-import { InputClearButton } from "../InputClearButton";
+import FlagButton from './FlagButton/FlagButton';
+import { FlagsMenu } from './FlagsMenu';
+import { parsePhone, PhoneTemplates } from './phones';
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { BaseInput, BaseInputProps } from '../BaseInput';
+import { BaseTextField } from '../BaseTextField';
+import { InputClearButton } from '../InputClearButton';
 
 const MaskedTextField = forwardRef<
   HTMLElement,
@@ -35,14 +35,14 @@ const MaskedTextField = forwardRef<
   } = props;
 
   const onPaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
-    const text = e.clipboardData.getData("Text");
+    const text = e.clipboardData.getData('Text');
     if (!text) {
       return;
     }
 
-    const pastedPhone = text.replace(/[() -+]/g, "");
+    const pastedPhone = text.replace(/[() -+]/g, '');
 
-    if (country !== "RU") {
+    if (country !== 'RU') {
       if (pastedPhone.length >= phoneLength) {
         e.preventDefault();
 
@@ -51,7 +51,7 @@ const MaskedTextField = forwardRef<
           target: {
             // @ts-ignore
             name: props.name,
-            value: pastedPhone.replace(countryCode, ""),
+            value: pastedPhone.replace(countryCode, ''),
           },
         });
       }
@@ -60,8 +60,8 @@ const MaskedTextField = forwardRef<
     }
 
     if (
-      (pastedPhone.startsWith("8") && pastedPhone.length >= 11) ||
-      (pastedPhone.startsWith("+8") && pastedPhone.length >= 12)
+      (pastedPhone.startsWith('8') && pastedPhone.length >= 11) ||
+      (pastedPhone.startsWith('+8') && pastedPhone.length >= 12)
     ) {
       e.preventDefault();
 
@@ -71,9 +71,9 @@ const MaskedTextField = forwardRef<
           // @ts-ignore
           name: props.name,
           value: `+7${
-            text.startsWith("8")
-              ? text.replace("8", "")
-              : text.replace("+8", "")
+            text.startsWith('8')
+              ? text.replace('8', '')
+              : text.replace('+8', '')
           }`,
         },
       });
@@ -85,12 +85,12 @@ const MaskedTextField = forwardRef<
     if (currentSelection) {
       const valueWithoutSpaces = currentSelection
         .toString()
-        .replace(/[() -]/g, "");
+        .replace(/[() -]/g, '');
       event.clipboardData.setData(
-        "text/plain",
+        'text/plain',
         valueWithoutSpaces.length === phoneLength - countryCode.length
           ? `+${countryCode}${valueWithoutSpaces}`
-          : valueWithoutSpaces
+          : valueWithoutSpaces,
       );
 
       event.preventDefault();
@@ -101,7 +101,7 @@ const MaskedTextField = forwardRef<
     <IMaskInput
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...other}
-      value={value ? value.replace(countryCode, "") : null}
+      value={value ? value.replace(countryCode, '') : null}
       mask={regex}
       onPaste={onPaste}
       onCopy={onCopy}
@@ -131,7 +131,7 @@ export type InternalPhoneInputProps = {
 
 export type PhoneInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<TextFieldProps, "name" | "type"> &
+    Omit<TextFieldProps, 'name' | 'type'> &
     InternalPhoneInputProps;
 
 export default function PhoneInput<TFields extends FieldValues>({
@@ -153,7 +153,7 @@ export default function PhoneInput<TFields extends FieldValues>({
     useContext(ConfigurationContext);
 
   const [country, setCountry] = useState(
-    defaultCountry ?? defaultPhoneCountry!
+    defaultCountry ?? defaultPhoneCountry!,
   );
   const textFieldRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -170,21 +170,21 @@ export default function PhoneInput<TFields extends FieldValues>({
       const countryCode = phone[1];
 
       // eslint-disable-next-line @typescript-eslint/no-shadow
-      const regex = phone[2] ? phone[2] : "0000000000000";
+      const regex = phone[2] ? phone[2] : '0000000000000';
 
       return {
         countryCode,
-        placeholder: regex.replace(/0/g, "#"),
+        placeholder: regex.replace(/0/g, '#'),
         regex,
         definitions: phone[3] ? phone[3] : undefined,
         phoneLength: phone[2]
-          ? regex.replace(/[() -]/g, "").length + countryCode.length
+          ? regex.replace(/[() -]/g, '').length + countryCode.length
           : -1,
       };
     }, [country]);
 
   const handleOpenFlagsMenu = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ): void => {
     event.preventDefault();
     if (!rest.disabled && !readOnly) {
@@ -205,7 +205,7 @@ export default function PhoneInput<TFields extends FieldValues>({
         xl={xl}
         rules={{
           validate: (value: string) => {
-            const clearedValue = value || "";
+            const clearedValue = value || '';
             return (
               !clearedValue.length ||
               phoneLength === -1 ||
@@ -239,11 +239,11 @@ export default function PhoneInput<TFields extends FieldValues>({
               readOnly={readOnly}
               ref={textFieldRef}
               value={value ?? null}
-              variant={rest.variant ?? "outlined"}
+              variant={rest.variant ?? 'outlined'}
               type="tel"
               onChange={(event) => {
                 onChange(event);
-                if (typeof rest.onChange === "function") {
+                if (typeof rest.onChange === 'function') {
                   rest.onChange(event as any);
                 }
               }}
@@ -251,7 +251,7 @@ export default function PhoneInput<TFields extends FieldValues>({
               onBlur={onBlur}
               required={required}
               error={!!error}
-              helperText={error?.message || rest.helperText || " "}
+              helperText={error?.message || rest.helperText || ' '}
               fullWidth={rest.fullWidth ?? true}
               placeholder={placeholder}
               inputProps={{
@@ -270,7 +270,7 @@ export default function PhoneInput<TFields extends FieldValues>({
                     <InputAdornment
                       position="start"
                       sx={{
-                        color: rest.disabled ? "text.disabled" : "text.primary",
+                        color: rest.disabled ? 'text.disabled' : 'text.primary',
                       }}
                     >
                       <FlagButton
@@ -290,7 +290,7 @@ export default function PhoneInput<TFields extends FieldValues>({
                   <>
                     {clearable && value ? (
                       <InputClearButton
-                        onClick={() => onChange({ target: { value: "" } })}
+                        onClick={() => onChange({ target: { value: '' } })}
                       />
                     ) : null}
                     {rest.InputProps?.endAdornment}

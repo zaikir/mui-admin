@@ -6,20 +6,19 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-} from "@mui/material";
-// eslint-disable-next-line import/no-cycle
-import type { ConfigurationType } from "contexts/ConfigurationContext";
-import { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
-import type { Omit } from "type-zoo/types";
+} from '@mui/material';
+import { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
+import type { Omit } from 'type-zoo/types';
 
-import Form from "form/Form";
+import type { ConfigurationType } from 'contexts/ConfigurationContext';
+import Form from 'form/Form';
 import {
   FormSubmitter,
   FormSubmitterProps,
-} from "form/contexts/FormSubmitterContext";
+} from 'form/contexts/FormSubmitterContext';
 
-import { FormElementRef } from "../../../form/Form.types";
-import { SubmitButton } from "../../../form/core/SubmitButton";
+import { FormElementRef } from '../../../form/Form.types';
+import { SubmitButton } from '../../../form/core/SubmitButton';
 
 export type PromptDialogProps = {
   title: string;
@@ -29,7 +28,7 @@ export type PromptDialogProps = {
   accept?: string;
   width?: number;
   formSubmitterProps?: FormSubmitterProps;
-  dialogProps?: Omit<DialogProps, "open">;
+  dialogProps?: Omit<DialogProps, 'open'>;
 };
 
 export type PromptDialogElementRef = {
@@ -43,10 +42,10 @@ type Props = {
 const PromptDialog = forwardRef(
   (
     { configuration: { translations } }: Props,
-    ref: Ref<PromptDialogElementRef>
+    ref: Ref<PromptDialogElementRef>,
   ) => {
     const [isOpened, setIsOpened] = useState(false);
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState('');
     const [text, setText] = useState<string>();
     const [formContent, setFormContent] = useState<React.ReactNode>();
     const [acceptButtonText, setAcceptButtonText] = useState<string>();
@@ -80,7 +79,7 @@ const PromptDialog = forwardRef(
           setTitle(dialogProps.title);
           setText(dialogProps.text);
           setFormContent(dialogProps.form);
-          setAcceptButtonText(dialogProps.accept ?? "");
+          setAcceptButtonText(dialogProps.accept ?? '');
           setCancelButtonText(dialogProps.cancel);
           setAllDialogProps(dialogProps);
           setIsOpened(true);
@@ -90,14 +89,14 @@ const PromptDialog = forwardRef(
           });
         },
       }),
-      []
+      [],
     );
 
     return (
       <Dialog
         {...allDialogProps?.dialogProps}
         open={isOpened}
-        maxWidth={allDialogProps?.dialogProps?.maxWidth ?? "sm"}
+        maxWidth={allDialogProps?.dialogProps?.maxWidth ?? 'sm'}
         PaperProps={{
           sx: {
             minWidth: allDialogProps?.width ?? 350,
@@ -140,7 +139,7 @@ const PromptDialog = forwardRef(
         </DialogActions>
       </Dialog>
     );
-  }
+  },
 );
 
 export default PromptDialog;

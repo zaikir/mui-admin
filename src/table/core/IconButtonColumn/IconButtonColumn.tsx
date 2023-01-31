@@ -1,11 +1,11 @@
-import { IconButton, Tooltip } from "@mui/material";
-import { GridRenderCellParams, GridStateColDef } from "@mui/x-data-grid";
-import { useContext, useState } from "react";
+import { IconButton, Tooltip } from '@mui/material';
+import { GridRenderCellParams, GridStateColDef } from '@mui/x-data-grid';
+import { useContext, useState } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { NotificationsContext } from "contexts/NotificationsContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { NotificationsContext } from 'contexts/NotificationsContext';
 
-import type { BaseDataTableIconButtonColumnDef } from "../BaseDataTable/BaseDataTable.types";
+import type { BaseDataTableIconButtonColumnDef } from '../BaseDataTable/BaseDataTable.types';
 
 export type IconButtonColumnProps = GridRenderCellParams<any, any, any>;
 
@@ -42,13 +42,13 @@ export default function IconButtonColumn({
             await onClick(row, context);
           }
         } catch (err) {
-          showAlert(configuration.translations.unexpectedError, "error");
+          showAlert(configuration.translations.unexpectedError, 'error');
         } finally {
           setIsLoading(false);
         }
       }}
     >
-      {typeof icon === "function" ? icon(row, context) : icon}
+      {typeof icon === 'function' ? icon(row, context) : icon}
     </IconButton>
   );
 
@@ -58,7 +58,7 @@ export default function IconButtonColumn({
 
   return (
     <Tooltip
-      title={typeof tooltip === "function" ? tooltip(row, context) : tooltip}
+      title={typeof tooltip === 'function' ? tooltip(row, context) : tooltip}
     >
       {content}
     </Tooltip>

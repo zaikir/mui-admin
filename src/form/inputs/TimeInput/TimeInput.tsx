@@ -1,29 +1,29 @@
-import { TextFieldProps } from "@mui/material";
+import { TextFieldProps } from '@mui/material';
 import {
   DatePickerProps,
   TimePicker,
   TimePickerProps,
-} from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { useContext } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+} from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { useContext } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
-import { BaseTextField } from "../../core/BaseTextField";
-import { InputClearButton } from "../../core/InputClearButton";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
+import { BaseTextField } from '../../core/BaseTextField';
+import { InputClearButton } from '../../core/InputClearButton';
 
 export type TimeInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<TimePickerProps<any, any>, "value" | "onChange" | "renderInput"> & {
-      onBlur?: TextFieldProps["onBlur"];
-      onChange?: DatePickerProps<string, any>["onChange"];
-      helperText?: TextFieldProps["helperText"];
-      fullWidth?: TextFieldProps["fullWidth"];
-      textFieldProps?: Omit<TextFieldProps, "name" | "required" | "label">;
+    Omit<TimePickerProps<any, any>, 'value' | 'onChange' | 'renderInput'> & {
+      onBlur?: TextFieldProps['onBlur'];
+      onChange?: DatePickerProps<string, any>['onChange'];
+      helperText?: TextFieldProps['helperText'];
+      fullWidth?: TextFieldProps['fullWidth'];
+      textFieldProps?: Omit<TextFieldProps, 'name' | 'required' | 'label'>;
       clearable?: boolean;
-      sx?: TextFieldProps["sx"];
+      sx?: TextFieldProps['sx'];
     };
 
 export default function TimeInput<TFields extends FieldValues>({
@@ -62,7 +62,7 @@ export default function TimeInput<TFields extends FieldValues>({
       grid={grid}
       rules={{
         validate: (value: string) =>
-          !value || value !== "Invalid Date" || translations!.wrongDateFormat,
+          !value || value !== 'Invalid Date' || translations!.wrongDateFormat,
       }}
       render={({
         field: { value, onChange, onBlur },
@@ -70,15 +70,15 @@ export default function TimeInput<TFields extends FieldValues>({
       }) => (
         <TimePicker
           {...rest}
-          value={value ? dayjs(value, "HH:mm") : null}
+          value={value ? dayjs(value, 'HH:mm') : null}
           InputAdornmentProps={{
-            position: "start",
+            position: 'start',
           }}
           readOnly={readOnly}
           onChange={(newValue, keyboardInputValue) => {
-            const timeStr = newValue ? newValue.format("HH:mm") : null;
+            const timeStr = newValue ? newValue.format('HH:mm') : null;
             onChange(timeStr, keyboardInputValue);
-            if (typeof rest.onChange === "function") {
+            if (typeof rest.onChange === 'function') {
               rest.onChange(timeStr, keyboardInputValue);
             }
           }}
@@ -87,8 +87,8 @@ export default function TimeInput<TFields extends FieldValues>({
               {...params}
               name={name}
               fullWidth={fullWidth ?? true}
-              variant={textFieldProps?.variant ?? "outlined"}
-              size={dense ? "small" : undefined}
+              variant={textFieldProps?.variant ?? 'outlined'}
+              size={dense ? 'small' : undefined}
               disableStartAdorementOffset
               readOnly={readOnly}
               InputProps={{
@@ -115,17 +115,17 @@ export default function TimeInput<TFields extends FieldValues>({
               }}
               onBlur={(event) => {
                 onBlur();
-                if (typeof rest.onBlur === "function") {
+                if (typeof rest.onBlur === 'function') {
                   rest.onBlur(event);
                 }
               }}
               {...textFieldProps}
               required={required}
               error={!!error}
-              helperText={error?.message || helperText || " "}
+              helperText={error?.message || helperText || ' '}
               // @ts-ignore
               sx={{
-                ":hover .input-clear-button": { display: "flex" },
+                ':hover .input-clear-button': { display: 'flex' },
                 ...sx,
                 ...textFieldProps?.sx,
               }}

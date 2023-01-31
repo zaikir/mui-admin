@@ -1,1 +1,1 @@
-export { default as DeleteRowColumn } from "./DeleteRowColumn";
+export { default as DeleteRowColumn } from './DeleteRowColumn';

@@ -1,10 +1,10 @@
-import ClearIcon from "@mui/icons-material/Clear";
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   IconButton,
   InputAdornment,
   SxProps,
   useFormControl,
-} from "@mui/material";
+} from '@mui/material';
 
 export type InputClearButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -25,10 +25,10 @@ export default function InputClearButton({
         onMouseDown={(e) => e.preventDefault()}
         size="small"
         className="input-clear-button"
-        sx={{ display: focused ? "flex" : "none" }}
+        sx={{ display: focused ? 'flex' : 'none' }}
         tabIndex={-1}
       >
-        <ClearIcon sx={{ width: "20px", height: "20px" }} />
+        <ClearIcon sx={{ width: '20px', height: '20px' }} />
       </IconButton>
     </InputAdornment>
   );

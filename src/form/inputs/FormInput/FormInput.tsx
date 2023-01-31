@@ -1,27 +1,27 @@
-import { TextFieldProps } from "@mui/material";
-import { useContext, useMemo } from "react";
-import { ControllerProps } from "react-hook-form";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+import { TextFieldProps } from '@mui/material';
+import { useContext, useMemo } from 'react';
+import { ControllerProps } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
-import { BaseTextField } from "../../core/BaseTextField";
-import { InputClearButton } from "../../core/InputClearButton";
-import { MaskedInput, MaskedInputProps } from "../../core/MaskedInput";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
+import { BaseTextField } from '../../core/BaseTextField';
+import { InputClearButton } from '../../core/InputClearButton';
+import { MaskedInput, MaskedInputProps } from '../../core/MaskedInput';
 import {
   InternalNumberInput,
   InternalNumberInputProps,
-} from "../../core/NumberInput";
-import { InternalPhoneInputProps, PhoneInput } from "../../core/PhoneInput";
+} from '../../core/NumberInput';
+import { InternalPhoneInputProps, PhoneInput } from '../../core/PhoneInput';
 
 export type FormInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<TextFieldProps, "name" | "type"> &
+    Omit<TextFieldProps, 'name' | 'type'> &
     (
-      | ({ type: "number" } & InternalNumberInputProps)
-      | ({ type: "tel" | "phone" } & InternalPhoneInputProps)
-      | ({ type: "mask" } & MaskedInputProps)
+      | ({ type: 'number' } & InternalNumberInputProps)
+      | ({ type: 'tel' | 'phone' } & InternalPhoneInputProps)
+      | ({ type: 'mask' } & MaskedInputProps)
       | { type?: React.HTMLInputTypeAttribute }
     );
 
@@ -51,7 +51,7 @@ export default function FormInput<TFields extends FieldValues>({
     !readOnly
   );
 
-  const Rules = useMemo<Record<string, ControllerProps["rules"]>>(
+  const Rules = useMemo<Record<string, ControllerProps['rules']>>(
     () => ({
       email: {
         pattern: {
@@ -62,10 +62,10 @@ export default function FormInput<TFields extends FieldValues>({
         },
       },
     }),
-    [translations]
+    [translations],
   );
 
-  if (type === "tel" || type === "phone") {
+  if (type === 'tel' || type === 'phone') {
     return (
       <PhoneInput
         name={name}
@@ -78,9 +78,9 @@ export default function FormInput<TFields extends FieldValues>({
         clearable={clearable}
         readOnly={readOnly}
         {...rest}
-        size={dense ? "small" : rest.size}
+        size={dense ? 'small' : rest.size}
         sx={{
-          ":hover .input-clear-button": { display: "flex" },
+          ':hover .input-clear-button': { display: 'flex' },
           ...rest.sx,
         }}
       />
@@ -91,7 +91,7 @@ export default function FormInput<TFields extends FieldValues>({
   let inputProps: any = {};
   let InputComponent: any = null;
 
-  if (type === "number") {
+  if (type === 'number') {
     const {
       scale,
       min,
@@ -115,7 +115,7 @@ export default function FormInput<TFields extends FieldValues>({
     InputComponent = InternalNumberInput;
   }
 
-  if (type === "mask") {
+  if (type === 'mask') {
     const { overwrite, eager, mask, unmask, ...other } =
       rest as MaskedInputProps;
     inputProps = {
@@ -147,23 +147,23 @@ export default function FormInput<TFields extends FieldValues>({
         <BaseTextField
           {...textFieldProps}
           name={name}
-          type={type === "number" ? "text" : type}
-          value={value ?? ""}
-          variant={rest.variant ?? "outlined"}
+          type={type === 'number' ? 'text' : type}
+          value={value ?? ''}
+          variant={rest.variant ?? 'outlined'}
           onChange={(event) => {
             const resultValue =
-              event.target.value === "" ? null : event.target.value;
+              event.target.value === '' ? null : event.target.value;
 
             onChange({ target: { value: resultValue } });
-            if (typeof rest.onChange === "function") {
+            if (typeof rest.onChange === 'function') {
               rest.onChange(event);
             }
           }}
-          size={dense ? "small" : rest.size}
+          size={dense ? 'small' : rest.size}
           onBlur={onBlur}
           required={required}
           error={!!error}
-          helperText={error?.message || rest.helperText || " "}
+          helperText={error?.message || rest.helperText || ' '}
           fullWidth={rest.fullWidth ?? true}
           readOnly={readOnly}
           InputProps={{
@@ -187,7 +187,7 @@ export default function FormInput<TFields extends FieldValues>({
             ...inputProps,
           }}
           sx={{
-            ":hover .input-clear-button": { display: "flex" },
+            ':hover .input-clear-button': { display: 'flex' },
             ...rest.sx,
           }}
         />

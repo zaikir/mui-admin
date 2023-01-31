@@ -1,4 +1,4 @@
-import { Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab } from '@mui/material';
 
 type BoxProps = React.ComponentProps<typeof Box>;
 type TabsProps = React.ComponentProps<typeof Tabs>;
@@ -10,14 +10,14 @@ export type DataTableTabFilter = {
 };
 
 export type RowsTabsFilterProps<
-  TabFilter extends DataTableTabFilter = DataTableTabFilter
+  TabFilter extends DataTableTabFilter = DataTableTabFilter,
 > = {
   value: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
   tabs: TabFilter[];
   wrapperProps?: BoxProps;
-  tabsProps?: Omit<TabsProps, "value">;
-  tabProps?: Omit<TabProps, "id" | "label">;
+  tabsProps?: Omit<TabsProps, 'value'>;
+  tabProps?: Omit<TabProps, 'id' | 'label'>;
   actionButton?: React.ReactNode;
   leftSlot?: React.ReactNode;
 };

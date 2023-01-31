@@ -1,6 +1,6 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   CircularProgress,
   Box,
@@ -12,15 +12,15 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-} from "@mui/material";
-import prettyBytes from "pretty-bytes";
-import { useCallback, useContext, useEffect, useState } from "react";
+} from '@mui/material';
+import prettyBytes from 'pretty-bytes';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { NotificationsContext } from "contexts/NotificationsContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { NotificationsContext } from 'contexts/NotificationsContext';
 
-import { AttachmentsZoneFileProps } from "./AttachmentsZoneFile.types";
-import { getFileIcon } from "../../utils/getFileIcon";
+import { AttachmentsZoneFileProps } from './AttachmentsZoneFile.types';
+import { getFileIcon } from '../../utils/getFileIcon';
 
 export default function AttachmentsZoneFile({
   id,
@@ -55,11 +55,11 @@ export default function AttachmentsZoneFile({
   const uploadFile = useCallback(
     async (file: File) => {
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("attachmentType", attachmentType);
+      formData.append('file', file);
+      formData.append('attachmentType', attachmentType);
       formData.append(foreignKey, foreignKeyValue.toString());
 
-      const response = await apiClient.post("/files", formData, {
+      const response = await apiClient.post('/files', formData, {
         onUploadProgress(progressEvent) {
           if (!progressEvent) {
             return;
@@ -78,7 +78,7 @@ export default function AttachmentsZoneFile({
         ...(response.data as any),
       });
     },
-    [apiClient, attachmentType, foreignKey, foreignKeyValue, onChange]
+    [apiClient, attachmentType, foreignKey, foreignKeyValue, onChange],
   );
 
   const handleDelete = async () => {
@@ -90,7 +90,7 @@ export default function AttachmentsZoneFile({
     }
 
     await hasura.request({
-      type: "custom",
+      type: 'custom',
       query: `mutation DeleteFile($where: ${Source}BoolExp!, $set: ${Source}SetInput!) {
         update${Source}(where: $where, _set: $set) {
           affected_rows
@@ -119,15 +119,15 @@ export default function AttachmentsZoneFile({
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        bgcolor: "white",
-        border: "thin solid #e6e8f0",
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'white',
+        border: 'thin solid #e6e8f0',
         borderRadius: 1,
         p: 1,
         boxShadow: 4,
-        cursor: "pointer",
-        "&:hover": {
+        cursor: 'pointer',
+        '&:hover': {
           border: `thin dashed ${theme.palette.text.primary}`,
         },
       }}
@@ -139,18 +139,18 @@ export default function AttachmentsZoneFile({
 
         window.open(
           encodeURI(
-            `${apiClient.defaults.baseURL}/files/${publicId}/${name}${extension}`
+            `${apiClient.defaults.baseURL}/files/${publicId}/${name}${extension}`,
           ),
-          "_blank"
+          '_blank',
         );
       }}
     >
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             width: 38,
             height: 38,
             px: 0.5,
@@ -165,18 +165,18 @@ export default function AttachmentsZoneFile({
         <Box
           sx={{
             flex: 1,
-            overflow: "hidden",
+            overflow: 'hidden',
             pl: 1,
-            display: "flex",
-            flexDirection: "column",
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Typography
             noWrap
             variant="body2"
             sx={{
-              fontWeight: "500",
-              fontSize: "0.75rem",
+              fontWeight: '500',
+              fontSize: '0.75rem',
             }}
           >
             {isSkeletonVisible ? <Skeleton /> : name}
@@ -185,7 +185,7 @@ export default function AttachmentsZoneFile({
             noWrap
             variant="body2"
             sx={{
-              fontSize: "0.75rem",
+              fontSize: '0.75rem',
             }}
           >
             {isSkeletonVisible ? (
@@ -251,12 +251,12 @@ export default function AttachmentsZoneFile({
             </Menu>
           </>
         ) : (
-          <Box sx={{ display: "flex", alignItems: "center", ml: 0.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.5 }}>
             <CircularProgress
               size={27}
               variant="determinate"
               value={uploadProgress}
-              sx={{ color: "black", opacity: 0.5 }}
+              sx={{ color: 'black', opacity: 0.5 }}
             />
           </Box>
         )}

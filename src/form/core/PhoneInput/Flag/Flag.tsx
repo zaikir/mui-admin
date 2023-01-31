@@ -1,5 +1,5 @@
-import { Styled } from "./Flag.styled";
-import { PhoneFlags } from "../phones";
+import { Styled } from './Flag.styled';
+import { PhoneFlags } from '../phones';
 
 function Flag(props: any) {
   const { isoCode } = props;

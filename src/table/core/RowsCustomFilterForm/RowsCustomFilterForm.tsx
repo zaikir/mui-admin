@@ -1,18 +1,18 @@
-import ClearIcon from "@mui/icons-material/Clear";
-import { Box, IconButton, InputAdornment, Tooltip } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useEffect, useRef } from "react";
-import { useWatch } from "react-hook-form";
+import ClearIcon from '@mui/icons-material/Clear';
+import { Box, IconButton, InputAdornment, Tooltip } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useEffect, useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 
-import Form from "form/Form";
-import { AutocompleteInput } from "form/inputs/AutocompleteInput";
-import { CheckboxInput } from "form/inputs/CheckboxInput";
-import { ChipsInput } from "form/inputs/ChipsInput";
-import { DateInput } from "form/inputs/DateInput";
-import { FormInput } from "form/inputs/FormInput";
-import { SelectInput } from "form/inputs/SelectInput";
+import Form from 'form/Form';
+import { AutocompleteInput } from 'form/inputs/AutocompleteInput';
+import { CheckboxInput } from 'form/inputs/CheckboxInput';
+import { ChipsInput } from 'form/inputs/ChipsInput';
+import { DateInput } from 'form/inputs/DateInput';
+import { FormInput } from 'form/inputs/FormInput';
+import { SelectInput } from 'form/inputs/SelectInput';
 
-import type { RowsCustomFilterFormProps } from "./RowsCustomFilterForm.types";
+import type { RowsCustomFilterFormProps } from './RowsCustomFilterForm.types';
 
 function ChangesWatcher({
   onChange,
@@ -57,9 +57,9 @@ export default function RowsCustomFilterForm({
     <Form
       dense
       defaultValues={value}
-      sx={{ pb: 1, flex: "initial" }}
+      sx={{ pb: 1, flex: 'initial' }}
       containerProps={{
-        className: "mui-admin-table-filters-form",
+        className: 'mui-admin-table-filters-form',
       }}
     >
       <ChangesWatcher initial={value} onChange={onChange} />
@@ -75,11 +75,11 @@ export default function RowsCustomFilterForm({
           ...filter
         } = inputObj;
 
-        if (type === "boolean") {
+        if (type === 'boolean') {
           return (
             <Grid xs="auto" key={input}>
               <Box
-                sx={{ display: "flex", alignItems: "center", height: "40px" }}
+                sx={{ display: 'flex', alignItems: 'center', height: '40px' }}
               >
                 {/* @ts-ignore */}
                 <CheckboxInput
@@ -87,7 +87,7 @@ export default function RowsCustomFilterForm({
                   label={name}
                   name={input}
                   sx={{ ...filter.sx, ml: 0.5 }}
-                  xs={filter.xs ?? "auto"}
+                  xs={filter.xs ?? 'auto'}
                 />
                 <IconButton
                   edge="end"
@@ -98,7 +98,7 @@ export default function RowsCustomFilterForm({
                   onMouseDown={(e) => e.preventDefault()}
                   size="small"
                 >
-                  <ClearIcon sx={{ width: "20px", height: "20px" }} />
+                  <ClearIcon sx={{ width: '20px', height: '20px' }} />
                 </IconButton>
               </Box>
             </Grid>
@@ -110,15 +110,15 @@ export default function RowsCustomFilterForm({
           Component,
           props = {},
         } = (() => {
-          if (!type || ["text", "phone", "tel", "number"].includes(type)) {
+          if (!type || ['text', 'phone', 'tel', 'number'].includes(type)) {
             return { width: 260, Component: FormInput };
           }
 
-          if (type === "date") {
+          if (type === 'date') {
             return { width: 200, Component: DateInput };
           }
 
-          if (type === "select") {
+          if (type === 'select') {
             return {
               width: 230,
               Component: SelectInput,
@@ -126,21 +126,21 @@ export default function RowsCustomFilterForm({
             };
           }
 
-          if (type === "autocomplete") {
+          if (type === 'autocomplete') {
             return {
               width: 260,
               Component: AutocompleteInput,
               props: {
                 disableClearable: true,
                 forcePopupIcon: false,
-                ...(filter.preset === "suggestion" && {
+                ...(filter.preset === 'suggestion' && {
                   selection: filter.selection ?? field,
                   itemText: filter.itemText ?? field,
                   distinctOn: filter.distinctOn ?? [field],
                   filter: filter.filter ?? {
                     _and: [
                       { [field]: { _isNull: false } },
-                      { [field]: { _niregex: "^ *$" } },
+                      { [field]: { _niregex: '^ *$' } },
                     ],
                   },
                 }),
@@ -148,19 +148,19 @@ export default function RowsCustomFilterForm({
             };
           }
 
-          if (type === "chips") {
+          if (type === 'chips') {
             return {
-              width: "auto",
+              width: 'auto',
               Component: ChipsInput,
               // @ts-ignore
               props: {
                 type: inputType,
-                sx: { ...filter.sx, "& .MuiInputBase-root": { pr: 1.75 } },
+                sx: { ...filter.sx, '& .MuiInputBase-root': { pr: 1.75 } },
               },
             };
           }
 
-          throw new Error("Not implemented");
+          throw new Error('Not implemented');
         })();
 
         const inputProps: any = {
@@ -169,7 +169,7 @@ export default function RowsCustomFilterForm({
             endAdornment: (
               <InputAdornment
                 position="end"
-                sx={{ height: "100%", alignSelf: "center" }}
+                sx={{ height: '100%', alignSelf: 'center' }}
               >
                 <Tooltip title="Удалить фильтр">
                   <IconButton
@@ -179,9 +179,9 @@ export default function RowsCustomFilterForm({
                     }}
                     onMouseDown={(e) => e.preventDefault()}
                     size="small"
-                    sx={{ mr: type === "autocomplete" ? 0.5 : 0 }}
+                    sx={{ mr: type === 'autocomplete' ? 0.5 : 0 }}
                   >
-                    <ClearIcon sx={{ width: "20px", height: "20px" }} />
+                    <ClearIcon sx={{ width: '20px', height: '20px' }} />
                   </IconButton>
                 </Tooltip>
               </InputAdornment>
@@ -197,10 +197,10 @@ export default function RowsCustomFilterForm({
             {...props}
             label={name}
             name={input}
-            xs={filter.xs ?? "auto"}
+            xs={filter.xs ?? 'auto'}
             sx={{ width: width ?? defaultWidth, ...filter.sx, ...props?.sx }}
             placeholder="Значение фильтра"
-            {...(type === "autocomplete" ? { inputProps } : inputProps)}
+            {...(type === 'autocomplete' ? { inputProps } : inputProps)}
           />
         );
       })}

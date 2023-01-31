@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { LoadingButton as LoadingButtonBase } from "@mui/lab";
-import { IconButton } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-import { RefObject, useEffect, useState } from "react";
-import { useFormContext, useFormState } from "react-hook-form";
-import type { Omit } from "type-zoo/types";
+import { LoadingButton as LoadingButtonBase } from '@mui/lab';
+import { IconButton } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { RefObject, useEffect, useState } from 'react';
+import { useFormContext, useFormState } from 'react-hook-form';
+import type { Omit } from 'type-zoo/types';
 
-import { FormElementRef } from "form/Form.types";
+import { FormElementRef } from 'form/Form.types';
 
-import type { InputGridProps } from "../BaseInput";
-import { DirtyStateListener } from "../DirtyStateListener";
+import type { InputGridProps } from '../BaseInput';
+import { DirtyStateListener } from '../DirtyStateListener';
 
 type LoadingButtonBaseProps = React.ComponentProps<typeof LoadingButtonBase>;
 type IconButtonProps = React.ComponentProps<typeof IconButton>;
@@ -42,7 +42,7 @@ function LoadingButton({
   );
 }
 
-export type SubmitButtonProps = Omit<LoadingButtonProps, "type"> &
+export type SubmitButtonProps = Omit<LoadingButtonProps, 'type'> &
   InputGridProps & {
     activateOnDirty?: boolean;
     formRef?: RefObject<FormElementRef>;

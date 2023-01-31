@@ -23,7 +23,7 @@ export type AttachmentsZoneFilesProps = {
   attachmentsTypes: { value: string; text: string }[];
   onFileChange: (
     newFile: AttachmentsZoneFile,
-    oldFile: AttachmentsZoneFile
+    oldFile: AttachmentsZoneFile,
   ) => void;
   onFileDelete: (file: AttachmentsZoneFile) => void;
 };

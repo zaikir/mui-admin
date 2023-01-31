@@ -1,40 +1,40 @@
-import type { Omit } from "type-zoo";
+import type { Omit } from 'type-zoo';
 
-import { AutocompleteOption } from "form/core/BaseAutocompleteInput/BaseAutocompleteInput.types";
-import { HasuraAutocompleteInputProps } from "form/core/HasuraAutocompleteInput";
-import type { AutocompleteInputProps } from "form/inputs/AutocompleteInput";
-import type { CheckboxInputProps } from "form/inputs/CheckboxInput/CheckboxInput";
-import type { ChipsInputProps } from "form/inputs/ChipsInput/ChipsInput";
-import type { DateInputProps } from "form/inputs/DateInput";
-import type { FormInputProps } from "form/inputs/FormInput";
-import type { SelectInputProps } from "form/inputs/SelectInput/SelectInput";
+import { AutocompleteOption } from 'form/core/BaseAutocompleteInput/BaseAutocompleteInput.types';
+import { HasuraAutocompleteInputProps } from 'form/core/HasuraAutocompleteInput';
+import type { AutocompleteInputProps } from 'form/inputs/AutocompleteInput';
+import type { CheckboxInputProps } from 'form/inputs/CheckboxInput/CheckboxInput';
+import type { ChipsInputProps } from 'form/inputs/ChipsInput/ChipsInput';
+import type { DateInputProps } from 'form/inputs/DateInput';
+import type { FormInputProps } from 'form/inputs/FormInput';
+import type { SelectInputProps } from 'form/inputs/SelectInput/SelectInput';
 
 // Omit< , 'type' | 'value' | 'onChange' | 'filter'>
 
 export type RowsCustomFilterDef<
-  TOption extends AutocompleteOption = AutocompleteOption
+  TOption extends AutocompleteOption = AutocompleteOption,
 > = {
   name: string;
   field: string;
   width?: number;
   filter?: unknown;
 } & (
-  | ({ type: "text" | "phone" | "tel" | "number" } & Omit<
+  | ({ type: 'text' | 'phone' | 'tel' | 'number' } & Omit<
       FormInputProps<any>,
-      "type"
+      'type'
     >)
-  | ({ type: "date" } & Omit<DateInputProps<any>, "type">)
-  | ({ type: "boolean" } & Omit<CheckboxInputProps<any>, "type">)
-  | ({ type: "select" } & Omit<SelectInputProps<any>, "type">)
-  | ({ type: "autocomplete" } & Omit<
+  | ({ type: 'date' } & Omit<DateInputProps<any>, 'type'>)
+  | ({ type: 'boolean' } & Omit<CheckboxInputProps<any>, 'type'>)
+  | ({ type: 'select' } & Omit<SelectInputProps<any>, 'type'>)
+  | ({ type: 'autocomplete' } & Omit<
       AutocompleteInputProps<any, TOption>,
-      "type" | "value" | "onChange" | "filter"
+      'type' | 'value' | 'onChange' | 'filter'
     > & {
-        filterItems?: HasuraAutocompleteInputProps<any, TOption>["filter"];
+        filterItems?: HasuraAutocompleteInputProps<any, TOption>['filter'];
       })
-  | ({ type: "chips"; inputType?: ChipsInputProps<any>["type"] } & Omit<
+  | ({ type: 'chips'; inputType?: ChipsInputProps<any>['type'] } & Omit<
       ChipsInputProps<any>,
-      "type"
+      'type'
     >)
 );
 

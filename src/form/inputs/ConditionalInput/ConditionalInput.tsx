@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useWatch } from "react-hook-form";
+import { useEffect, useMemo, useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 
-import { HiddenInput } from "../HiddenInput";
+import { HiddenInput } from '../HiddenInput';
 
 type VariantInputChildren = React.ReactElement | React.ReactElement[];
 type VariantInput =
@@ -9,7 +9,7 @@ type VariantInput =
   | VariantInputChildren;
 
 const renderInput = (input: VariantInput, values: Record<string, any>) => {
-  if (typeof input === "function") {
+  if (typeof input === 'function') {
     return input(values);
   }
 
@@ -58,7 +58,7 @@ export default function ConditionalInput(props: {
           })
           .map((x) => ({
             if: x.if,
-            input: "length" in x.input ? x.input : [x.input],
+            input: 'length' in x.input ? x.input : [x.input],
           }))
           .filter((x) => !!x.input.length)
           .map((x) =>
@@ -69,7 +69,7 @@ export default function ConditionalInput(props: {
                 key={`${x.if.toString()}_${idx}`}
                 name={input.props.name}
               />
-            ))
+            )),
           )}
       </>
     );

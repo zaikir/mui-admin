@@ -1,10 +1,10 @@
-import { Box, Tab, Tabs } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { Box, Tab, Tabs } from '@mui/material';
+import { useEffect, useMemo } from 'react';
 
 import {
   DataTableTabFilter,
   RowsTabsFilterProps,
-} from "./RowsTabsFilter.types";
+} from './RowsTabsFilter.types';
 
 export default function RowsTabsFilter({
   value,
@@ -18,7 +18,7 @@ export default function RowsTabsFilter({
 }: RowsTabsFilterProps) {
   const tabsWithIds = useMemo<(DataTableTabFilter & { id: number | string })[]>(
     () => tabs.map((tab, idx) => ({ ...tab, id: tab.id || idx.toString() })),
-    [tabs]
+    [tabs],
   );
 
   useEffect(() => {
@@ -32,17 +32,17 @@ export default function RowsTabsFilter({
     <Box
       {...wrapperProps}
       sx={{
-        display: "flex",
-        flexWrap: "wrap",
+        display: 'flex',
+        flexWrap: 'wrap',
         pb: 1,
-        alignItems: "center",
+        alignItems: 'center',
         ...wrapperProps?.sx,
       }}
     >
       {leftSlot}
       <Tabs
         {...tabsProps}
-        variant={tabsProps?.variant ?? "scrollable"}
+        variant={tabsProps?.variant ?? 'scrollable'}
         allowScrollButtonsMobile={tabsProps?.allowScrollButtonsMobile ?? true}
         value={value}
         onChange={(event, tab) => {

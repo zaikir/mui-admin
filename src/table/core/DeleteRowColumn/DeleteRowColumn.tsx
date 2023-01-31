@@ -1,14 +1,14 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { CircularProgress, IconButton, Tooltip } from "@mui/material";
-import { GridRenderCellParams, GridStateColDef } from "@mui/x-data-grid";
-import { useContext, useMemo, useState } from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { CircularProgress, IconButton, Tooltip } from '@mui/material';
+import { GridRenderCellParams, GridStateColDef } from '@mui/x-data-grid';
+import { useContext, useMemo, useState } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { NotificationsContext } from "contexts/NotificationsContext";
-import { PromiseOrValue } from "types";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { NotificationsContext } from 'contexts/NotificationsContext';
+import { PromiseOrValue } from 'types';
 
-import { ShowAlertProps } from "../ConfirmDialog";
+import { ShowAlertProps } from '../ConfirmDialog';
 
 type ColDefType = GridStateColDef<any, any, any> & {
   confirm?: ShowAlertProps;
@@ -52,7 +52,7 @@ export default function DeleteRowColumn({ row, colDef }: DeleteRowColumnProps) {
         await deleteFunc(row);
       } else {
         // eslint-disable-next-line no-console
-        console.error("deleteFunc is not provided");
+        console.error('deleteFunc is not provided');
       }
 
       if (onDeleted) {
@@ -61,12 +61,12 @@ export default function DeleteRowColumn({ row, colDef }: DeleteRowColumnProps) {
 
       showAlert(
         alerts.snackbars.entityDeleted.text,
-        alerts.snackbars.entityDeleted.variant
+        alerts.snackbars.entityDeleted.variant,
       );
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
-      showAlert(translations.unexpectedError, "error");
+      showAlert(translations.unexpectedError, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -79,10 +79,10 @@ export default function DeleteRowColumn({ row, colDef }: DeleteRowColumnProps) {
           onClick={onClick}
           disabled={isLoading || !isDeleteEnabled}
           sx={{
-            "& .idle": { display: "flex" },
-            "& .hover": { display: "none" },
-            "&:hover .idle": { display: "none" },
-            "&:hover .hover": { display: "flex" },
+            '& .idle': { display: 'flex' },
+            '& .hover': { display: 'none' },
+            '&:hover .idle': { display: 'none' },
+            '&:hover .hover': { display: 'flex' },
           }}
         >
           {isLoading ? (

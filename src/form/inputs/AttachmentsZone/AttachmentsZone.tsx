@@ -4,21 +4,21 @@ import {
   FormHelperText,
   Typography,
   useTheme,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-import { CloudUploadOutline } from "mdi-material-ui";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { FieldValues } from "react-hook-form";
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { CloudUploadOutline } from 'mdi-material-ui';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { FieldValues } from 'react-hook-form';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { NotificationsContext } from "contexts/NotificationsContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { NotificationsContext } from 'contexts/NotificationsContext';
 
-import { AttachmentsZoneProps } from "./AttachmentsZone.types";
-import AttachmentsZoneFiles from "./AttachmentsZoneFiles";
-import { AttachmentsZoneFile } from "./AttachmentsZoneFiles.types";
-import { FormConfigContext } from "../../contexts/FormConfigContext";
-import { AutocompleteInput } from "../AutocompleteInput";
+import { AttachmentsZoneProps } from './AttachmentsZone.types';
+import AttachmentsZoneFiles from './AttachmentsZoneFiles';
+import { AttachmentsZoneFile } from './AttachmentsZoneFiles.types';
+import { FormConfigContext } from '../../contexts/FormConfigContext';
+import { AutocompleteInput } from '../AutocompleteInput';
 
 export default function AttachmentsZone<TFields extends FieldValues>({
   name,
@@ -36,7 +36,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   title,
   ...rest
 }: AttachmentsZoneProps<TFields>) {
-  const source = initialSource ?? "file";
+  const source = initialSource ?? 'file';
   const Source = source.charAt(0).toUpperCase() + source.slice(1);
   const { readOnly } = useContext(FormConfigContext);
   const isReadOnly = rest.readOnly || readOnly;
@@ -55,12 +55,12 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   const uploadFile = useCallback(
     async (file: File, attachmentType: string) => {
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("attachmentType", attachmentType);
+      formData.append('file', file);
+      formData.append('attachmentType', attachmentType);
 
-      apiClient.post("/files", formData);
+      apiClient.post('/files', formData);
     },
-    [apiClient]
+    [apiClient],
   );
 
   const { getRootProps, isDragActive } = useDropzone({
@@ -83,7 +83,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                 required
                 inputProps={{
                   autoFocus: true,
-                  autoComplete: "none",
+                  autoComplete: 'none',
                 }}
               />
             ),
@@ -106,13 +106,13 @@ export default function AttachmentsZone<TFields extends FieldValues>({
         setFiles((items) => [
           ...items,
           ...acceptedFiles.map((file) => {
-            const parts = file.name.trim().split(".");
+            const parts = file.name.trim().split('.');
             const extension = `.${parts[parts.length - 1]}`;
 
             return {
               id: Math.random(),
               publicId: Math.random().toString(),
-              name: file.name.replace(extension, ""),
+              name: file.name.replace(extension, ''),
               extension,
               size: file.size,
               createdAt: new Date().toISOString(),
@@ -123,7 +123,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
         ]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
       },
-      [uploadFile, showPrompt]
+      [uploadFile, showPrompt],
     ),
   });
 
@@ -134,7 +134,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
 
     const isUploaded = !files.some((x) => !!x.fileToUpload);
     if (isUploaded) {
-      showAlert(translations.attachmentsUploadedSuccessfully, "success");
+      showAlert(translations.attachmentsUploadedSuccessfully, 'success');
     }
     setIsLoading(false);
   }, [
@@ -147,15 +147,15 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   useEffect(() => {
     (async () => {
       const { items } = await hasura.request({
-        type: "custom",
+        type: 'custom',
         query: `
         query FilesFetch($where: ${Source}BoolExp) {
           items: ${source}(where: $where) {
             id name extension size createdAt attachmentType ${name} publicId
           }
         }`
-          .replace(/\n/g, " ")
-          .replace(/ +/g, " ")
+          .replace(/\n/g, ' ')
+          .replace(/ +/g, ' ')
           .trim(),
         variables: {
           where: { [name]: { _eq: entityId } },
@@ -175,16 +175,16 @@ export default function AttachmentsZone<TFields extends FieldValues>({
       md={md}
       lg={lg}
       xl={xl}
-      sx={{ display: "flex", alignItems: "center" }}
+      sx={{ display: 'flex', alignItems: 'center' }}
     >
       <FormControl required={required} size="small" sx={{ flex: 1 }}>
         <Box>
           {title && (
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                height: "40px",
+                display: 'flex',
+                alignItems: 'center',
+                height: '40px',
                 mb: 1,
               }}
             >
@@ -195,14 +195,14 @@ export default function AttachmentsZone<TFields extends FieldValues>({
             {...getRootProps()}
             sx={{
               borderRadius: 1,
-              border: "thin solid #e6e8f0",
+              border: 'thin solid #e6e8f0',
               p: 3,
-              cursor: "pointer",
-              "&:hover": {
+              cursor: 'pointer',
+              '&:hover': {
                 border: `thin solid ${theme.palette.text.secondary}`,
               },
               ...(isDragActive && {
-                backgroundColor: "rgba(0, 0, 0, 0.05)",
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
               }),
             }}
           >
@@ -218,7 +218,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                 showSections={attachmentsTypes.length > 1}
                 onFileChange={(newFile, oldFile) => {
                   setFiles((items) =>
-                    items.map((x) => (x.id === oldFile.id ? newFile : x))
+                    items.map((x) => (x.id === oldFile.id ? newFile : x)),
                   );
                 }}
                 onFileDelete={(file) => {
@@ -228,13 +228,13 @@ export default function AttachmentsZone<TFields extends FieldValues>({
             ) : (
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
                   opacity: 0.7,
                   height: 90 - (attachmentsTypes.length > 1 ? 0 : 22),
-                  textAlign: "center",
+                  textAlign: 'center',
                 }}
               >
                 {!isReadOnly ? (
@@ -249,7 +249,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
             )}
           </Box>
         </Box>
-        <FormHelperText error={!!error}>{helperText || " "}</FormHelperText>
+        <FormHelperText error={!!error}>{helperText || ' '}</FormHelperText>
       </FormControl>
     </Grid>
   );

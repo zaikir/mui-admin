@@ -1,4 +1,4 @@
-import AddIcon from "@mui/icons-material/Add";
+import AddIcon from '@mui/icons-material/Add';
 import {
   Autocomplete,
   AutocompleteFreeSoloValueMapping,
@@ -6,28 +6,28 @@ import {
   Box,
   Checkbox,
   CircularProgress,
-} from "@mui/material";
-import { useContext } from "react";
+} from '@mui/material';
+import { useContext } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
 import {
   BaseAutocompleteInputProps,
   AutocompleteOption,
-} from "./BaseAutocompleteInput.types";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput } from "../BaseInput";
-import { BaseTextField } from "../BaseTextField";
-import { InternalNumberInput } from "../NumberInput";
+} from './BaseAutocompleteInput.types';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput } from '../BaseInput';
+import { BaseTextField } from '../BaseTextField';
+import { InternalNumberInput } from '../NumberInput';
 
-const ADD_NEW_OPTION_KEY = "__add_new__";
+const ADD_NEW_OPTION_KEY = '__add_new__';
 
 export default function BaseAutocompleteInput<
   TFields extends Record<string, any>,
   TOption extends AutocompleteOption,
   M extends boolean | undefined = undefined,
   D extends boolean | undefined = undefined,
-  F extends boolean | undefined = undefined
+  F extends boolean | undefined = undefined,
 >({
   name,
   value: controlledValue,
@@ -90,7 +90,7 @@ export default function BaseAutocompleteInput<
 
               return (
                 // @ts-ignore
-                option.value === (typeof val === "object" ? val.value : val)
+                option.value === (typeof val === 'object' ? val.value : val)
               );
             };
 
@@ -98,20 +98,20 @@ export default function BaseAutocompleteInput<
           ? rest.getOptionLabel
           : (option: TOption | AutocompleteFreeSoloValueMapping<F>) => {
               if (option == null) {
-                throw new Error("Option cannot be null");
+                throw new Error('Option cannot be null');
               }
 
-              if (typeof option === "object") {
-                return option.text || "";
+              if (typeof option === 'object') {
+                return option.text || '';
               }
 
               if (rest.freeSolo) {
                 const result = (rest.options.find((x) => x.value === option)
                   ?.text || option) as any;
-                return typeof result === "number" ? result?.toString() : result;
+                return typeof result === 'number' ? result?.toString() : result;
               }
 
-              return rest.options.find((x) => x.value === option)?.text ?? "";
+              return rest.options.find((x) => x.value === option)?.text ?? '';
             };
 
         return (
@@ -133,7 +133,7 @@ export default function BaseAutocompleteInput<
                 : []),
             ]}
             value={currentValue as AutocompleteValue<TOption, M, D, F>}
-            size={dense ? "small" : rest.size}
+            size={dense ? 'small' : rest.size}
             disableClearable={
               ((rest.disableClearable ||
                 rest.disabled ||
@@ -159,31 +159,31 @@ export default function BaseAutocompleteInput<
                 const strings = onSearch(inputValue.toString().toLowerCase());
                 return items.filter((item) =>
                   strings.some((str) =>
-                    item.text?.toLowerCase().includes(str.toLowerCase())
-                  )
+                    item.text?.toLowerCase().includes(str.toLowerCase()),
+                  ),
                 );
               })
             }
             onInputChange={(event, inputValue, reason) => {
               if (!rest.multiple && rest.freeSolo) {
                 const processedValue = (() => {
-                  if (inputProps?.type === "number") {
-                    return inputValue === ""
+                  if (inputProps?.type === 'number') {
+                    return inputValue === ''
                       ? null
                       : parseFloat(inputValue as string);
                   }
 
-                  return inputValue === "" ? null : inputValue;
+                  return inputValue === '' ? null : inputValue;
                 })();
 
                 onChange(processedValue);
-                if (typeof rest.onChange === "function") {
+                if (typeof rest.onChange === 'function') {
                   // @ts-ignore
                   rest.onChange(event, processedValue, reason, null);
                 }
               }
 
-              if (typeof rest.onInputChange === "function") {
+              if (typeof rest.onInputChange === 'function') {
                 rest.onInputChange(event, inputValue, reason);
               }
             }}
@@ -204,11 +204,11 @@ export default function BaseAutocompleteInput<
 
                 if (rest.multiple) {
                   return (value as TOption[]).map((x) =>
-                    typeof x === "object" ? x.value : x
+                    typeof x === 'object' ? x.value : x,
                   );
                 }
 
-                return typeof value === "object"
+                return typeof value === 'object'
                   ? (value as TOption).value
                   : value;
               })() as AutocompleteValue<string, M, D, F>;
@@ -217,7 +217,7 @@ export default function BaseAutocompleteInput<
                 if (
                   newValue &&
                   rest.freeSolo &&
-                  inputProps?.type === "number"
+                  inputProps?.type === 'number'
                 ) {
                   return rest.multiple
                     ? (newValue as string[]).map((x) => parseFloat(x))
@@ -228,13 +228,13 @@ export default function BaseAutocompleteInput<
               })() as AutocompleteValue<string, M, D, F>;
 
               onChange(processedValue);
-              if (typeof rest.onChange === "function") {
+              if (typeof rest.onChange === 'function') {
                 rest.onChange(event, processedValue, reason, details as any);
               }
             }}
             onBlur={(event) => {
               onBlur();
-              if (typeof rest.onBlur === "function") {
+              if (typeof rest.onBlur === 'function') {
                 rest.onBlur(event);
               }
             }}
@@ -243,7 +243,7 @@ export default function BaseAutocompleteInput<
               ((props, option, { selected }) => {
                 const isAddNewOption =
                   option &&
-                  typeof option === "object" &&
+                  typeof option === 'object' &&
                   option.value === ADD_NEW_OPTION_KEY;
 
                 return (
@@ -288,7 +288,7 @@ export default function BaseAutocompleteInput<
                 required={required}
                 label={label}
                 readOnly={readOnly}
-                variant={inputProps?.variant ?? "outlined"}
+                variant={inputProps?.variant ?? 'outlined'}
                 error={inputProps?.error || !!error}
                 disableStartAdorementOffset={rest.multiple}
                 placeholder={
@@ -310,7 +310,7 @@ export default function BaseAutocompleteInput<
                       {inputProps?.InputProps?.endAdornment}
                     </>
                   ),
-                  ...(inputProps?.type === "number" && {
+                  ...(inputProps?.type === 'number' && {
                     inputComponent: InternalNumberInput,
                   }),
                   readOnly,
@@ -318,13 +318,13 @@ export default function BaseAutocompleteInput<
                 // eslint-disable-next-line react/jsx-no-duplicate-props
                 inputProps={{
                   ...params.inputProps,
-                  ...(inputProps?.type === "number" && {
+                  ...(inputProps?.type === 'number' && {
                     parse: false,
                     unmask: true,
                   }),
                   ...inputProps?.inputProps,
                 }}
-                helperText={error?.message || helperText || " "}
+                helperText={error?.message || helperText || ' '}
               />
             )}
           />

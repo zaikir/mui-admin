@@ -1,4 +1,4 @@
-import { PromiseOrValue } from "types";
+import { PromiseOrValue } from 'types';
 
 type Selector = string | null;
 
@@ -34,7 +34,7 @@ export type FormFetcherContextType = {
 } | null;
 
 export type FormFetcherProps = {
-  method?: "hasura";
+  method?: 'hasura';
   source: string;
   entityId?: string | number | Record<string, any> | null;
   selector?: Record<string, Selector>;

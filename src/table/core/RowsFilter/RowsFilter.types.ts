@@ -1,10 +1,10 @@
-import type { AddCustomFilterButtonProps } from "../AddCustomFilterButton";
-import type { RowsCustomFilterDef } from "../RowsCustomFilterForm";
-import type { RowsSearchFilterProps } from "../RowsSearchFilter";
+import type { AddCustomFilterButtonProps } from '../AddCustomFilterButton';
+import type { RowsCustomFilterDef } from '../RowsCustomFilterForm';
+import type { RowsSearchFilterProps } from '../RowsSearchFilter';
 import type {
   DataTableTabFilter,
   RowsTabsFilterProps,
-} from "../RowsTabsFilter";
+} from '../RowsTabsFilter';
 
 export type RowsFilterState = {
   tab: string;
@@ -15,7 +15,7 @@ export type RowsFilterState = {
 export type RowsFilterProps<
   TabFilter extends DataTableTabFilter = DataTableTabFilter,
   SearchFilter extends RowsSearchFilterProps = RowsSearchFilterProps,
-  CustomFilter extends RowsCustomFilterDef = RowsCustomFilterDef
+  CustomFilter extends RowsCustomFilterDef = RowsCustomFilterDef,
 > = {
   initialState: RowsFilterState;
   onChange: (state: RowsFilterState) => void;
@@ -23,15 +23,15 @@ export type RowsFilterProps<
     beforeSearch?: React.ReactNode;
     afterSearch?: React.ReactNode;
   };
-  tabsFilter?: Omit<RowsTabsFilterProps<TabFilter>, "value" | "onChange">;
-  searchFilter?: Omit<SearchFilter, "value" | "onChange" | "FiltersButton"> & {
-    onChange?: SearchFilter["onChange"];
-    position?: "full" | "tabs";
+  tabsFilter?: Omit<RowsTabsFilterProps<TabFilter>, 'value' | 'onChange'>;
+  searchFilter?: Omit<SearchFilter, 'value' | 'onChange' | 'FiltersButton'> & {
+    onChange?: SearchFilter['onChange'];
+    position?: 'full' | 'tabs';
   };
   customFilter?: Omit<
     AddCustomFilterButtonProps<CustomFilter>,
-    "onSelect" | "buttonProps"
+    'onSelect' | 'buttonProps'
   > & {
-    addFilterButtonProps?: AddCustomFilterButtonProps["buttonProps"];
+    addFilterButtonProps?: AddCustomFilterButtonProps['buttonProps'];
   };
 };

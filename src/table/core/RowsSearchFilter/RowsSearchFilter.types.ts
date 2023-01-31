@@ -1,4 +1,4 @@
-import { SxProps, TextField } from "@mui/material";
+import { SxProps, TextField } from '@mui/material';
 
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 
@@ -6,7 +6,7 @@ export type RowsSearchFilterProps = {
   value: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
   debounce?: number;
-  inputProps?: Omit<TextFieldProps, "value">;
+  inputProps?: Omit<TextFieldProps, 'value'>;
   containerStyle?: SxProps;
   FiltersButton?: JSX.Element;
   minLength?: number;

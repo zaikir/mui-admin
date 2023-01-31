@@ -1,1 +1,1 @@
-export { default as FormSetter } from "./FormSetter";
+export { default as FormSetter } from './FormSetter';

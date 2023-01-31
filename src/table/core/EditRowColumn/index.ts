@@ -1,1 +1,1 @@
-export { default as EditRowColumn } from "./EditRowColumn";
+export { default as EditRowColumn } from './EditRowColumn';

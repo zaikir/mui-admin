@@ -5,11 +5,11 @@ import {
   useContext,
   useMemo,
   useRef,
-} from "react";
+} from 'react';
 
-import { NotificationsContext } from "contexts/NotificationsContext";
-import { FormElementRef } from "form/Form.types";
-import { PromiseOrValue } from "types";
+import { NotificationsContext } from 'contexts/NotificationsContext';
+import { FormElementRef } from 'form/Form.types';
+import { PromiseOrValue } from 'types';
 
 import {
   FormHasuraSubmitterProps,
@@ -19,8 +19,8 @@ import {
   FormSubmitterField,
   FormSubmitterHasuraManyToManyValueResolver,
   FormSubmitterProps,
-} from "./FormSubmitterContext.types";
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
+} from './FormSubmitterContext.types';
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
 
 export const FormSubmitterContext =
   createContext<FormSubmitterContextType>(null);
@@ -51,14 +51,14 @@ export function FormSubmitter({
       const { source, selection, ignoreFields } = hasuraProps;
 
       const Source = source.charAt(0).toUpperCase() + source.slice(1);
-      const selections = ((await selection) ?? ["__typename"]).join(" ");
+      const selections = ((await selection) ?? ['__typename']).join(' ');
 
       const where = (() => {
         if (!entityId) {
           return null;
         }
 
-        return typeof entityId === "object"
+        return typeof entityId === 'object'
           ? entityId
           : { [hasura.primaryKey]: { _eq: entityId } };
       })();
@@ -68,7 +68,7 @@ export function FormSubmitter({
       const defaultResolvers = fields.current.filter(
         (field) =>
           field.resolver &&
-          (!field.resolver.type || field.resolver.type === "default")
+          (!field.resolver.type || field.resolver.type === 'default'),
       ) as {
         name: string;
         resolver: FormSubmitterDefaultValueResolver;
@@ -76,7 +76,7 @@ export function FormSubmitter({
 
       const manyToManyResolvers = fields.current.filter(
         (field) =>
-          field.resolver && field.resolver.type === "hasura-many-to-many"
+          field.resolver && field.resolver.type === 'hasura-many-to-many',
       ) as {
         name: string;
         resolver: FormSubmitterHasuraManyToManyValueResolver;
@@ -95,7 +95,7 @@ export function FormSubmitter({
               Object.entries(x.resolver.entityId).map((y) => [
                 [y[0]],
                 { _eq: y[1] },
-              ])
+              ]),
             ),
           },
         };
@@ -104,18 +104,18 @@ export function FormSubmitter({
       const manyToManyResolversQueryResults =
         manyToManyResolversQuery.length > 0 &&
         (await hasura.request({
-          type: "custom",
+          type: 'custom',
           query: `query FetchManyToManyItems (${manyToManyResolversQuery
             .map((x) => x.variablesDefs)
-            .join(", ")}) {
-        ${manyToManyResolversQuery.map((x) => x.query).join(" ")}
+            .join(', ')}) {
+        ${manyToManyResolversQuery.map((x) => x.query).join(' ')}
       }`
-            .replace(/\n/g, " ")
-            .replace(/ +/g, " ")
+            .replace(/\n/g, ' ')
+            .replace(/ +/g, ' ')
             .trim(),
           variables: Object.assign(
             {},
-            ...manyToManyResolversQuery.map((x) => x.variables)
+            ...manyToManyResolversQuery.map((x) => x.variables),
           ),
         }));
 
@@ -127,7 +127,7 @@ export function FormSubmitter({
             resolverSource.charAt(0).toUpperCase() + resolverSource.slice(1);
 
           const oldIds = manyToManyResolversQueryResults[`items_${x.name}`].map(
-            (y: any) => y[x.resolver.foreignKey]
+            (y: any) => y[x.resolver.foreignKey],
           );
           const newIds = entity[x.name] || [];
 
@@ -146,7 +146,7 @@ export function FormSubmitter({
                     `result_remove_${x.name}: update${ResolverSource} (where: $where_remove_${x.name}, _set: $set_remove_${x.name}) { affected_rows }`,
                   ]
                 : []),
-            ].join(" "),
+            ].join(' '),
             variablesDefs: [
               ...(idsToAdd.length
                 ? [`$insert_${x.name}: [${ResolverSource}InsertInput!]!`]
@@ -156,7 +156,7 @@ export function FormSubmitter({
                     `$where_remove_${x.name}: ${ResolverSource}BoolExp!, $set_remove_${x.name}: ${ResolverSource}SetInput`,
                   ]
                 : []),
-            ].join(", "),
+            ].join(', '),
             variables: {
               ...(idsToAdd.length && {
                 [`insert_${x.name}`]: idsToAdd.map((id: any) => ({
@@ -170,7 +170,7 @@ export function FormSubmitter({
                     Object.entries(x.resolver.entityId).map((y) => [
                       [y[0]],
                       { _eq: y[1] },
-                    ])
+                    ]),
                   ),
                   [x.resolver.foreignKey]: { _in: idsToRemove },
                 },
@@ -181,14 +181,14 @@ export function FormSubmitter({
         });
 
       const additionalVariablesDef = manyToManyMutations
-        ? `, ${manyToManyMutations.map((x: any) => x.variablesDefs).join(", ")}`
-        : "";
+        ? `, ${manyToManyMutations.map((x: any) => x.variablesDefs).join(', ')}`
+        : '';
       const additionalVariables = manyToManyMutations
         ? Object.assign({}, ...manyToManyMutations.map((x: any) => x.variables))
         : {};
       const additionalMutation = manyToManyMutations
-        ? manyToManyMutations.map((x: any) => x.mutation).join(" ")
-        : "";
+        ? manyToManyMutations.map((x: any) => x.mutation).join(' ')
+        : '';
 
       let entityCopy = { ...entity };
 
@@ -216,7 +216,7 @@ export function FormSubmitter({
       const response = where
         ? hasura
             .request({
-              type: "custom",
+              type: 'custom',
               query:
                 `mutation UpdateEntity ($where: ${Source}BoolExp!, $set: ${Source}SetInput${additionalVariablesDef}) {
           result: update${Source}(where: $where, _set: $set) {
@@ -226,8 +226,8 @@ export function FormSubmitter({
           }
           ${additionalMutation}
         }`
-                  .replace(/\n/g, " ")
-                  .replace(/ +/g, " ")
+                  .replace(/\n/g, ' ')
+                  .replace(/ +/g, ' ')
                   .trim(),
               variables: {
                 where,
@@ -238,7 +238,7 @@ export function FormSubmitter({
             .then((x) => x.result.items[0])
         : await hasura
             .request({
-              type: "custom",
+              type: 'custom',
               query:
                 `mutation InsertEntity($insert: ${Source}InsertInput!${additionalVariablesDef}) {
           item: insert${Source}One(object: $insert) {
@@ -246,8 +246,8 @@ export function FormSubmitter({
           }
           ${additionalMutation}
         }`
-                  .replace(/\n/g, " ")
-                  .replace(/ +/g, " ")
+                  .replace(/\n/g, ' ')
+                  .replace(/ +/g, ' ')
                   .trim(),
               variables: {
                 insert: entityCopy,
@@ -259,16 +259,16 @@ export function FormSubmitter({
       return response;
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [entityId]
+    [entityId],
   );
 
   const restProps = rest as FormRestSubmitterProps;
   const restSubmit = useCallback(
     async (entity: object) => {
       const { url, method } =
-        typeof restProps.url === "function"
+        typeof restProps.url === 'function'
           ? await restProps.url(entity)
-          : { url: restProps.url, method: entityId ? "PUT" : "POST" };
+          : { url: restProps.url, method: entityId ? 'PUT' : 'POST' };
 
       const response = await restClient({
         url,
@@ -282,12 +282,12 @@ export function FormSubmitter({
       return response.data;
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [entityId, restProps.url]
+    [entityId, restProps.url],
   );
 
   const onSubmit: (
     item: any,
-    { ref }: { ref: FormElementRef }
+    { ref }: { ref: FormElementRef },
   ) => PromiseOrValue<void> = useCallback(
     async (entity, { ref: formRef }) => {
       const clearedtEntity = clearEntity
@@ -296,8 +296,8 @@ export function FormSubmitter({
             Object.fromEntries(
               Object.entries(entity).map(([key, value]) => [
                 key,
-                typeof value === "string" ? value.trim() : value,
-              ])
+                typeof value === 'string' ? value.trim() : value,
+              ]),
             ))();
 
       const resultEntity = preSubmit
@@ -308,9 +308,9 @@ export function FormSubmitter({
       }
 
       let result = null;
-      if (!mode || mode === "hasura") {
+      if (!mode || mode === 'hasura') {
         result = await hasuraSubmit(resultEntity);
-      } else if (mode === "rest") {
+      } else if (mode === 'rest') {
         result = await restSubmit(resultEntity);
       } else {
         throw new Error(`Unknown method: ${mode}`);
@@ -324,12 +324,12 @@ export function FormSubmitter({
         if (entityId) {
           showAlert(
             alerts.snackbars.entityUpdated.text,
-            alerts.snackbars.entityUpdated.variant
+            alerts.snackbars.entityUpdated.variant,
           );
         } else {
           showAlert(
             alerts.snackbars.entityCreated.text,
-            alerts.snackbars.entityCreated.variant
+            alerts.snackbars.entityCreated.variant,
           );
         }
       }
@@ -339,7 +339,7 @@ export function FormSubmitter({
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [mode, restSubmit, hasuraSubmit, onSuccess, entityId]
+    [mode, restSubmit, hasuraSubmit, onSuccess, entityId],
   );
 
   const register = useCallback((field: FormSubmitterField) => {
@@ -352,7 +352,7 @@ export function FormSubmitter({
     if (fields.current.find((x) => x.name === name)) {
       fields.current.splice(
         fields.current.findIndex((x) => x.name === name),
-        1
+        1,
       );
     }
   }, []);
@@ -363,7 +363,7 @@ export function FormSubmitter({
       register,
       unregister,
     }),
-    [onSubmit, register, unregister]
+    [onSubmit, register, unregister],
   );
 
   return (

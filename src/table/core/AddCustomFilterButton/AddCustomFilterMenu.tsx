@@ -1,17 +1,17 @@
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   TextField,
   ListItemText,
   MenuItem,
   InputAdornment,
-} from "@mui/material";
-import Menu from "@mui/material/Menu";
-import { useContext, useEffect, useMemo, useState } from "react";
+} from '@mui/material';
+import Menu from '@mui/material/Menu';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
-import { AddCustomFilterMenuProps } from "./AddCustomFilterMenu.types";
+import { AddCustomFilterMenuProps } from './AddCustomFilterMenu.types';
 
 export default function AddCustomFilterMenu({
   anchorEl,
@@ -20,7 +20,7 @@ export default function AddCustomFilterMenu({
   onClose,
 }: AddCustomFilterMenuProps) {
   const { onSearch } = useContext(ConfigurationContext);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const filteredFilters = useMemo(
     () =>
@@ -34,15 +34,15 @@ export default function AddCustomFilterMenu({
 
           const strings = onSearch(trimmedSearch);
           return strings.some((str) =>
-            x.name?.toLowerCase().includes(str.toLowerCase())
+            x.name?.toLowerCase().includes(str.toLowerCase()),
           );
         }),
-    [filters, search, onSearch]
+    [filters, search, onSearch],
   );
 
   useEffect(() => {
     if (anchorEl) {
-      setSearch("");
+      setSearch('');
     }
   }, [anchorEl]);
 
@@ -90,7 +90,7 @@ export default function AddCustomFilterMenu({
           />
         </form>
       )}
-      <Box sx={{ overflow: "auto", maxHeight: 300 }}>
+      <Box sx={{ overflow: 'auto', maxHeight: 300 }}>
         {filteredFilters.map((filter) => (
           <MenuItem key={filter.name} onClick={() => onSelect(filter)}>
             <ListItemText sx={{ py: 0.7 }}>{filter.name}</ListItemText>

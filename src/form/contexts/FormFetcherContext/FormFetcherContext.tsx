@@ -7,9 +7,9 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
 import {
   FormFetcherContextType,
@@ -17,7 +17,7 @@ import {
   FormFetcherHasuraLocalFieldResolver,
   FormFetcherHasuraRemoteFieldResolver,
   FormFetcherProps,
-} from "./FormFetcherContext.types";
+} from './FormFetcherContext.types';
 
 export const FormFetcherContext = createContext<FormFetcherContextType>(null);
 
@@ -38,12 +38,12 @@ export function FormFetcher({
   const fields = useRef<FormFetcherField[]>([]);
 
   const register = useCallback((name: FormFetcherField) => {
-    if (name && typeof name === "object" && !name.resolver) {
+    if (name && typeof name === 'object' && !name.resolver) {
       return;
     }
 
     if (
-      !fields.current.find((x) => (typeof x === "string" ? x : x.name) === name)
+      !fields.current.find((x) => (typeof x === 'string' ? x : x.name) === name)
     ) {
       fields.current.push(name);
     }
@@ -51,13 +51,13 @@ export function FormFetcher({
 
   const unregister = useCallback((name: string) => {
     if (
-      fields.current.find((x) => (typeof x === "string" ? x : x.name) === name)
+      fields.current.find((x) => (typeof x === 'string' ? x : x.name) === name)
     ) {
       fields.current.splice(
         fields.current.findIndex(
-          (x) => (typeof x === "string" ? x : x.name) === name
+          (x) => (typeof x === 'string' ? x : x.name) === name,
         ),
-        1
+        1,
       );
     }
   }, []);
@@ -67,30 +67,31 @@ export function FormFetcher({
       const allResolvers = !resolvers
         ? fields.current
         : fields.current.filter((x) =>
-            resolvers.includes(typeof x === "string" ? x : x.name)
+            resolvers.includes(typeof x === 'string' ? x : x.name),
           );
 
       if (fetchEntityFunc) {
         const fetched = await fetchEntityFunc(
-          allResolvers.map((x) => (typeof x === "string" ? x : x.name))
+          allResolvers.map((x) => (typeof x === 'string' ? x : x.name)),
         );
         return fetched;
       }
 
-      if (!method || method === "hasura") {
+      if (!method || method === 'hasura') {
         const stringResolvers = allResolvers.filter(
-          (field) => typeof field === "string"
+          (field) => typeof field === 'string',
         ) as string[];
 
         const localResolvers = allResolvers.filter(
-          (field) => typeof field === "object" && !("source" in field.resolver!)
+          (field) =>
+            typeof field === 'object' && !('source' in field.resolver!),
         ) as {
           name: string;
           resolver: FormFetcherHasuraLocalFieldResolver;
         }[];
 
         const remoteResolvers = allResolvers.filter(
-          (field) => typeof field === "object" && "source" in field.resolver!
+          (field) => typeof field === 'object' && 'source' in field.resolver!,
         ) as {
           name: string;
           resolver: FormFetcherHasuraRemoteFieldResolver;
@@ -98,13 +99,13 @@ export function FormFetcher({
 
         const selections = [...stringResolvers, ...localResolvers]
           .flatMap((resolver) => {
-            if (typeof resolver === "string") {
+            if (typeof resolver === 'string') {
               return resolver;
             }
 
-            return typeof resolver.resolver.selection === "string"
+            return typeof resolver.resolver.selection === 'string'
               ? resolver.resolver.selection
-              : resolver.resolver.selection.join(" ");
+              : resolver.resolver.selection.join(' ');
           })
           .filter((field) => selector?.[field] !== null)
           .map((field) => selector?.[field] ?? field) as string[];
@@ -117,13 +118,13 @@ export function FormFetcher({
           return Object.assign(
             { _new: true },
             ...allResolvers
-              .filter((field) => typeof field === "string")
-              .map((field) => ({ [field as string]: null }))
+              .filter((field) => typeof field === 'string')
+              .map((field) => ({ [field as string]: null })),
           );
         }
 
         const where =
-          typeof entityId === "object"
+          typeof entityId === 'object'
             ? entityId
             : { [hasura.primaryKey]: { _eq: entityId } };
 
@@ -132,7 +133,7 @@ export function FormFetcher({
             x as {
               name: string;
               resolver: FormFetcherHasuraRemoteFieldResolver;
-            }
+            },
         );
 
         const customResolversRquestData = customResolvers.map(
@@ -150,50 +151,50 @@ export function FormFetcher({
                 ],
               }),
               query: `items_${name}: ${resolverSource}(where: $where_${name}) { ${
-                typeof resolver.selection === "string"
+                typeof resolver.selection === 'string'
                   ? resolver.selection
-                  : resolver.selection.join(" ")
+                  : resolver.selection.join(' ')
               } }`,
             };
-          }
+          },
         );
 
         const customResolversVariablesDefs =
           customResolversRquestData.length > 0
             ? `, ${customResolversRquestData
                 .map((x) => x.variablesDefs)
-                .join(", ")}`
-            : "";
+                .join(', ')}`
+            : '';
 
         const { items, ...rest } = await hasura.request(
           {
-            type: "custom",
+            type: 'custom',
             query: `
           query ${Source}FetchRow($where: ${Source}BoolExp${customResolversVariablesDefs}) {
             items: ${source}(where: $where, limit: 1) {
-              ${uniqueSelections.join(" ")}
+              ${uniqueSelections.join(' ')}
             }
-            ${customResolversRquestData.map((x) => x.query).join(" ")}
+            ${customResolversRquestData.map((x) => x.query).join(' ')}
           }
         `
-              .replace(/\n/g, " ")
-              .replace(/ +/g, " ")
+              .replace(/\n/g, ' ')
+              .replace(/ +/g, ' ')
               .trim(),
             variables: {
               where,
               ...Object.fromEntries(
                 customResolversRquestData
                   .filter((x) => x.variablesValues)
-                  .map((x) => x.variablesValues!)
+                  .map((x) => x.variablesValues!),
               ),
             },
           },
-          { showRemoved: true }
+          { showRemoved: true },
         );
 
         let item = items[0];
         if (!item) {
-          throw new Error("Item not found");
+          throw new Error('Item not found');
         }
 
         for (let i = 0; i < localResolvers.length; i += 1) {
@@ -212,17 +213,17 @@ export function FormFetcher({
         const customResolversAssigns = Object.fromEntries(
           await Promise.all(
             Object.entries(rest).map(async (x) => {
-              const resolverName = x[0].replace("items_", "");
+              const resolverName = x[0].replace('items_', '');
               const resolver = customResolvers.find(
-                ({ name }) => name === resolverName
+                ({ name }) => name === resolverName,
               )!;
               const resolvedValue = await resolver.resolver.resolveItems(
-                x[1] as any[]
+                x[1] as any[],
               );
 
               return [resolverName, resolvedValue];
-            })
-          )
+            }),
+          ),
         );
 
         const resultItem = {
@@ -236,7 +237,7 @@ export function FormFetcher({
       throw new Error(`Unknown fetch method: ${method}`);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [hasura]
+    [hasura],
   );
 
   const contextValue = useMemo(
@@ -246,7 +247,7 @@ export function FormFetcher({
       unregister,
       refetch: fetchEntity,
     }),
-    [entity, register, unregister, fetchEntity]
+    [entity, register, unregister, fetchEntity],
   );
 
   useEffect(() => {

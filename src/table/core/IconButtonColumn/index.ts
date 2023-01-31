@@ -1,1 +1,1 @@
-export { default as IconButtonColumn } from "./IconButtonColumn";
+export { default as IconButtonColumn } from './IconButtonColumn';

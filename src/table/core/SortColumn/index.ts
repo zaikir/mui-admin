@@ -1,1 +1,1 @@
-export { default as SortColumn } from "./SortColumn";
+export { default as SortColumn } from './SortColumn';

@@ -3,22 +3,22 @@ import {
   MenuItemTypeMap,
   TextField,
   TextFieldProps,
-} from "@mui/material";
-import { useContext } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+} from '@mui/material';
+import { useContext } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
-import { InputClearButton } from "../../core/InputClearButton";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
+import { InputClearButton } from '../../core/InputClearButton';
 
-export type SelectMenuItemType = MenuItemTypeMap<object, "li">["props"] & {
+export type SelectMenuItemType = MenuItemTypeMap<object, 'li'>['props'] & {
   value: string | number;
 } & ({ text: string } | { children: React.ReactNode });
 
 export type SelectInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<TextFieldProps, "name" | "type"> & {
+    Omit<TextFieldProps, 'name' | 'type'> & {
       nullable?: boolean;
       nullOptionText?: string;
       items: SelectMenuItemType[];
@@ -65,25 +65,25 @@ export default function SelectInput<TFields extends FieldValues>({
         <TextField
           {...rest}
           name={name}
-          value={value === null || value === undefined ? "" : value}
-          variant={rest.variant ?? "outlined"}
-          size={dense ? "small" : rest.size}
+          value={value === null || value === undefined ? '' : value}
+          variant={rest.variant ?? 'outlined'}
+          size={dense ? 'small' : rest.size}
           onChange={(event) => {
-            if (event.target.value === "") {
+            if (event.target.value === '') {
               // @ts-ignore
               // eslint-disable-next-line no-param-reassign
               event.target.value = null;
             }
 
             onChange(event);
-            if (typeof rest.onChange === "function") {
+            if (typeof rest.onChange === 'function') {
               rest.onChange(event);
             }
           }}
           onBlur={onBlur}
           required={required}
           error={!!error}
-          helperText={error?.message || rest.helperText || " "}
+          helperText={error?.message || rest.helperText || ' '}
           fullWidth={rest.fullWidth ?? true}
           select
           {...(hideArrow && {
@@ -106,7 +106,7 @@ export default function SelectInput<TFields extends FieldValues>({
             ),
           }}
           sx={{
-            ":hover .input-clear-button": { display: "flex" },
+            ':hover .input-clear-button': { display: 'flex' },
             ...rest.sx,
           }}
         >
@@ -117,7 +117,7 @@ export default function SelectInput<TFields extends FieldValues>({
           )}
           {items.map((item) => (
             <MenuItem key={item.value} {...item}>
-              {"text" in item ? item.text : item.children}
+              {'text' in item ? item.text : item.children}
             </MenuItem>
           ))}
         </TextField>

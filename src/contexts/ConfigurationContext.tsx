@@ -1,26 +1,26 @@
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { resolveNumberFormat } from "@sumup/intl";
-import type { AxiosInstance } from "axios";
-import axios from "axios";
-import { OptionsObject, SnackbarProvider } from "notistack";
-import { createContext } from "react";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { resolveNumberFormat } from '@sumup/intl';
+import type { AxiosInstance } from 'axios';
+import axios from 'axios';
+import { OptionsObject, SnackbarProvider } from 'notistack';
+import { createContext } from 'react';
 
 // eslint-disable-next-line import/no-cycle
-import { CountryCode } from "form/core/PhoneInput/phones";
-import { ShowAlertProps } from "table/core/ConfirmDialog";
-import { buildHasuraQuery, HasuraQuery } from "utils/buildHasuraQuery";
+import { CountryCode } from 'form/core/PhoneInput/phones';
+import { ShowAlertProps } from 'table/core/ConfirmDialog';
+import { buildHasuraQuery, HasuraQuery } from 'utils/buildHasuraQuery';
 
-import { NotificationsContextProvider } from "./NotificationsContext";
+import { NotificationsContextProvider } from './NotificationsContext';
 
 const { locale, groupDelimiter, decimalDelimiter } = resolveNumberFormat()!;
 
 type SnackbarVariant =
-  | "default"
-  | "success"
-  | "info"
-  | "error"
-  | "warning"
+  | 'default'
+  | 'success'
+  | 'info'
+  | 'error'
+  | 'warning'
   | string;
 type SnackbarType = {
   text: string;
@@ -65,7 +65,7 @@ export type ConfigurationType = {
   hasura: {
     request: (
       query: HasuraQuery,
-      options?: { showRemoved?: boolean }
+      options?: { showRemoved?: boolean },
     ) => Promise<any>;
     // client: AxiosInstance,
     // mutationClient: AxiosInstance,
@@ -91,79 +91,79 @@ export type ConfigurationType = {
 const defaultSnackbarOptions: OptionsObject = {
   disableWindowBlurListener: true,
   autoHideDuration: 1000,
-  anchorOrigin: { horizontal: "right", vertical: "bottom" },
+  anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
 };
 
 export const DefaultConfiguration: ConfigurationType = {
   locale,
   translations: {
-    valueRequired: "Value required",
-    wrongEmailFormat: "Invalid email address",
-    wrongPhoneFormat: "Invalid phone format",
-    wrongDateFormat: "Invalid date format",
-    nullSelectOptionText: "None",
+    valueRequired: 'Value required',
+    wrongEmailFormat: 'Invalid email address',
+    wrongPhoneFormat: 'Invalid phone format',
+    wrongDateFormat: 'Invalid date format',
+    nullSelectOptionText: 'None',
     autocompletePlaceholder: 'Type and press "Enter"',
-    tableSearchPlaceholder: "Search by name",
-    tableAddFilterTooltip: "Add filter",
-    tableNoRows: "No Rows",
-    unexpectedError: "Unexpected error occurred",
-    deleteTableRow: "Delete",
-    attachmentsZoneTitle: "Select attachment type",
-    attachmentsZoneLabel: "Type of the attachment",
-    attachmentsZoneAccept: "Upload",
-    attachmentsZoneCancel: "Cancel",
-    attachmentsUploadedSuccessfully: "Files uploaded",
-    attachmentsUploadedOrDropFileHere: "Upload or drop file here",
-    attachmentsNoFiles: "No files uploaded",
-    attachmentsFileMenuDownload: "Download",
-    attachmentsFileMenuDelete: "Delete",
-    addNewAutocompleteValue: "Add value",
-    cancel: "Cancel",
+    tableSearchPlaceholder: 'Search by name',
+    tableAddFilterTooltip: 'Add filter',
+    tableNoRows: 'No Rows',
+    unexpectedError: 'Unexpected error occurred',
+    deleteTableRow: 'Delete',
+    attachmentsZoneTitle: 'Select attachment type',
+    attachmentsZoneLabel: 'Type of the attachment',
+    attachmentsZoneAccept: 'Upload',
+    attachmentsZoneCancel: 'Cancel',
+    attachmentsUploadedSuccessfully: 'Files uploaded',
+    attachmentsUploadedOrDropFileHere: 'Upload or drop file here',
+    attachmentsNoFiles: 'No files uploaded',
+    attachmentsFileMenuDownload: 'Download',
+    attachmentsFileMenuDelete: 'Delete',
+    addNewAutocompleteValue: 'Add value',
+    cancel: 'Cancel',
   },
-  defaultPhoneCountry: "US",
+  defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
   decimalSeparator: decimalDelimiter!,
-  defaultLocale: "en",
-  availableLocales: ["en"],
+  defaultLocale: 'en',
+  availableLocales: ['en'],
   onSearch: (value) => [value.toLowerCase()],
   defaultDeleteConfirm: {
-    title: "Delete row?",
-    accept: "Delete",
-    cancel: "Cancel",
+    title: 'Delete row?',
+    accept: 'Delete',
+    cancel: 'Cancel',
   },
   defaultDeleteFileConfirm: {
-    title: "Delete file?",
-    accept: "Delete",
-    cancel: "Cancel",
+    title: 'Delete file?',
+    accept: 'Delete',
+    cancel: 'Cancel',
   },
   hasura: {
     async request(query) {
       const { extractResult, ...data } = buildHasuraQuery(query);
-      const { data: response } = await axios.post("/v1/graphql", data);
+      const { data: response } = await axios.post('/v1/graphql', data);
 
       return extractResult ? extractResult(response.data) : response.data;
     },
-    primaryKey: "id",
+    primaryKey: 'id',
     filter: null, // { isRemoved: { _eq: false } },
     removedFilter: { isRemoved: { _eq: false } },
     removeUpdate: { isRemoved: true },
   },
   rest: {
-    client: axios.create({ baseURL: "/api" }),
+    client: axios.create({ baseURL: '/api' }),
   },
   alerts: {
     maxStackSize: 3,
     variants: {
-      success: { variant: "success", ...defaultSnackbarOptions },
-      info: { variant: "info", ...defaultSnackbarOptions },
-      default: { variant: "default", ...defaultSnackbarOptions },
-      error: { variant: "error", ...defaultSnackbarOptions },
-      warning: { variant: "warning", ...defaultSnackbarOptions },
+      success: { variant: 'success', ...defaultSnackbarOptions },
+      info: { variant: 'info', ...defaultSnackbarOptions },
+      default: { variant: 'default', ...defaultSnackbarOptions },
+      error: { variant: 'error', ...defaultSnackbarOptions },
+      warning: { variant: 'warning', ...defaultSnackbarOptions },
     },
     snackbars: {
-      entityCreated: { text: "Сохранено", variant: "success" },
-      entityUpdated: { text: "Сохранено", variant: "success" },
-      entityDeleted: { text: "Удалено", variant: "success" },
+      entityCreated: { text: 'Сохранено', variant: 'success' },
+      entityUpdated: { text: 'Сохранено', variant: 'success' },
+      entityDeleted: { text: 'Удалено', variant: 'success' },
     },
   },
 };

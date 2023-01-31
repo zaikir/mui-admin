@@ -1,1 +1,1 @@
-export { default as InputClearButton } from "./InputClearButton";
+export { default as InputClearButton } from './InputClearButton';

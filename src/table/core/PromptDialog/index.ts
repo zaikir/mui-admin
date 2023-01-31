@@ -1,2 +1,2 @@
-export { default as PromptDialog } from "./PromptDialog";
-export * from "./PromptDialog";
+export { default as PromptDialog } from './PromptDialog';
+export * from './PromptDialog';

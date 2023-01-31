@@ -1,4 +1,4 @@
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   TextField,
@@ -7,17 +7,17 @@ import {
   MenuItem,
   Typography,
   InputAdornment,
-} from "@mui/material";
-import Menu from "@mui/material/Menu";
-import { useContext, useEffect, useState } from "react";
+} from '@mui/material';
+import Menu from '@mui/material/Menu';
+import { useContext, useEffect, useState } from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
-import Flag from "../Flag/Flag";
-import { PhoneTemplates } from "../phones";
+import Flag from '../Flag/Flag';
+import { PhoneTemplates } from '../phones';
 
 const DisplayNames = new Intl.DisplayNames([], {
-  type: "region",
+  type: 'region',
 });
 
 const countries = PhoneTemplates.map((x) => ({
@@ -33,10 +33,10 @@ export default function FlagsMenu({
   onClose,
 }: any) {
   const { onSearch } = useContext(ConfigurationContext);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    setSearch("");
+    setSearch('');
   }, [anchorEl]);
 
   return (
@@ -64,7 +64,7 @@ export default function FlagsMenu({
           ),
         }}
       />
-      <Box sx={{ overflow: "auto", maxHeight: 300 }}>
+      <Box sx={{ overflow: 'auto', maxHeight: 300 }}>
         {countries
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((x) => {
@@ -78,7 +78,7 @@ export default function FlagsMenu({
               (str) =>
                 x.name?.toLowerCase().includes(str.toLowerCase()) ||
                 x.code?.toLowerCase().includes(str.toLowerCase()) ||
-                x.id.toLowerCase().includes(str.toLowerCase())
+                x.id.toLowerCase().includes(str.toLowerCase()),
             );
           })
           .map((country) => (

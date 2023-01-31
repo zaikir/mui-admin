@@ -1,10 +1,10 @@
-import { FieldValues } from "react-hook-form";
+import { FieldValues } from 'react-hook-form';
 
-import { BaseInputProps } from "../../core/BaseInput";
+import { BaseInputProps } from '../../core/BaseInput';
 
 export type AttachmentsZoneProps<TFields extends FieldValues> =
   BaseInputProps<TFields> & {
-    mode?: "hasura";
+    mode?: 'hasura';
     source?: string;
     uploadUrl?: string;
     entityId: string | number;

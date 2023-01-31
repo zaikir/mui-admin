@@ -1,4 +1,4 @@
-import { debounce } from "@mui/material";
+import { debounce } from '@mui/material';
 import {
   forwardRef,
   Ref,
@@ -9,20 +9,20 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { getGraphqlPath } from "utils/getGraphqlPath";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { getGraphqlPath } from 'utils/getGraphqlPath';
 
 import {
   HasuraDataTableColumnDef,
   HasuraDataTableProps,
-} from "./HasuraDataTable.types";
-import { BaseDataTable } from "../BaseDataTable";
+} from './HasuraDataTable.types';
+import { BaseDataTable } from '../BaseDataTable';
 import {
   BaseDataTableState,
   BaseDataTableRef,
-} from "../BaseDataTable/BaseDataTable.types";
+} from '../BaseDataTable/BaseDataTable.types';
 
 const HasuraDataTable = forwardRef(
   (
@@ -40,7 +40,7 @@ const HasuraDataTable = forwardRef(
       disableRemovedFilter,
       ...rest
     }: HasuraDataTableProps,
-    ref: Ref<BaseDataTableRef>
+    ref: Ref<BaseDataTableRef>,
   ) => {
     const Source = source.charAt(0).toUpperCase() + source.slice(1);
 
@@ -72,13 +72,13 @@ const HasuraDataTable = forwardRef(
             if (column.fetchRemoved ?? true) {
               return (column.selector || column.field)
                 .replace(
-                  "*",
-                  `${Object.keys(hasura.removeUpdate || {}).join(" ")} *`
+                  '*',
+                  `${Object.keys(hasura.removeUpdate || {}).join(' ')} *`,
                 )
-                .replace(/\*/g, "");
+                .replace(/\*/g, '');
             }
 
-            return (column.selector || column.field).replace(/\*/g, "");
+            return (column.selector || column.field).replace(/\*/g, '');
           }),
       ]);
 
@@ -89,7 +89,7 @@ const HasuraDataTable = forwardRef(
           {},
           ...state.sortModel.flatMap(({ field, sort }) => {
             const column = columns.find(
-              (x) => x.field === field
+              (x) => x.field === field,
             ) as HasuraDataTableColumnDef;
             if (!column || !sort) {
               return [];
@@ -118,7 +118,7 @@ const HasuraDataTable = forwardRef(
             }
 
             return [result];
-          })
+          }),
         );
 
       const defaultFilter = selectProps?.filter;
@@ -126,7 +126,7 @@ const HasuraDataTable = forwardRef(
       const selectedTab =
         tabsFilter?.tabs &&
         tabsFilter?.tabs.find(
-          (x, idx) => (x.id ?? idx.toString()) === state.tab
+          (x, idx) => (x.id ?? idx.toString()) === state.tab,
         );
 
       if (selectedTab && selectedTab.filter) {
@@ -138,7 +138,7 @@ const HasuraDataTable = forwardRef(
         (state.search?.length || 0) >= (searchFilter.minLength ?? 2) &&
         onSearch(state.search)
           .map((str) =>
-            searchFilter.lowerCase ?? true ? str.toLowerCase() : str
+            searchFilter.lowerCase ?? true ? str.toLowerCase() : str,
           )
           .map((str) => (searchFilter.trim ?? true ? str.trim() : str));
 
@@ -149,20 +149,20 @@ const HasuraDataTable = forwardRef(
       const customFilters = !customFilter
         ? []
         : Object.entries(state.filters).map(([key, value]) => {
-            const [filterIdx] = key.split("_").map((x) => parseInt(x, 10));
+            const [filterIdx] = key.split('_').map((x) => parseInt(x, 10));
             const filter = customFilter?.filters[filterIdx];
 
             if (filter?.filter) {
               return filter?.filter(value);
             }
 
-            if (value === null || value === undefined || value === "") {
+            if (value === null || value === undefined || value === '') {
               return {};
             }
 
             return {
               [filter.field]: {
-                _eq: typeof value === "string" ? value.trim() : value,
+                _eq: typeof value === 'string' ? value.trim() : value,
               },
             };
           });
@@ -176,21 +176,21 @@ const HasuraDataTable = forwardRef(
       const where = filters.length > 0 ? { _and: filters } : null;
 
       const resultOrderBy = (selectProps?.onSort || ((x: any) => x))(
-        Object.keys(orderBy || {}).length > 0 && orderBy
+        Object.keys(orderBy || {}).length > 0 && orderBy,
       );
 
       const { items, total } = await hasura.request(
         {
-          type: "custom",
+          type: 'custom',
           query: `
         query ${SelectSource}FetchRows ($where: ${SelectSource}BoolExp, $orderBy: [${SelectSource}OrderBy!], $limit: Int, $offset: Int) {
           items: ${selectSource}(where: $where, orderBy: $orderBy, limit: $limit, offset: $offset) {
-            ${selections.join(" ")}
+            ${selections.join(' ')}
           }
           total: ${selectSource}Aggregate(where: $where) { aggregate { count } }
         }`
-            .replace(/\n/g, " ")
-            .replace(/ +/g, " ")
+            .replace(/\n/g, ' ')
+            .replace(/ +/g, ' ')
             .trim(),
           variables: {
             where: {
@@ -206,7 +206,7 @@ const HasuraDataTable = forwardRef(
             }),
           },
         },
-        { showRemoved: true }
+        { showRemoved: true },
       );
 
       setRows(selectProps?.onFetch ? await selectProps?.onFetch(items) : items);
@@ -223,7 +223,7 @@ const HasuraDataTable = forwardRef(
         debounce(() => {
           fetchRows();
         }, 50),
-      [fetchRows]
+      [fetchRows],
     );
 
     const deleteRow = useCallback(
@@ -246,15 +246,15 @@ const HasuraDataTable = forwardRef(
         }
 
         await hasura.request({
-          type: "custom",
+          type: 'custom',
           query: `
       mutation Remove ($where: ${Source}BoolExp!, $set: ${Source}SetInput!) {
         update${Source} (where: $where, _set: $set) {
           __typename
         }
       }`
-            .replace(/\n/g, " ")
-            .replace(/ +/g, " ")
+            .replace(/\n/g, ' ')
+            .replace(/ +/g, ' ')
             .trim(),
           variables: {
             where: extractKeys(row),
@@ -265,7 +265,7 @@ const HasuraDataTable = forwardRef(
         await fetchRows();
         // eslint-disable-next-line react-hooks/exhaustive-deps
       },
-      [deleteProps, hasura, Source, fetchRows]
+      [deleteProps, hasura, Source, fetchRows],
     );
 
     const onInitialized = useCallback(async (state: BaseDataTableState) => {
@@ -282,7 +282,7 @@ const HasuraDataTable = forwardRef(
         tableState.current = state;
         await debouncedFetchRows();
       },
-      [debouncedFetchRows, fetchAll]
+      [debouncedFetchRows, fetchAll],
     );
 
     useImperativeHandle(
@@ -292,7 +292,7 @@ const HasuraDataTable = forwardRef(
           await fetchRows();
         },
       }),
-      [fetchRows]
+      [fetchRows],
     );
 
     useEffect(() => {
@@ -310,9 +310,9 @@ const HasuraDataTable = forwardRef(
         columns={columns}
         rows={rows}
         {...(!fetchAll && {
-          paginationMode: "server",
-          sortingMode: "server",
-          filterMode: "server",
+          paginationMode: 'server',
+          sortingMode: 'server',
+          filterMode: 'server',
           rowCount,
         })}
         tabsFilter={tabsFilter}
@@ -329,13 +329,13 @@ const HasuraDataTable = forwardRef(
             })}
         {...(rest.deletable && {
           deletable: {
-            ...(typeof rest.deletable !== "boolean" && rest.deletable),
+            ...(typeof rest.deletable !== 'boolean' && rest.deletable),
             deleteFunc: (() => {
-              if (typeof rest.deletable === "boolean") {
+              if (typeof rest.deletable === 'boolean') {
                 return deleteRow;
               }
 
-              return "deleteFunc" in rest.deletable
+              return 'deleteFunc' in rest.deletable
                 ? rest.deletable.deleteFunc
                 : deleteRow;
             })(),
@@ -343,7 +343,7 @@ const HasuraDataTable = forwardRef(
         })}
       />
     );
-  }
+  },
 );
 
 export default HasuraDataTable;

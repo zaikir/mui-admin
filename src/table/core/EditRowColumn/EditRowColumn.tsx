@@ -1,6 +1,6 @@
-import { IconButton } from "@mui/material";
-import { GridRenderCellParams, GridStateColDef } from "@mui/x-data-grid";
-import { Pencil } from "mdi-material-ui";
+import { IconButton } from '@mui/material';
+import { GridRenderCellParams, GridStateColDef } from '@mui/x-data-grid';
+import { Pencil } from 'mdi-material-ui';
 
 type ColDefType = GridStateColDef<any, any, any> & {
   onEdit?: (row: any) => void;

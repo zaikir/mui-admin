@@ -1,4 +1,4 @@
-import { Control } from "react-hook-form";
+import { Control } from 'react-hook-form';
 
 export type FormElementRef = {
   getControl: () => Control<any, any>;

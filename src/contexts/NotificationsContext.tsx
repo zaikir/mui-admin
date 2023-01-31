@@ -1,33 +1,33 @@
-import { OptionsObject, useSnackbar } from "notistack";
-import { createContext, useCallback, useMemo, useRef } from "react";
+import { OptionsObject, useSnackbar } from 'notistack';
+import { createContext, useCallback, useMemo, useRef } from 'react';
 
 import {
   ConfirmDialog,
   ConfirmDialogElementRef,
   ShowAlertProps,
-} from "table/core/ConfirmDialog";
+} from 'table/core/ConfirmDialog';
 import {
   PromptDialog,
   PromptDialogElementRef,
   PromptDialogProps,
-} from "table/core/PromptDialog";
+} from 'table/core/PromptDialog';
 
-import type { ConfigurationType } from "./ConfigurationContext";
+import type { ConfigurationType } from './ConfigurationContext';
 
 export type NotificationsContextType = {
   showAlert: (
     message: string,
     variant?: string,
-    options?: OptionsObject
+    options?: OptionsObject,
   ) => void;
   showConfirm: (props: ShowAlertProps) => Promise<boolean>;
   showPrompt: (
-    props: PromptDialogProps
+    props: PromptDialogProps,
   ) => Promise<false | Record<string, any>>;
 };
 
 export const NotificationsContext = createContext<NotificationsContextType>(
-  {} as any
+  {} as any,
 );
 
 type Props = {
@@ -48,7 +48,7 @@ export function NotificationsContextProvider({ children, config }: Props) {
           return options;
         }
 
-        const actualVariant = variant ?? "default";
+        const actualVariant = variant ?? 'default';
         return config.alerts.variants[actualVariant]
           ? config.alerts.variants[actualVariant]
           : { variant: actualVariant };
@@ -57,17 +57,17 @@ export function NotificationsContextProvider({ children, config }: Props) {
       enqueueSnackbar(message, snackbarOptions as any);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [enqueueSnackbar]
+    [enqueueSnackbar],
   );
 
   const showConfirm = useCallback(
     (props: ShowAlertProps) => confirmDialogRef.current!.show(props),
-    []
+    [],
   );
 
   const showPrompt = useCallback(
     (props: PromptDialogProps) => promptDialogRef.current!.show(props),
-    []
+    [],
   );
 
   const contextData = useMemo(
@@ -76,7 +76,7 @@ export function NotificationsContextProvider({ children, config }: Props) {
       showPrompt,
       showAlert,
     }),
-    [showConfirm, showPrompt, showAlert]
+    [showConfirm, showPrompt, showAlert],
   );
 
   return (

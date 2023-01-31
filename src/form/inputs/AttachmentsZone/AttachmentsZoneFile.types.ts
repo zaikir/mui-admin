@@ -1,4 +1,4 @@
-import { AttachmentsZoneFile } from "./AttachmentsZoneFiles.types";
+import { AttachmentsZoneFile } from './AttachmentsZoneFiles.types';
 
 export type AttachmentsZoneFileProps = AttachmentsZoneFile & {
   source: string;

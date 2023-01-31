@@ -1,5 +1,5 @@
-import { Box, Skeleton, Typography } from "@mui/material";
-import { DataGrid, GridColumnTypesRecord } from "@mui/x-data-grid";
+import { Box, Skeleton, Typography } from '@mui/material';
+import { DataGrid, GridColumnTypesRecord } from '@mui/x-data-grid';
 import {
   useCallback,
   useContext,
@@ -7,30 +7,30 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
-import { getGraphqlPath } from "utils/getGraphqlPath";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { getGraphqlPath } from 'utils/getGraphqlPath';
 
 import type {
   BaseDataTableProps,
   BaseDataTableRelationshipColumnDef,
   BaseDataTableSelectColumnDef,
   BaseDataTableState,
-} from "./BaseDataTable.types";
+} from './BaseDataTable.types';
 import {
   isValueEmpty,
   parseTableStateFromQuery,
   updateTableStateInQuery,
-} from "../../utils";
-import { DeleteRowColumn } from "../DeleteRowColumn";
-import { EditRowColumn } from "../EditRowColumn";
-import { EmailColumn } from "../EmailColumn";
-import { IconButtonColumn } from "../IconButtonColumn";
-import { NoRowsOverlay } from "../NoRowsOverlay";
-import { PhoneColumn } from "../PhoneColumn";
-import { RowsFilter, RowsFilterState } from "../RowsFilter";
-import { SortColumn } from "../SortColumn";
+} from '../../utils';
+import { DeleteRowColumn } from '../DeleteRowColumn';
+import { EditRowColumn } from '../EditRowColumn';
+import { EmailColumn } from '../EmailColumn';
+import { IconButtonColumn } from '../IconButtonColumn';
+import { NoRowsOverlay } from '../NoRowsOverlay';
+import { PhoneColumn } from '../PhoneColumn';
+import { RowsFilter, RowsFilterState } from '../RowsFilter';
+import { SortColumn } from '../SortColumn';
 
 export default function BaseDataTable(props: BaseDataTableProps) {
   const {
@@ -53,10 +53,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     ...rest
   } = props;
 
-  const queryPrefix = "queryPrefix" in rest ? rest.queryPrefix : undefined;
+  const queryPrefix = 'queryPrefix' in rest ? rest.queryPrefix : undefined;
   const defaultTabId = tabsFilter?.tabs?.[0]
-    ? tabsFilter.tabs[0].id ?? "0"
-    : "0";
+    ? tabsFilter.tabs[0].id ?? '0'
+    : '0';
   const persistScrollBar = initialPersistScrollBar ?? false;
   const skeletonWidths = useRef<Record<string, number>>({});
 
@@ -66,13 +66,13 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     const initialState: BaseDataTableState = {
       tab: defaultTabId,
       filters: {},
-      search: "",
+      search: '',
       page: 0,
       pageSize: rowsPerPageOptions[0],
       sortModel: sortBy ? [sortBy] : [],
     };
 
-    if (persistStateMode === "query") {
+    if (persistStateMode === 'query') {
       // eslint-disable-next-line max-len
       const parsedState: Partial<BaseDataTableState> =
         parseTableStateFromQuery(queryPrefix);
@@ -100,7 +100,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       valueFormatter(params) {
         const column = columns.find((x) => x.field === params.field);
         if (isValueEmpty(params.value)) {
-          return column!.placeholder ?? "—";
+          return column!.placeholder ?? '—';
         }
 
         return new Date(params.value).toLocaleDateString();
@@ -111,13 +111,13 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       valueFormatter(params) {
         const column = columns.find((x) => x.field === params.field);
         if (isValueEmpty(params.value)) {
-          return column!.placeholder ?? "—";
+          return column!.placeholder ?? '—';
         }
 
         const date = new Date(params.value);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString(locale, {
-          hour: "2-digit",
-          minute: "2-digit",
+          hour: '2-digit',
+          minute: '2-digit',
         })}`;
       },
     },
@@ -125,7 +125,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       width: 40,
       minWidth: 40,
       sortable: false,
-      headerName: "",
+      headerName: '',
       renderCell: (params) => (
         <EditRowColumn
           // @ts-ignore
@@ -135,44 +135,44 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           {...params}
         />
       ),
-      ...(editable && typeof editable === "object" && editable.columnProps),
+      ...(editable && typeof editable === 'object' && editable.columnProps),
     },
     delete: {
       width: !persistScrollBar ? 40 : 60,
       sortable: false,
-      headerName: "",
+      headerName: '',
       renderCell: (params) => <DeleteRowColumn {...params} />,
-      ...(deletable && typeof deletable === "object" && deletable.columnProps),
+      ...(deletable && typeof deletable === 'object' && deletable.columnProps),
     },
-    "icon-button": {
+    'icon-button': {
       width: !persistScrollBar ? 40 : 60,
       sortable: false,
-      headerName: "",
+      headerName: '',
       renderCell: (params) => <IconButtonColumn {...params} />,
     },
     sort: {
       width: 65,
       sortable: false,
-      headerName: "",
+      headerName: '',
       renderCell: (params) => <SortColumn {...params} />,
     },
     select: {
       valueGetter(params) {
         const { items } = params.colDef as unknown as Omit<
           BaseDataTableSelectColumnDef,
-          "type"
+          'type'
         >;
-        return items.find((x) => x.value === params.value)?.text || "—";
+        return items.find((x) => x.value === params.value)?.text || '—';
       },
     },
     number: {
-      align: "left",
-      headerAlign: "left",
+      align: 'left',
+      headerAlign: 'left',
     },
     relationship: {
       valueGetter({ field, row }) {
         const col = columns.find(
-          (x) => x.field === field
+          (x) => x.field === field,
         ) as BaseDataTableRelationshipColumnDef & {
           selector?: string;
         };
@@ -180,14 +180,14 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         const pathToValue = getGraphqlPath(col.selector || field);
         const displayValue = pathToValue.reduce(
           (acc, item) => acc?.[item],
-          row as any
+          row as any,
         ) as any;
 
         return displayValue;
       },
       renderCell({ value, field, row }) {
         const col = columns.find(
-          (x) => x.field === field
+          (x) => x.field === field,
         ) as BaseDataTableRelationshipColumnDef & {
           selector?: string;
         };
@@ -195,26 +195,26 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         const pathToEntity = getGraphqlPath(col.selector || field).slice(0, -1);
         const entity = pathToEntity.reduce(
           (acc, item) => acc?.[item],
-          row as any
+          row as any,
         ) as any;
 
         const isRemoved = col.isRemovedGetter
           ? col.isRemovedGetter(row)
           : !Object.keys(hasura.removeUpdate).find(
-              (key) => entity?.[key] !== true
+              (key) => entity?.[key] !== true,
             );
 
         return (
           <Box
             sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
               ...(isRemoved && {
-                color: "#c00021",
+                color: '#c00021',
               }),
             }}
           >
-            {isValueEmpty(value) ? col!.placeholder ?? "—" : value}
+            {isValueEmpty(value) ? col!.placeholder ?? '—' : value}
           </Box>
         );
       },
@@ -224,7 +224,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const [tableState, setTableState] =
     useState<BaseDataTableState>(defaultTableState);
 
-  const allColumns = useMemo<BaseDataTableProps["columns"]>(() => {
+  const allColumns = useMemo<BaseDataTableProps['columns']>(() => {
     const items = columns
       .filter((column) => !column.tabs || column.tabs.includes(tableState.tab))
       .map(({ placeholder, ...column }) => ({
@@ -237,8 +237,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               ((e) =>
                 isValueEmpty(e.value)
                   ? placeholder === false
-                    ? ""
-                    : "—"
+                    ? ''
+                    : '—'
                   : e.value),
           }),
       }));
@@ -248,8 +248,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       ...(editable
         ? [
             {
-              field: "__edit",
-              type: "edit" as const,
+              field: '__edit',
+              type: 'edit' as const,
               onEdit: editable?.onEdit,
               link: editable?.link,
             } as any,
@@ -259,9 +259,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       ...(deletable
         ? [
             {
-              field: "__delete",
-              type: "delete" as const,
-              ...(typeof deletable === "object" && deletable),
+              field: '__delete',
+              type: 'delete' as const,
+              ...(typeof deletable === 'object' && deletable),
             } as any,
           ]
         : []),
@@ -288,7 +288,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       renderCell(params) {
         if (
           x.type &&
-          ["edit", "delete", "icon-button", "sort"].includes(x.type)
+          ['edit', 'delete', 'icon-button', 'sort'].includes(x.type)
         ) {
           return <Skeleton width={20} height={20} variant="rectangular" />;
         }
@@ -337,11 +337,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       onStateChangedRef.current(fullTableState);
     }
 
-    if (!persistStateMode || persistStateMode === "none") {
+    if (!persistStateMode || persistStateMode === 'none') {
       return;
     }
 
-    if (persistStateMode === "query") {
+    if (persistStateMode === 'query') {
       const newSortModel =
         fullTableState.sortModel?.length &&
         (!sortBy ||
@@ -370,7 +370,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               filters: fullTableState.filters,
             }),
         },
-        queryPrefix
+        queryPrefix,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -382,11 +382,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     }
 
     return (
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <Typography variant="h6">
-          {(typeof title === "string" ? title : title.title) || ""}
+          {(typeof title === 'string' ? title : title.title) || ''}
         </Typography>
-        {typeof title === "object" && title?.actionButton
+        {typeof title === 'object' && title?.actionButton
           ? title.actionButton
           : null}
       </Box>
@@ -394,7 +394,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   })();
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {titleNode}
       <RowsFilter
         initialState={tableState}
@@ -445,9 +445,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           ? {
               rows: [
                 ...new Array(
-                  typeof skeletonLoading === "object"
+                  typeof skeletonLoading === 'object'
                     ? skeletonLoading.rowsCount
-                    : 3
+                    : 3,
                 ).keys(),
               ].map((id) => ({ id })),
             }
@@ -463,10 +463,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         disableColumnMenu={rest.disableColumnMenu ?? true}
         getRowClassName={(params) => {
           const oddEven =
-            params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd";
+            params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
           return (
             oddEven +
-            (rest.getRowClassName ? ` ${rest.getRowClassName(params)}` : "")
+            (rest.getRowClassName ? ` ${rest.getRowClassName(params)}` : '')
           );
         }}
         columnTypes={columnTypes}
@@ -482,7 +482,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             rest.onRowDoubleClick(event, ...other);
           }
         }}
-        sortingOrder={rest.sortingOrder ?? ["desc", "asc"]}
+        sortingOrder={rest.sortingOrder ?? ['desc', 'asc']}
         pagination
         {...(persistScrollBar && {
           scrollbarSize: 0,
@@ -493,13 +493,13 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           ...rest.components,
         }}
         sx={{
-          ".MuiDataGrid-row.odd ": {
-            backgroundColor: "rgb(248, 248, 248)",
+          '.MuiDataGrid-row.odd ': {
+            backgroundColor: 'rgb(248, 248, 248)',
           },
           ...(persistScrollBar && {
-            ".MuiDataGrid-virtualScroller": {
-              overflowY: { xs: "auto", md: "scroll" },
-              overflowX: { xs: "auto", md: "hidden" },
+            '.MuiDataGrid-virtualScroller': {
+              overflowY: { xs: 'auto', md: 'scroll' },
+              overflowX: { xs: 'auto', md: 'hidden' },
             },
           }),
           ...rest.sx,

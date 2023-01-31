@@ -4,8 +4,8 @@ import {
   SxProps,
   ThemeProvider,
   useTheme,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import {
   useEffect,
   FormHTMLAttributes,
@@ -17,38 +17,38 @@ import {
   useRef,
   SetStateAction,
   Dispatch,
-} from "react";
-import { Control, FormProvider, useForm, UseFormProps } from "react-hook-form";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+} from 'react';
+import { Control, FormProvider, useForm, UseFormProps } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { FormElementRef } from "./Form.types";
-import { FormConfigProvider } from "./contexts/FormConfigContext/FormConfigContext";
+import { FormElementRef } from './Form.types';
+import { FormConfigProvider } from './contexts/FormConfigContext/FormConfigContext';
 // eslint-disable-next-line import/no-cycle
-import { FormFetcherContext } from "./contexts/FormFetcherContext/FormFetcherContext";
-import { FormSubmitterContext } from "./contexts/FormSubmitterContext";
-import { DirtyStateListener } from "./core/DirtyStateListener";
-import { FormGetter } from "./core/FormGetter";
+import { FormFetcherContext } from './contexts/FormFetcherContext/FormFetcherContext';
+import { FormSubmitterContext } from './contexts/FormSubmitterContext';
+import { DirtyStateListener } from './core/DirtyStateListener';
+import { FormGetter } from './core/FormGetter';
 import {
   parseFormStateFromQuery,
   updateFormStateInQuery,
-} from "./utils/formPersistenceUtils";
-import { PromiseOrValue } from "../types";
+} from './utils/formPersistenceUtils';
+import { PromiseOrValue } from '../types';
 
 export type FormProps<TFields extends FieldValues> = PropsWithChildren<
   UseFormProps<TFields> & {
     grid?: boolean;
     spacing?: number;
     formProps?: FormHTMLAttributes<HTMLFormElement>;
-    containerProps?: Omit<React.ComponentProps<typeof Grid>, "children">;
+    containerProps?: Omit<React.ComponentProps<typeof Grid>, 'children'>;
     sx?: SxProps;
     dense?: boolean;
     readOnly?: boolean;
     dirtySubmit?: boolean;
-    persistStateMode?: { type: "query"; queryPrefix?: string; json?: boolean };
+    persistStateMode?: { type: 'query'; queryPrefix?: string; json?: boolean };
     setControl?: Dispatch<SetStateAction<Control<TFields, any>>>;
     onSubmit?: (
       item: any,
-      context: { ref: FormElementRef }
+      context: { ref: FormElementRef },
     ) => PromiseOrValue<void>;
   }
 >;
@@ -71,7 +71,7 @@ const Form = forwardRef(
       setControl,
       ...useFormProps
     }: PropsWithChildren<FormProps<any>>,
-    ref: Ref<FormElementRef>
+    ref: Ref<FormElementRef>,
   ) => {
     const fetcherState = useContext(FormFetcherContext);
     const submitterState = useContext(FormSubmitterContext);
@@ -80,10 +80,10 @@ const Form = forwardRef(
     const isFormDirtyRef = useRef(false);
 
     const restoredDefaultValues = (() => {
-      if (persistStateMode?.type === "query") {
+      if (persistStateMode?.type === 'query') {
         const restored = parseFormStateFromQuery(
           persistStateMode?.queryPrefix,
-          persistStateMode.json
+          persistStateMode.json,
         );
 
         return {
@@ -111,9 +111,9 @@ const Form = forwardRef(
           styleOverrides: {
             ...oldTheme.components?.MuiFormHelperText?.styleOverrides,
             root: {
-              marginTop: "-1px",
-              height: "1px",
-              textAlign: "right",
+              marginTop: '-1px',
+              height: '1px',
+              textAlign: 'right',
               fontSize: 11,
               // eslint-disable-next-line max-len
               ...(oldTheme.components?.MuiFormHelperText?.styleOverrides
@@ -158,7 +158,7 @@ const Form = forwardRef(
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }),
-      []
+      [],
     );
 
     useEffect(() => {
@@ -183,11 +183,11 @@ const Form = forwardRef(
             {persistStateMode && (
               <FormGetter
                 onChange={(values) => {
-                  if (persistStateMode.type === "query") {
+                  if (persistStateMode.type === 'query') {
                     updateFormStateInQuery(
                       values,
                       persistStateMode.queryPrefix,
-                      persistStateMode.json
+                      persistStateMode.json,
                     );
                   }
                 }}
@@ -202,10 +202,10 @@ const Form = forwardRef(
               component="form"
               onSubmit={(event) => {
                 if (event) {
-                  if (typeof event.preventDefault === "function") {
+                  if (typeof event.preventDefault === 'function') {
                     event.preventDefault();
                   }
-                  if (typeof event.stopPropagation === "function") {
+                  if (typeof event.stopPropagation === 'function') {
                     event.stopPropagation();
                   }
                 }
@@ -228,7 +228,7 @@ const Form = forwardRef(
                           isFormDirtyRef.current = false;
                         },
                       },
-                    })
+                    }),
                   )(event);
                 }
               }}
@@ -239,7 +239,7 @@ const Form = forwardRef(
               <button
                 ref={submitButtonRef}
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               >
                 submit
               </button>
@@ -255,7 +255,7 @@ const Form = forwardRef(
         </FormConfigProvider>
       </ThemeProvider>
     );
-  }
+  },
 );
 
 export default Form;

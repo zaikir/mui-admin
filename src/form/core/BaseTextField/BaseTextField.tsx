@@ -1,7 +1,7 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { forwardRef, Ref, useContext, useEffect, useState } from "react";
+import { TextField, TextFieldProps } from '@mui/material';
+import { forwardRef, Ref, useContext, useEffect, useState } from 'react';
 
-import { FormConfigContext } from "../../contexts/FormConfigContext";
+import { FormConfigContext } from '../../contexts/FormConfigContext';
 
 export type BaseTextFieldProps = TextFieldProps & {
   disableStartAdorementOffset?: boolean;
@@ -42,13 +42,13 @@ const BaseTextField = forwardRef(
         focused={readOnly === true ? false : rest.focused}
         sx={{
           ...(isStartAdornmentExists && {
-            "& .MuiInputLabel-root:not(.MuiInputLabel-shrink)": {
-              transform: "translate(48px, 17px)",
+            '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
+              transform: 'translate(48px, 17px)',
             },
           }),
           ...(readOnly && {
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#e6e8f0 !important",
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#e6e8f0 !important',
             },
           }),
           ...rest.sx,
@@ -66,7 +66,7 @@ const BaseTextField = forwardRef(
           if (
             isStartAdornmentExists &&
             !isDisabled &&
-            (e.target.value == null || e.target.value === "")
+            (e.target.value == null || e.target.value === '')
           ) {
             setShrinkLabel(false);
           }
@@ -87,7 +87,7 @@ const BaseTextField = forwardRef(
         }}
       />
     );
-  }
+  },
 );
 
 export default BaseTextField;

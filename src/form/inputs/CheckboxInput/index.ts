@@ -1,4 +1,4 @@
 export {
   default as CheckboxInput,
   type CheckboxInputProps,
-} from "./CheckboxInput";
+} from './CheckboxInput';

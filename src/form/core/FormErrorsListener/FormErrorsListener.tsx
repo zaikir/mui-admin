@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
-import { useFormState, UseFormStateProps } from "react-hook-form";
+import { useEffect, useRef } from 'react';
+import { useFormState, UseFormStateProps } from 'react-hook-form';
 
 export default function FormErrorsListener(
   props: {
     onErrors: (errors: { name: string; text?: string }[]) => void;
     onSubmit?: () => void;
-  } & UseFormStateProps<any>
+  } & UseFormStateProps<any>,
 ) {
   const { onErrors, onSubmit, ...rest } = props;
   const formState = useFormState(rest);

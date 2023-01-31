@@ -1,1 +1,1 @@
-export * from "./FormConfigContext";
+export * from './FormConfigContext';

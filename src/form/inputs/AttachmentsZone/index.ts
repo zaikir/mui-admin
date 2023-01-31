@@ -1,2 +1,2 @@
-export { default as AttachmentsZone } from "./AttachmentsZone";
-export * from "./AttachmentsZone.types";
+export { default as AttachmentsZone } from './AttachmentsZone';
+export * from './AttachmentsZone.types';

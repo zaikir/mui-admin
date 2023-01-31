@@ -6,22 +6,22 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { ConfigurationContext } from "contexts/ConfigurationContext";
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
-import { HasuraAutocompleteInputProps } from "./HasuraAutocompleteInput.types";
-import { FormFetcherContext } from "../../contexts/FormFetcherContext";
-import { BaseAutocompleteInput } from "../BaseAutocompleteInput";
-import { AutocompleteOption } from "../BaseAutocompleteInput/BaseAutocompleteInput.types";
-import { FormGetter } from "../FormGetter";
+import { HasuraAutocompleteInputProps } from './HasuraAutocompleteInput.types';
+import { FormFetcherContext } from '../../contexts/FormFetcherContext';
+import { BaseAutocompleteInput } from '../BaseAutocompleteInput';
+import { AutocompleteOption } from '../BaseAutocompleteInput/BaseAutocompleteInput.types';
+import { FormGetter } from '../FormGetter';
 
 export default function HasuraAutocompleteInput<
   TOption extends AutocompleteOption,
   TFields extends Record<string, any>,
   M extends boolean | undefined = undefined,
   D extends boolean | undefined = undefined,
-  F extends boolean | undefined = undefined
+  F extends boolean | undefined = undefined,
 >(props: HasuraAutocompleteInputProps<TFields, TOption, M, D, F>) {
   const {
     source,
@@ -41,7 +41,7 @@ export default function HasuraAutocompleteInput<
     onFetch = null,
     ...rest
   } = (() => {
-    if (props.preset === "suggestion") {
+    if (props.preset === 'suggestion') {
       return {
         ...props,
         fetchAll: props.fetchAll ?? true,
@@ -52,7 +52,7 @@ export default function HasuraAutocompleteInput<
         filter: props.filter ?? {
           _and: [
             { [props.name]: { _isNull: false } },
-            { [props.name]: { _niregex: "^ *$" } },
+            { [props.name]: { _niregex: '^ *$' } },
           ],
         },
       };
@@ -67,9 +67,9 @@ export default function HasuraAutocompleteInput<
   const { hasura, onSearch } = useContext(ConfigurationContext);
   const formFetcherContext = useContext(FormFetcherContext);
   const [value, setValue] = useState(
-    rest.value != null ? rest.value : undefined
+    rest.value != null ? rest.value : undefined,
   );
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]);
   const debounceTimeout = useRef<NodeJS.Timeout>();
@@ -89,7 +89,7 @@ export default function HasuraAutocompleteInput<
 
     const searchStrings = onSearch(inputValue);
 
-    if (!fetchAll && typeof itemText === "function" && inputValue.length) {
+    if (!fetchAll && typeof itemText === 'function' && inputValue.length) {
       // eslint-disable-next-line no-console
       // console.error('Filter function is required (!itemText && itemText is function)');
     }
@@ -99,7 +99,7 @@ export default function HasuraAutocompleteInput<
         ...(hasura.filter ? [hasura.filter] : []),
         ...(filter
           ? [
-              typeof filter === "function"
+              typeof filter === 'function'
                 ? { _or: searchStrings.map((str) => filter(str)) }
                 : filter,
             ]
@@ -156,7 +156,7 @@ export default function HasuraAutocompleteInput<
       rowsFilter: {
         base: Record<string, any> | null;
         selected: Record<string, any> | null;
-      } | null
+      } | null,
     ) => {
       if (!rowsFilter) {
         return;
@@ -167,44 +167,44 @@ export default function HasuraAutocompleteInput<
       const onSelectionFunc = onSelection || ((x: any) => x);
       const allSelections = onSelectionFunc([
         hasura.primaryKey,
-        ...(typeof selection === "string" ? [selection] : selection),
+        ...(typeof selection === 'string' ? [selection] : selection),
       ]);
       const selections = [...new Set(allSelections)];
 
       if (!selections.length) {
         // eslint-disable-next-line no-console
-        console.error("Selections list cannot be empty");
+        console.error('Selections list cannot be empty');
       }
 
       const includeSelectedItemsQuery = !!rowsFilter.selected;
       const result: { items: any[]; selectedItems?: any[] } =
         await hasura.request(
           {
-            type: "custom",
+            type: 'custom',
             query: `
         query ${Source}FetchRows($where: ${Source}BoolExp, $orderBy: [${Source}OrderBy!], $distinctOn: [${Source}SelectColumn!], $limit: Int
           ${
             includeSelectedItemsQuery
               ? `, $where_selectedItems: ${Source}BoolExp`
-              : ""
+              : ''
           }
         ) {
           items: ${source}(where: $where, orderBy: $orderBy, distinctOn: $distinctOn, limit: $limit) {
-            ${selections.join(" ")}
+            ${selections.join(' ')}
           }
           ${
             includeSelectedItemsQuery
               ? `
           selectedItems: ${source}(where: $where_selectedItems) {
-            ${[...selections, ...removedKeys].join(" ")}
+            ${[...selections, ...removedKeys].join(' ')}
           }
           `
-              : ""
+              : ''
           }
         }
       `
-              .replace(/\n/g, " ")
-              .replace(/ +/g, " ")
+              .replace(/\n/g, ' ')
+              .replace(/ +/g, ' ')
               .trim(),
             variables: {
               where: {
@@ -224,7 +224,7 @@ export default function HasuraAutocompleteInput<
               ...(!fetchAll && { limit: limit ?? 20 }),
             },
           },
-          { showRemoved: true }
+          { showRemoved: true },
         );
 
       const { items: fetchedItems, selectedItems } = result;
@@ -249,12 +249,12 @@ export default function HasuraAutocompleteInput<
 
       setItems(
         // @ts-ignore
-        onFetch ? await onFetch(resultFetchedItems) : resultFetchedItems
+        onFetch ? await onFetch(resultFetchedItems) : resultFetchedItems,
       );
       setIsLoading(false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    []
+    [],
   );
 
   const debouncedFetchRows = useCallback(
@@ -281,7 +281,7 @@ export default function HasuraAutocompleteInput<
         fetchRows(rowsFilter);
       }, 200);
     },
-    [fetchRows]
+    [fetchRows],
   );
 
   const sourceFilterMemoizationKey =
@@ -304,7 +304,7 @@ export default function HasuraAutocompleteInput<
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }),
-    [debouncedFetchRows, sourceFilterMemoizationKey]
+    [debouncedFetchRows, sourceFilterMemoizationKey],
   );
 
   return (
@@ -322,19 +322,19 @@ export default function HasuraAutocompleteInput<
           (item) =>
             ({
               text:
-                typeof itemText === "function"
+                typeof itemText === 'function'
                   ? itemText(item)
                   : item[itemText],
               value:
-                typeof itemValue === "function"
+                typeof itemValue === 'function'
                   ? itemValue(item)
-                  : item[itemValue ?? "id"],
+                  : item[itemValue ?? 'id'],
               item,
-            } as TOption)
+            } as TOption),
         )}
         {...(selectedOption &&
           !Object.keys(hasura.removeUpdate).find(
-            (key) => selectedOption[key] !== true
+            (key) => selectedOption[key] !== true,
           ) && {
             inputProps: {
               ...rest.inputProps,
@@ -342,7 +342,7 @@ export default function HasuraAutocompleteInput<
                 ...rest.inputProps?.inputProps,
                 sx: {
                   ...rest.inputProps?.inputProps?.sx,
-                  color: "#c00021",
+                  color: '#c00021',
                 },
               },
             },

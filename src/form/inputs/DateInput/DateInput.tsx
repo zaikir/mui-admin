@@ -1,24 +1,24 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
-import { useContext } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+import { TextField, TextFieldProps } from '@mui/material';
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
+import { useContext } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
-import { InputClearButton } from "../../core/InputClearButton";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
+import { InputClearButton } from '../../core/InputClearButton';
 
 export type DateInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<DatePickerProps<any, any>, "value" | "onChange" | "renderInput"> & {
-      onBlur?: TextFieldProps["onBlur"];
-      onChange?: DatePickerProps<string, any>["onChange"];
-      helperText?: TextFieldProps["helperText"];
-      fullWidth?: TextFieldProps["fullWidth"];
-      textFieldProps?: Omit<TextFieldProps, "name" | "required" | "label">;
+    Omit<DatePickerProps<any, any>, 'value' | 'onChange' | 'renderInput'> & {
+      onBlur?: TextFieldProps['onBlur'];
+      onChange?: DatePickerProps<string, any>['onChange'];
+      helperText?: TextFieldProps['helperText'];
+      fullWidth?: TextFieldProps['fullWidth'];
+      textFieldProps?: Omit<TextFieldProps, 'name' | 'required' | 'label'>;
       clearable?: boolean;
-      sx?: TextFieldProps["sx"];
+      sx?: TextFieldProps['sx'];
     };
 
 export default function DateInput<TFields extends FieldValues>({
@@ -57,7 +57,7 @@ export default function DateInput<TFields extends FieldValues>({
       grid={grid}
       rules={{
         validate: (value: string) =>
-          !value || value !== "Invalid Date" || translations!.wrongDateFormat,
+          !value || value !== 'Invalid Date' || translations!.wrongDateFormat,
       }}
       render={({
         field: { value, onChange, onBlur },
@@ -65,16 +65,16 @@ export default function DateInput<TFields extends FieldValues>({
       }) => (
         <DatePicker
           {...rest}
-          value={value ? dayjs(value, "YYYY-MM-DD") : null}
+          value={value ? dayjs(value, 'YYYY-MM-DD') : null}
           readOnly={readOnly}
           InputAdornmentProps={{
-            position: "start",
+            position: 'start',
           }}
           onChange={(newValue: Dayjs | null, keyboardInputValue) => {
-            const dateStr = newValue ? newValue.format("YYYY-MM-DD") : null;
+            const dateStr = newValue ? newValue.format('YYYY-MM-DD') : null;
 
             onChange(dateStr, keyboardInputValue);
-            if (typeof rest.onChange === "function") {
+            if (typeof rest.onChange === 'function') {
               rest.onChange(dateStr, keyboardInputValue);
             }
           }}
@@ -84,8 +84,8 @@ export default function DateInput<TFields extends FieldValues>({
               name={name}
               readOnly={readOnly}
               fullWidth={fullWidth ?? true}
-              variant={textFieldProps?.variant ?? "outlined"}
-              size={dense ? "small" : undefined}
+              variant={textFieldProps?.variant ?? 'outlined'}
+              size={dense ? 'small' : undefined}
               autoComplete="nope"
               InputProps={{
                 ...params?.InputProps,
@@ -111,17 +111,17 @@ export default function DateInput<TFields extends FieldValues>({
               }}
               onBlur={(event) => {
                 onBlur();
-                if (typeof rest.onBlur === "function") {
+                if (typeof rest.onBlur === 'function') {
                   rest.onBlur(event);
                 }
               }}
               {...textFieldProps}
               required={required}
               error={!!error}
-              helperText={error?.message || helperText || " "}
+              helperText={error?.message || helperText || ' '}
               // @ts-ignore
               sx={{
-                ":hover .input-clear-button": { display: "flex" },
+                ':hover .input-clear-button': { display: 'flex' },
                 ...sx,
                 ...textFieldProps?.sx,
               }}

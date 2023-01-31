@@ -1,9 +1,9 @@
-import { forwardRef } from "react";
-import { IMaskInput } from "react-imask";
+import { forwardRef } from 'react';
+import { IMaskInput } from 'react-imask';
 
 export type MaskedInputProps = Pick<
   React.ComponentProps<typeof IMaskInput>,
-  "overwrite" | "eager" | "mask" | "unmask"
+  'overwrite' | 'eager' | 'mask' | 'unmask'
 >;
 
 export const MaskedInput = forwardRef<

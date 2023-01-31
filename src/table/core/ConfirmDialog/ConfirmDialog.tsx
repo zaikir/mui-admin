@@ -5,8 +5,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
+} from '@mui/material';
+import { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
 
 export type ShowAlertProps = {
   title: string;
@@ -25,7 +25,7 @@ type Props = object;
 const ConfirmDialog = forwardRef(
   (props: Props, ref: Ref<ConfirmDialogElementRef>) => {
     const [isOpened, setIsOpened] = useState(false);
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState('');
     const [text, setText] = useState<string>();
     const [acceptButtonText, setAcceptButtonText] = useState<string>();
     const [cancelButtonText, setCancelButtonText] = useState<string>();
@@ -55,7 +55,7 @@ const ConfirmDialog = forwardRef(
         async show(dialogProps) {
           setTitle(dialogProps.title);
           setText(dialogProps.text);
-          setAcceptButtonText(dialogProps.accept ?? "");
+          setAcceptButtonText(dialogProps.accept ?? '');
           setCancelButtonText(dialogProps.cancel);
           setAllDialogProps(dialogProps);
           setIsOpened(true);
@@ -65,7 +65,7 @@ const ConfirmDialog = forwardRef(
           });
         },
       }),
-      []
+      [],
     );
 
     return (
@@ -93,7 +93,7 @@ const ConfirmDialog = forwardRef(
         </DialogActions>
       </Dialog>
     );
-  }
+  },
 );
 
 export default ConfirmDialog;

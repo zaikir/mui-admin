@@ -4,11 +4,11 @@ import {
   useCallback,
   useContext,
   useImperativeHandle,
-} from "react";
-import { useFormContext } from "react-hook-form";
+} from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { FormFetcherContext } from "../../contexts/FormFetcherContext";
-import { BaseInput } from "../BaseInput";
+import { FormFetcherContext } from '../../contexts/FormFetcherContext';
+import { BaseInput } from '../BaseInput';
 
 export type HasuraSelectorRef = {
   refetch: () => Promise<any>;
@@ -22,16 +22,16 @@ const HasuraSelector = forwardRef(
       flattenSelections?: boolean;
       resolveValue?: (item: Record<string, any>) => any;
     },
-    ref: Ref<HasuraSelectorRef>
+    ref: Ref<HasuraSelectorRef>,
   ) => {
     const formFetcherContext = useContext(FormFetcherContext);
     const { setValue } = useFormContext();
     const { name, selection, flattenSelections, resolveValue } = props;
 
     const names =
-      typeof name === "string" || !name ? [name ?? selection] : name;
+      typeof name === 'string' || !name ? [name ?? selection] : name;
 
-    const selectorName = `selector_${names.join(" ")}`;
+    const selectorName = `selector_${names.join(' ')}`;
 
     const refetch = useCallback(async () => {
       if (!formFetcherContext) {
@@ -52,7 +52,7 @@ const HasuraSelector = forwardRef(
       () => ({
         refetch,
       }),
-      [refetch]
+      [refetch],
     );
 
     return (
@@ -84,7 +84,7 @@ const HasuraSelector = forwardRef(
         ))}
       </>
     );
-  }
+  },
 );
 
 export default HasuraSelector;

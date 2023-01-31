@@ -1,2 +1,2 @@
-export { default as HasuraDataTable } from "./HasuraDataTable";
-export * from "./HasuraDataTable.types";
+export { default as HasuraDataTable } from './HasuraDataTable';
+export * from './HasuraDataTable.types';

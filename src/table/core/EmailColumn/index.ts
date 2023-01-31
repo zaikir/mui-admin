@@ -1,1 +1,1 @@
-export { default as EmailColumn } from "./EmailColumn";
+export { default as EmailColumn } from './EmailColumn';

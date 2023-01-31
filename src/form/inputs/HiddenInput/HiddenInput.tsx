@@ -1,4 +1,4 @@
-import { BaseInput } from "../../core/BaseInput";
+import { BaseInput } from '../../core/BaseInput';
 
 export default function HiddenInput({ name }: { name: string }): JSX.Element {
   return (

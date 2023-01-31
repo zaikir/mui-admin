@@ -1,10 +1,10 @@
-import { AutocompleteProps, TextFieldProps } from "@mui/material";
-import type { Omit } from "type-zoo/types";
+import { AutocompleteProps, TextFieldProps } from '@mui/material';
+import type { Omit } from 'type-zoo/types';
 
-import { PromiseOrValue } from "types";
+import { PromiseOrValue } from 'types';
 
-import { BaseInputProps } from "../BaseInput";
-import { InternalNumberInputProps } from "../NumberInput";
+import { BaseInputProps } from '../BaseInput';
+import { InternalNumberInputProps } from '../NumberInput';
 
 export type AutocompleteOption = {
   text: string;
@@ -19,15 +19,15 @@ export type RemoteAutocompleteProps = {
 };
 
 type AutocompleteTextFieldProps = {
-  label?: TextFieldProps["label"];
-  helperText?: TextFieldProps["helperText"];
+  label?: TextFieldProps['label'];
+  helperText?: TextFieldProps['helperText'];
   inputProps?: Omit<
     TextFieldProps,
-    "name" | "required" | "type" | "label" | "inputProps"
+    'name' | 'required' | 'type' | 'label' | 'inputProps'
   > &
     (
-      | { type?: TextFieldProps["type"]; inputProps?: any }
-      | { type: "number"; inputProps?: InternalNumberInputProps }
+      | { type?: TextFieldProps['type']; inputProps?: any }
+      | { type: 'number'; inputProps?: InternalNumberInputProps }
     );
 };
 
@@ -36,15 +36,15 @@ export type BaseAutocompleteInputProps<
   TOption extends AutocompleteOption,
   M extends boolean | undefined = undefined,
   D extends boolean | undefined = undefined,
-  F extends boolean | undefined = undefined
+  F extends boolean | undefined = undefined,
 > = BaseInputProps<TFields> &
   Omit<
     AutocompleteProps<TOption, M, D, F>,
-    "name" | "renderInput" | "value" | "onChange"
+    'name' | 'renderInput' | 'value' | 'onChange'
   > &
   AutocompleteTextFieldProps & {
-    value?: AutocompleteProps<string, M, D, F>["value"];
-    onChange?: AutocompleteProps<string, M, D, F>["onChange"];
+    value?: AutocompleteProps<string, M, D, F>['value'];
+    onChange?: AutocompleteProps<string, M, D, F>['onChange'];
     keepObject?: boolean;
     addNewOption?: {
       text?: string;

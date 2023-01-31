@@ -1,24 +1,24 @@
-import { MenuItemTypeMap, TextFieldProps } from "@mui/material";
-import { MuiChipsInput } from "mui-chips-input";
-import { useContext } from "react";
-import { FieldValues } from "react-hook-form/dist/types/fields";
+import { MenuItemTypeMap, TextFieldProps } from '@mui/material';
+import { MuiChipsInput } from 'mui-chips-input';
+import { useContext } from 'react';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
-import { FormConfigContext } from "../../contexts/FormConfigContext/FormConfigContext";
-import { BaseInput, BaseInputProps } from "../../core/BaseInput";
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
+import { FormConfigContext } from '../../contexts/FormConfigContext/FormConfigContext';
+import { BaseInput, BaseInputProps } from '../../core/BaseInput';
 import {
   InternalNumberInput,
   InternalNumberInputProps,
-} from "../../core/NumberInput";
+} from '../../core/NumberInput';
 
-export type SelectMenuItemType = MenuItemTypeMap<object, "li">["props"] & {
+export type SelectMenuItemType = MenuItemTypeMap<object, 'li'>['props'] & {
   value: string | number;
 } & ({ text: string } | { children: React.ReactNode });
 
 export type ChipsInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
-    Omit<TextFieldProps, "name" | "type"> &
-    (({ type: "number" } & InternalNumberInputProps) | { type?: undefined });
+    Omit<TextFieldProps, 'name' | 'type'> &
+    (({ type: 'number' } & InternalNumberInputProps) | { type?: undefined });
 
 export default function ChipsInput<TFields extends FieldValues>({
   name,
@@ -42,7 +42,7 @@ export default function ChipsInput<TFields extends FieldValues>({
   let inputProps: any = {};
   let InputComponent: any = null;
 
-  if (type === "number") {
+  if (type === 'number') {
     const { scale, min, max, eager, lazy, ...other } =
       rest as InternalNumberInputProps;
     inputProps = {
@@ -73,7 +73,7 @@ export default function ChipsInput<TFields extends FieldValues>({
         fieldState: { error },
       }) => {
         const processedValues =
-          value && type === "number"
+          value && type === 'number'
             ? value.map((x: number) => x.toString())
             : value;
 
@@ -86,19 +86,19 @@ export default function ChipsInput<TFields extends FieldValues>({
             fullWidth={rest.fullWidth ?? true}
             onChange={(values) => {
               const newValues =
-                type === "number" ? values.map(parseFloat) : values;
+                type === 'number' ? values.map(parseFloat) : values;
 
               onChange(newValues);
-              if (typeof rest.onChange === "function") {
+              if (typeof rest.onChange === 'function') {
                 rest.onChange(newValues as any);
               }
             }}
             disabled={readOnly}
-            size={dense ? "small" : rest.size}
+            size={dense ? 'small' : rest.size}
             onBlur={onBlur}
             error={!!error}
-            variant={rest.variant ?? "outlined"}
-            helperText={error?.message || rest.helperText || " "}
+            variant={rest.variant ?? 'outlined'}
+            helperText={error?.message || rest.helperText || ' '}
             InputProps={{
               ...textFieldProps.InputProps,
               inputComponent:

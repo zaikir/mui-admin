@@ -1,1 +1,1 @@
-export { default as FormGetter } from "./FormGetter";
+export { default as FormGetter } from './FormGetter';

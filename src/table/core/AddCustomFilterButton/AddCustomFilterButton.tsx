@@ -1,10 +1,10 @@
-import { IconButton, Tooltip } from "@mui/material";
-import { FilterVariantPlus } from "mdi-material-ui";
-import { useContext, useRef, useState } from "react";
+import { IconButton, Tooltip } from '@mui/material';
+import { FilterVariantPlus } from 'mdi-material-ui';
+import { useContext, useRef, useState } from 'react';
 
-import { AddCustomFilterButtonProps } from "./AddCustomFilterButton.types";
-import AddCustomFilterMenu from "./AddCustomFilterMenu";
-import { ConfigurationContext } from "../../../contexts/ConfigurationContext";
+import { AddCustomFilterButtonProps } from './AddCustomFilterButton.types';
+import AddCustomFilterMenu from './AddCustomFilterMenu';
+import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
 
 export default function AddCustomFilterButton({
   filters,

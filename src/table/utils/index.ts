@@ -1,3 +1,3 @@
-export * from "./isValueEmpty";
-export * from "./formatPhone";
-export * from "./tablePersistenceUtils";
+export * from './isValueEmpty';
+export * from './formatPhone';
+export * from './tablePersistenceUtils';
