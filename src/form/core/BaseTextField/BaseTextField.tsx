@@ -3,14 +3,13 @@ import { forwardRef, Ref, useContext, useEffect, useState } from "react";
 
 import { FormConfigContext } from "../../contexts/FormConfigContext";
 
+export type BaseTextFieldProps = TextFieldProps & {
+  disableStartAdorementOffset?: boolean;
+  readOnly?: boolean;
+};
+
 const BaseTextField = forwardRef(
-  (
-    props: TextFieldProps & {
-      disableStartAdorementOffset?: boolean;
-      readOnly?: boolean;
-    },
-    ref: Ref<HTMLDivElement>
-  ) => {
+  (props: BaseTextFieldProps, ref: Ref<HTMLDivElement>) => {
     const {
       disableStartAdorementOffset,
       readOnly: readOnlyProp,

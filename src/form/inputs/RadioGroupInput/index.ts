@@ -1,1 +1,4 @@
-export { default as RadioGroupInput } from "./RadioGroupInput";
+export {
+  default as RadioGroupInput,
+  type RadioGroupInputProps,
+} from "./RadioGroupInput";

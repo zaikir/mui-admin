@@ -1,1 +1,4 @@
-export { default as CheckboxInput } from "./CheckboxInput";
+export {
+  default as CheckboxInput,
+  type CheckboxInputProps,
+} from "./CheckboxInput";

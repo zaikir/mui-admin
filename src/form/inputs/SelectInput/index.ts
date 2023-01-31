@@ -1,1 +1,5 @@
-export { default as SelectInput } from "./SelectInput";
+export {
+  default as SelectInput,
+  type SelectInputProps,
+  type SelectMenuItemType,
+} from "./SelectInput";

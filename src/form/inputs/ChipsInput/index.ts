@@ -1,1 +1,1 @@
-export { default as ChipsInput } from './ChipsInput';
+export { default as ChipsInput, type ChipsInputProps } from "./ChipsInput";
