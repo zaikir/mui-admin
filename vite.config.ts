@@ -2,8 +2,8 @@ import react from '@vitejs/plugin-react'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vite'
-
-const path = require('path')
+import { ViteAliases } from 'vite-aliases'
+import * as path from 'path'
 
 export default defineConfig({
   build: {
@@ -29,8 +29,13 @@ export default defineConfig({
   },
   plugins: [
     peerDepsExternal(),
+    ViteAliases({
+      deep: false,
+      createGlobalAlias: false,
+      useTypescript: true,
+      prefix: ''
+    }),
     dts({
-      exclude: ['src/components/**/*'],
       insertTypesEntry: true
     }),
     react()
