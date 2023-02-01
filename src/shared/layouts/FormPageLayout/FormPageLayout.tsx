@@ -10,6 +10,7 @@ import { ExitToApp } from 'mdi-material-ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import Form from 'form/Form';
 import { type FormElementRef } from 'form/Form.types';
 import { FormFetcher } from 'form/contexts/FormFetcherContext';
@@ -30,6 +31,7 @@ function SaveButton(props: {
   disabled?: boolean;
 }) {
   const { formRef, exitAfterSubmitRef, onSubmittedRef, disabled } = props;
+  const { translations } = useContext(ConfigurationContext);
 
   const isMenuDisabled = useRef(false);
 
@@ -43,8 +45,6 @@ function SaveButton(props: {
       popupState.close();
     };
   }, [onSubmittedRef, popupState]);
-
-  const hoverProps = bindHover(popupState);
 
   return (
     <>
@@ -61,44 +61,23 @@ function SaveButton(props: {
           exitAfterSubmitRef.current = false;
           popupState.close();
         }}
-        {...bindHover(popupState)}
-        onMouseLeave={(e) => {
-          isMenuDisabled.current = false;
-          hoverProps.onMouseLeave(e);
-        }}
-        onMouseOver={(e) => {
-          if (isMenuDisabled.current) {
-            return;
-          }
-
-          hoverProps.onMouseOver(e);
-        }}
       >
-        Сохранить
+        {translations.save}
       </SubmitButton>
-      <HoverMenu
-        {...bindMenu(popupState)}
-        disablePortal
-        elevation={0}
-        keepMounted
-        hideBackdrop
-        MenuListProps={{
-          sx: { py: 0.25 },
-          // sx: { width: popupState.anchorEl && popupState.anchorEl.offsetWidth },
+      <SubmitButton
+        formRef={formRef}
+        grid={false}
+        sx={{ ml: 'auto' }}
+        startIcon={<ExitToApp />}
+        variant="contained"
+        onClick={() => {
+          exitAfterSubmitRef.current = true;
+          formRef.current!.submit();
+          popupState.close();
         }}
       >
-        <MenuItem
-          dense
-          onClick={() => {
-            exitAfterSubmitRef.current = true;
-            formRef.current!.submit();
-            popupState.close();
-          }}
-          sx={{ width: '100%', py: 0, height: 20 }}
-        >
-          <ExitToApp fontSize="small" sx={{ mr: 1 }} />и выйти
-        </MenuItem>
-      </HoverMenu>
+        {translations.saveAndExit}
+      </SubmitButton>
     </>
   );
 }

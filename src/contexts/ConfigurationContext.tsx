@@ -53,6 +53,7 @@ export type ConfigurationType = {
     addNewAutocompleteValue: string;
     cancel: string;
     save: string;
+    saveAndExit: string;
     create: string;
     open: string;
     addNew: string;
@@ -125,6 +126,7 @@ export const DefaultConfiguration: ConfigurationType = {
     addNewAutocompleteValue: 'Add value',
     cancel: 'Cancel',
     save: 'Save',
+    saveAndExit: 'Save and exit',
     create: 'Create',
     open: 'Open',
     addNew: 'Add new',
