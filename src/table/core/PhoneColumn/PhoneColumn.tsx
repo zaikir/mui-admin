@@ -30,6 +30,7 @@ export default function PhoneColumn({ value, colDef }: PhoneColumnProps) {
         textDecoration: 'none',
         '&:hover': { textDecoration: 'underline' },
         color: 'inherit',
+        cursor: 'pointer',
       }}
       {...(isSmallScreen
         ? {

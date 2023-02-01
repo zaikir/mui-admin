@@ -69,7 +69,6 @@ function SaveButton(props: {
         onClick={() => {
           if (isFormDirtyRef.current) {
             exitAfterSubmitRef.current = true;
-            formRef.current!.submit();
           } else {
             handleGoBack();
           }
