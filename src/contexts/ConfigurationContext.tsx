@@ -54,6 +54,9 @@ export type ConfigurationType = {
     cancel: string;
     save: string;
     create: string;
+    open: string;
+    addNew: string;
+    copied: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -123,6 +126,9 @@ export const DefaultConfiguration: ConfigurationType = {
     cancel: 'Cancel',
     save: 'Save',
     create: 'Create',
+    open: 'Open',
+    addNew: 'Add new',
+    copied: 'Copied',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,

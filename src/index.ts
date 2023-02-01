@@ -47,6 +47,12 @@ export {
   FormTabsContext,
   type FormTabsContextType,
 } from './form/contexts/FormTabsContext';
+// shared
+export {
+  NavigationContext,
+  NavigationContextProvider,
+  type NavigationContextType,
+} from './shared/contexts/NavigationContext';
 
 /* COMPONENTS */
 // form
@@ -196,11 +202,46 @@ export {
   FormDialog,
   type FormDialogProps,
 } from './shared/components/FormDialog';
+export { LinkBehavior } from './shared/components/LinkBehavior';
+export { OpenInNewInputAdorement } from './shared/components/OpenInNewInputAdorement';
+export {
+  DataTableEx,
+  type DataTableExProps,
+  type DataTableExRef,
+} from './shared/components/DataTableEx';
+
+/* LAYOUTS */
+// shared
+export {
+  BasePageLayout,
+  type BasePageLayoutProps,
+} from './shared/layouts/BasePageLayout';
+export {
+  FormBreadcrumbs,
+  FormPageLayout,
+  type BreadcrumbsItem,
+  type BreadcrumbsSelector,
+  type FormBreadcrumbsProps,
+  type FormPageLayoutProps,
+} from './shared/layouts/FormPageLayout';
+export {
+  TablePageLayout,
+  type TablePageLayoutProps,
+} from './shared/layouts/TablePageLayout';
+
+/* HOOKS */
+// shared
+export {
+  useNavigate,
+  isNavigationAllowed,
+  type PreventNavigationOptions,
+} from './shared/hooks/useNavigate';
 
 /* UTILS */
 // shared
 export { buildHasuraQuery, type HasuraQuery } from './utils/buildHasuraQuery';
 export { getGraphqlPath } from './utils/getGraphqlPath';
+export { colorToHex } from './utils/colorToHex';
 // form
 export {
   parseFormStateFromQuery,
