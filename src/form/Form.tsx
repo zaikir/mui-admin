@@ -78,6 +78,7 @@ const Form = forwardRef(
     const submitButtonRef = useRef<HTMLButtonElement>(null);
     const submitPromiseResolverRef = useRef<(value: unknown) => void>();
     const isFormDirtyRef = useRef(false);
+    const forceSubmit = useRef(false);
 
     const restoredDefaultValues = (() => {
       if (persistStateMode?.type === 'query') {
@@ -146,8 +147,9 @@ const Form = forwardRef(
         getControl() {
           return methods.control;
         },
-        async submit() {
+        async submit(force?: boolean) {
           submitButtonRef.current?.click();
+          forceSubmit.current = force ?? false;
           await new Promise((resolve) => {
             submitPromiseResolverRef.current = resolve;
           });
@@ -211,12 +213,14 @@ const Form = forwardRef(
                 }
 
                 if (
-                  methods.formState.isSubmitting ||
-                  ((dirtySubmit ?? true) && !isFormDirtyRef.current)
+                  !forceSubmit.current &&
+                  (methods.formState.isSubmitting ||
+                    ((dirtySubmit ?? true) && !isFormDirtyRef.current))
                 ) {
                   return;
                 }
 
+                forceSubmit.current = false;
                 const handler = submitterState?.onSubmit || onSubmit;
                 if (handler) {
                   methods.handleSubmit((row) =>

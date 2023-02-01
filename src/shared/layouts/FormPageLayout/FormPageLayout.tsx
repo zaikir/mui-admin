@@ -30,21 +30,10 @@ function SaveButton(props: {
   onSubmittedRef: React.MutableRefObject<() => void>;
   disabled?: boolean;
 }) {
-  const { formRef, exitAfterSubmitRef, onSubmittedRef, disabled } = props;
+  const { formRef, exitAfterSubmitRef, disabled } = props;
   const { translations } = useContext(ConfigurationContext);
 
   const isMenuDisabled = useRef(false);
-
-  const popupState = usePopupState({
-    variant: 'popover',
-    popupId: 'save-variants-menu',
-  });
-
-  useEffect(() => {
-    onSubmittedRef.current = () => {
-      popupState.close();
-    };
-  }, [onSubmittedRef, popupState]);
 
   return (
     <>
@@ -59,7 +48,6 @@ function SaveButton(props: {
         onClick={() => {
           isMenuDisabled.current = true;
           exitAfterSubmitRef.current = false;
-          popupState.close();
         }}
       >
         {translations.save}
@@ -67,13 +55,12 @@ function SaveButton(props: {
       <SubmitButton
         formRef={formRef}
         grid={false}
-        sx={{ ml: 'auto' }}
+        sx={{ ml: 1 }}
         startIcon={<ExitToApp />}
         variant="contained"
         onClick={() => {
           exitAfterSubmitRef.current = true;
           formRef.current!.submit();
-          popupState.close();
         }}
       >
         {translations.saveAndExit}

@@ -46,7 +46,7 @@ export default function FormDialog({
     entityId || !(autoFocus ?? true)
       ? children
       : Children.map(children, (child, idx) =>
-          idx === 0 ? cloneElement(child, { autoFocus: true }) : child,
+          idx === 0 ? cloneElement(child as any, { autoFocus: true }) : child,
         );
 
   return (
