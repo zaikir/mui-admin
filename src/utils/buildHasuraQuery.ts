@@ -26,6 +26,7 @@ type HasuraQueryDef = {
   distinctOn?: string[];
   offset?: number;
   limit?: number;
+  aggregation?: boolean;
 };
 
 type HasuraMutationDef = {
@@ -74,7 +75,9 @@ export function buildHasuraQuery(query: HasuraQuery): ResultHasuraQuery {
       query: `${
         query.type || 'query'
       } Query${Source}($where: ${Source}BoolExp, $orderBy: [${Source}OrderBy!], $offset: Int, $limit: Int, $distinctOn: [${Source}SelectColumn!]) {
-        data: ${source}(where: $where, orderBy: $orderBy, offset: $offset, limit: $limit, distinctOn: $distinctOn) {
+        data: ${
+          query.aggregation ? `${source}Aggregate` : source
+        }(where: $where, orderBy: $orderBy, offset: $offset, limit: $limit, distinctOn: $distinctOn) {
           ${
             typeof query.selection === 'string'
               ? query.selection

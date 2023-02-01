@@ -1,4 +1,4 @@
-import { SxProps, Tab, Tabs } from '@mui/material';
+import { BadgeProps, SxProps, Tab, Tabs } from '@mui/material';
 import type { Omit } from 'type-zoo/types';
 
 type TabsProps = React.ComponentProps<typeof Tabs>;
@@ -8,6 +8,17 @@ export type FormTabDef = {
   id?: string;
   label: string;
   icon?: TabProps['icon'];
+  badge?: {
+    count?: number;
+    subscribe?: {
+      source: string;
+      selection: string;
+      aggregation?: boolean;
+      filter?: Record<string, any>;
+      extractCount?: (data: any) => any;
+    };
+    badgeProps?: BadgeProps;
+  };
 };
 
 export type FormTabsPersistence =

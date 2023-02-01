@@ -73,8 +73,7 @@ export type ConfigurationType = {
       query: HasuraQuery,
       options?: { showRemoved?: boolean },
     ) => Promise<any>;
-    // client: AxiosInstance,
-    // mutationClient: AxiosInstance,
+    subscribe(request: HasuraQuery, onNext: (value: any) => void): () => void;
     primaryKey: string;
     filter: Record<string, any> | null;
     removedFilter: Record<string, any> | null;
@@ -154,6 +153,9 @@ export const DefaultConfiguration: ConfigurationType = {
       const { data: response } = await axios.post('/v1/graphql', data);
 
       return extractResult ? extractResult(response.data) : response.data;
+    },
+    subscribe() {
+      throw new Error('Subscriptions are not implemented');
     },
     primaryKey: 'id',
     filter: null, // { isRemoved: { _eq: false } },

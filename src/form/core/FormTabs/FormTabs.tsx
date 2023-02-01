@@ -18,6 +18,7 @@ import {
   updateFormTabsStateInQuery,
 } from 'form/utils/formTabsPersistenceUtils';
 
+import { FormTabIcon } from './FormTabIcon';
 import { FormTabDef, FormTabsProps } from './FormTabs.types';
 import { FormErrorsListener } from '../FormErrorsListener';
 
@@ -131,13 +132,13 @@ export default function FormTabs({
             ...tabsProps?.sx,
           }}
         >
-          {tabsWithIds.map(({ id, label, icon }) => (
+          {tabsWithIds.map(({ id, label, icon, badge }) => (
             <Tab
               {...tabProps}
               key={id}
               value={id}
               label={label}
-              icon={icon}
+              icon={icon && <FormTabIcon icon={icon} badge={badge} />}
               iconPosition={tabProps?.iconPosition ?? 'start'}
               sx={{
                 height: 48,

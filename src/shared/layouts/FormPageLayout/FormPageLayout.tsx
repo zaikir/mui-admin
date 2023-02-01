@@ -1,11 +1,5 @@
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, MenuItem, Typography } from '@mui/material';
-import HoverMenu from 'material-ui-popup-state/HoverMenu';
-import {
-  usePopupState,
-  bindHover,
-  bindMenu,
-} from 'material-ui-popup-state/hooks';
+import { Box, Typography } from '@mui/material';
 import { ExitToApp } from 'mdi-material-ui';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
