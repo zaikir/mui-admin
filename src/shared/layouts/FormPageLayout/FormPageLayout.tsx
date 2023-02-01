@@ -60,7 +60,7 @@ function SaveButton(props: {
         variant="contained"
         onClick={() => {
           exitAfterSubmitRef.current = true;
-          formRef.current!.submit();
+          formRef.current!.submit(true);
         }}
       >
         {translations.saveAndExit}
