@@ -7,7 +7,7 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import { Children, useContext, useRef } from 'react';
+import { Children, useContext, useRef, cloneElement } from 'react';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import Form from 'form/Form';
@@ -46,10 +46,7 @@ export default function FormDialog({
     entityId || !(autoFocus ?? true)
       ? children
       : Children.map(children, (child, idx) =>
-          idx === 0
-            ? // @ts-ignore
-              React.cloneElement(child, { autoFocus: true })
-            : child,
+          idx === 0 ? cloneElement(child, { autoFocus: true }) : child,
         );
 
   return (

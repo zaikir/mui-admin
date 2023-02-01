@@ -50,7 +50,7 @@ export default function BaseAutocompleteInput<
 }: BaseAutocompleteInputProps<TFields, TOption, M, D, F>) {
   const { translations, onSearch } = useContext(ConfigurationContext);
   const { dense, readOnly: globalReadOnly } = useContext(FormConfigContext);
-  const readOnly = globalReadOnly ?? readOnlyProp;
+  const readOnly = globalReadOnly || readOnlyProp;
 
   return (
     <BaseInput<TFields>
