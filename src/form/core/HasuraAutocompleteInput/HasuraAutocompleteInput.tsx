@@ -316,7 +316,6 @@ export default function HasuraAutocompleteInput<
           onInputChange: (event, x) => setInputValue(x),
           filterOptions: (options) => options,
         })}
-        filterOptions={(options) => options}
         loading={isLoading}
         options={items.map(
           (item) =>
