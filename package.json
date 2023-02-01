@@ -1,7 +1,7 @@
 {
   "name": "@kirz/mui-admin",
   "license": "MIT",
-  "version": "0.0.17",
+  "version": "0.1.2",
   "files": [
     "dist"
   ],
@@ -24,7 +24,7 @@
     "build": "vite build",
     "lint": "tsc && eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
-    "release": "standard-version && npm publish --access public "
+    "release": "standard-version && npm publish --access public"
   },
   "standard-version": {
     "scripts": {
