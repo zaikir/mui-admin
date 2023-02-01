@@ -46,7 +46,13 @@ export function FormTabIcon(props: {
 
   if (!badge) {
     return (
-      <Box component="span" className="MuiTab-iconWrapper">
+      <Box
+        component="span"
+        className="MuiTab-iconWrapper"
+        sx={{
+          display: 'inherit',
+        }}
+      >
         {icon}
       </Box>
     );
