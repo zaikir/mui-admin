@@ -29,14 +29,22 @@ function SaveButton(props: {
   exitAfterSubmitRef: React.MutableRefObject<boolean>;
   onSubmittedRef: React.MutableRefObject<() => void>;
   disabled?: boolean;
+  handleGoBack: () => void;
 }) {
-  const { formRef, exitAfterSubmitRef, disabled } = props;
+  const { handleGoBack, formRef, exitAfterSubmitRef, disabled } = props;
   const { translations } = useContext(ConfigurationContext);
+  const isFormDirtyRef = useRef(false);
 
   const isMenuDisabled = useRef(false);
 
   return (
     <>
+      <DirtyStateListener
+        onChange={(x) => {
+          isFormDirtyRef.current = x;
+        }}
+      />
+
       <SubmitButton
         formRef={formRef}
         grid={false}
@@ -59,8 +67,12 @@ function SaveButton(props: {
         startIcon={<ExitToApp />}
         variant="contained"
         onClick={() => {
-          exitAfterSubmitRef.current = true;
-          formRef.current!.submit(true);
+          if (isFormDirtyRef.current) {
+            exitAfterSubmitRef.current = true;
+            formRef.current!.submit();
+          } else {
+            handleGoBack();
+          }
         }}
       >
         {translations.saveAndExit}
@@ -242,6 +254,7 @@ export function FormPageLayout({
                       disabled={isRemoved}
                       exitAfterSubmitRef={exitAfterSubmitRef}
                       onSubmittedRef={onSubmittedRef as any}
+                      handleGoBack={handleGoBack}
                     />
                   )}
                 </Box>
