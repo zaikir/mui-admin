@@ -132,7 +132,24 @@ const DataTableEx = forwardRef(
                         typeof editPageUrl === 'function'
                           ? editPageUrl(row)
                           : `${editPageUrl}/${row.id}`),
-                    onEdit: rest.editable?.onEdit,
+                    onEdit: (row) => {
+                      const link =
+                        // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+                        rest.editable && rest.editable.link
+                          ? rest.editable.link(row)
+                          : typeof editPageUrl === 'function'
+                          ? editPageUrl(row)
+                          : `${editPageUrl}/${row.id}`;
+
+                      if (link) {
+                        navigate(link);
+                      }
+
+                      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+                      if (rest.editable && rest.editable.onEdit) {
+                        rest.editable?.onEdit(row);
+                      }
+                    },
                   };
                 }
 

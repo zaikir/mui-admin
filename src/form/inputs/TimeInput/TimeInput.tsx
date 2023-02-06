@@ -1,4 +1,5 @@
-import { TextFieldProps } from '@mui/material';
+import { AccessTime } from '@mui/icons-material';
+import { InputAdornment, TextFieldProps } from '@mui/material';
 import {
   DatePickerProps,
   TimePicker,
@@ -94,9 +95,11 @@ export default function TimeInput<TFields extends FieldValues>({
               InputProps={{
                 ...params?.InputProps,
                 ...textFieldProps?.InputProps,
-                startAdornment:
-                  (textFieldProps?.InputProps?.startAdornment,
-                  params?.InputProps?.startAdornment),
+                startAdornment: textFieldProps?.InputProps?.startAdornment ?? (
+                  <InputAdornment position="start">
+                    <AccessTime />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <>
                     {clearable && value ? (

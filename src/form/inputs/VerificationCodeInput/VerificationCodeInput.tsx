@@ -58,7 +58,7 @@ export default function VerificationCodeInput<TFields extends FieldValues>({
             component="button"
             sx={{ display: 'none' }}
             type="submit"
-            area-hidden
+            area-hidden="true"
           />
           {label && (
             <Typography variant="subtitle1" sx={{ mb: 1 }}>
