@@ -65,6 +65,18 @@ const DataTableEx = forwardRef(
         };
       }
 
+      if (rest.editable) {
+        return {
+          ...rest.editable,
+          onEdit:
+            rest.editable.onEdit ??
+            ((row: any) => {
+              setSelectedItem(row);
+              setIsEditItemModalOpened(true);
+            }),
+        };
+      }
+
       return rest.editable;
     }, [rest.editable, editPageUrl]);
 

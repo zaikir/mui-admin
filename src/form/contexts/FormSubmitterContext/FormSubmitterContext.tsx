@@ -31,6 +31,7 @@ export function FormSubmitter({
   clearEntity,
   preSubmit,
   onSubmit: onSuccess,
+  onError,
   entityId,
   resetAfterSubmit,
   showSuccessAlert,
@@ -290,56 +291,63 @@ export function FormSubmitter({
     { ref }: { ref: FormElementRef },
   ) => PromiseOrValue<void> = useCallback(
     async (entity, { ref: formRef }) => {
-      const clearedtEntity = clearEntity
-        ? await clearEntity(entity)
-        : (() =>
-            Object.fromEntries(
-              Object.entries(entity).map(([key, value]) => [
-                key,
-                typeof value === 'string' ? value.trim() : value,
-              ]),
-            ))();
+      try {
+        const clearedtEntity = clearEntity
+          ? await clearEntity(entity)
+          : (() =>
+              Object.fromEntries(
+                Object.entries(entity).map(([key, value]) => [
+                  key,
+                  typeof value === 'string' ? value.trim() : value,
+                ]),
+              ))();
 
-      const resultEntity = preSubmit
-        ? await preSubmit(clearedtEntity)
-        : clearedtEntity;
-      if (!resultEntity) {
-        return;
-      }
+        const resultEntity = preSubmit
+          ? await preSubmit(clearedtEntity)
+          : clearedtEntity;
+        if (!resultEntity) {
+          return;
+        }
 
-      let result = null;
-      if (!mode || mode === 'hasura') {
-        result = await hasuraSubmit(resultEntity);
-      } else if (mode === 'rest') {
-        result = await restSubmit(resultEntity);
-      } else {
-        throw new Error(`Unknown method: ${mode}`);
-      }
-
-      if (onSuccess) {
-        await onSuccess(result);
-      }
-
-      if (showSuccessAlert ?? true) {
-        if (entityId) {
-          showAlert(
-            alerts.snackbars.entityUpdated.text,
-            alerts.snackbars.entityUpdated.variant,
-          );
+        let result = null;
+        if (!mode || mode === 'hasura') {
+          result = await hasuraSubmit(resultEntity);
+        } else if (mode === 'rest') {
+          result = await restSubmit(resultEntity);
         } else {
-          showAlert(
-            alerts.snackbars.entityCreated.text,
-            alerts.snackbars.entityCreated.variant,
-          );
+          throw new Error(`Unknown method: ${mode}`);
+        }
+
+        if (onSuccess) {
+          await onSuccess(result);
+        }
+
+        if (showSuccessAlert ?? true) {
+          if (entityId) {
+            showAlert(
+              alerts.snackbars.entityUpdated.text,
+              alerts.snackbars.entityUpdated.variant,
+            );
+          } else {
+            showAlert(
+              alerts.snackbars.entityCreated.text,
+              alerts.snackbars.entityCreated.variant,
+            );
+          }
+        }
+
+        if (resetAfterSubmit ?? true) {
+          formRef.reset(resultEntity);
+        }
+      } catch (err) {
+        if (onError) {
+          onError(err);
         }
       }
 
-      if (resetAfterSubmit ?? true) {
-        formRef.reset(resultEntity);
-      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [mode, restSubmit, hasuraSubmit, onSuccess, entityId],
+    [mode, restSubmit, hasuraSubmit, onSuccess, onError, entityId],
   );
 
   const register = useCallback((field: FormSubmitterField) => {

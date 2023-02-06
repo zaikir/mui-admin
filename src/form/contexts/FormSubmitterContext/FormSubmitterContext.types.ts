@@ -52,6 +52,7 @@ export type FormSubmitterProps = {
   clearEntity?: (item: any) => PromiseOrValue<any>;
   preSubmit?: (item: any) => PromiseOrValue<any | null>;
   onSubmit?: (item: any) => PromiseOrValue<void>;
+  onError?: (error: any) => PromiseOrValue<void>;
   resetAfterSubmit?: boolean;
   showSuccessAlert?: boolean;
 } & (FormHasuraSubmitterProps | FormRestSubmitterProps);
