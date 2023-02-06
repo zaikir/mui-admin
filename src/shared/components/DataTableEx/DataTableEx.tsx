@@ -47,15 +47,21 @@ const DataTableEx = forwardRef(
 
     const editable = useMemo<any>(() => {
       if (editPageUrl) {
+        const link =
+          typeof editPageUrl === 'function'
+            ? editPageUrl
+            : (row: any) => `${editPageUrl}/${row.id}`;
+
         return {
-          ...(typeof rest.editable === 'object' && {
-            ...rest.editable,
-            onEdit: rest.editable.onEdit,
-            link:
-              typeof editPageUrl === 'function'
-                ? editPageUrl
-                : (row: any) => `${editPageUrl}/${row.id}`,
-          }),
+          ...(typeof rest.editable === 'object'
+            ? {
+                ...rest.editable,
+                onEdit: rest.editable.onEdit,
+                link,
+              }
+            : {
+                link,
+              }),
         };
       }
 
