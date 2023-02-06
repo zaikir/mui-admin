@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
+import { useNavigate } from 'shared/hooks/useNavigate';
 import { getGraphqlPath } from 'utils/getGraphqlPath';
 
 import type {
@@ -61,6 +62,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const skeletonWidths = useRef<Record<string, number>>({});
 
   const { hasura, locale } = useContext(ConfigurationContext);
+  const navigate = useNavigate();
 
   const defaultTableState = useMemo(() => {
     const initialState: BaseDataTableState = {
@@ -126,15 +128,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       minWidth: 40,
       sortable: false,
       headerName: '',
-      renderCell: (params) => (
-        <EditRowColumn
-          // @ts-ignore
-          onEdit={params.colDef.onEdit}
-          // @ts-ignore
-          link={params.colDef.link}
-          {...params}
-        />
-      ),
+      renderCell: (params) => <EditRowColumn {...params} />,
       ...(editable && typeof editable === 'object' && editable.columnProps),
     },
     delete: {
@@ -233,7 +227,6 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           !column.type && {
             valueFormatter:
               column.valueFormatter ??
-              // eslint-disable-next-line no-nested-ternary
               ((e) =>
                 isValueEmpty(e.value)
                   ? placeholder === false
@@ -244,14 +237,12 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       }));
 
     const cols = [
-      // eslint-disable-next-line max-len
       ...(editable
         ? [
             {
               field: '__edit',
               type: 'edit' as const,
-              onEdit: editable?.onEdit,
-              link: editable?.link,
+              ...(typeof editable === 'object' && editable),
             } as any,
           ]
         : []),
@@ -477,6 +468,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
           if (editable && editable.onEdit) {
             editable.onEdit(event.row);
+          }
+
+          // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+          if (editable && editable.link) {
+            navigate(editable.link(event.row));
           }
 
           if (rest.onRowDoubleClick) {

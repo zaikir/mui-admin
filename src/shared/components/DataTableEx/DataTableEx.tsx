@@ -5,6 +5,7 @@ import {
   Ref,
   useContext,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -43,6 +44,23 @@ const DataTableEx = forwardRef(
     const [selectedItem, setSelectedItem] = useState<any>(null);
 
     const tableRef = useRef<DataTableRef>(null);
+
+    const editable = useMemo<any>(() => {
+      if (editPageUrl) {
+        return {
+          ...(typeof rest.editable === 'object' && {
+            ...rest.editable,
+            onEdit: rest.editable.onEdit,
+            link:
+              typeof editPageUrl === 'function'
+                ? editPageUrl
+                : (row: any) => `${editPageUrl}/${row.id}`,
+          }),
+        };
+      }
+
+      return rest.editable;
+    }, [rest.editable, editPageUrl]);
 
     useImperativeHandle(
       ref,
@@ -119,53 +137,7 @@ const DataTableEx = forwardRef(
                 autoPageSize: rest.autoPageSize ?? !rest.autoHeight,
                 persistScrollBar: rest.persistScrollBar ?? false,
               })}
-              editable={(() => {
-                if (rest.editable === false) {
-                  return false;
-                }
-
-                if (editPageUrl || rest.editable?.link) {
-                  return {
-                    link:
-                      rest.editable?.link ??
-                      ((row) =>
-                        typeof editPageUrl === 'function'
-                          ? editPageUrl(row)
-                          : `${editPageUrl}/${row.id}`),
-                    onEdit: (row) => {
-                      const link =
-                        // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-                        rest.editable && rest.editable.link
-                          ? rest.editable.link(row)
-                          : typeof editPageUrl === 'function'
-                          ? editPageUrl(row)
-                          : `${editPageUrl}/${row.id}`;
-
-                      if (link) {
-                        navigate(link);
-                      }
-
-                      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-                      if (rest.editable && rest.editable.onEdit) {
-                        rest.editable?.onEdit(row);
-                      }
-                    },
-                  };
-                }
-
-                if (!rest.editable?.onEdit) {
-                  return {
-                    onEdit: (row) => {
-                      setSelectedItem(row);
-                      setIsEditItemModalOpened(true);
-                    },
-                  };
-                }
-
-                return {
-                  onEdit: rest.editable?.onEdit,
-                };
-              })()}
+              editable={editable}
             />
           </Box>
         </Box>
