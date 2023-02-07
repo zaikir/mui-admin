@@ -46,6 +46,10 @@ const DataTableEx = forwardRef(
     const tableRef = useRef<DataTableRef>(null);
 
     const editable = useMemo<any>(() => {
+      if (rest.editable === false) {
+        return false;
+      }
+
       if (editPageUrl) {
         const link =
           typeof editPageUrl === 'function'

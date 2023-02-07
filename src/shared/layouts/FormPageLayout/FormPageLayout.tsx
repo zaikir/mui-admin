@@ -208,6 +208,7 @@ export function FormPageLayout({
               sx: {
                 pt: 2,
                 px: 2,
+                pb: 2,
                 // '& .MuiTabs-root': {
                 //   mt: -2,
                 // },
