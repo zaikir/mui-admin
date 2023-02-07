@@ -57,7 +57,7 @@ function SaveButton(props: {
       <SubmitButton
         formRef={formRef}
         grid={false}
-        sx={{ ml: 1 }}
+        sx={{ ml: 1, display: { xs: 'none', sm: 'flex' } }}
         startIcon={<ExitToApp />}
         variant="contained"
         onClick={() => {
