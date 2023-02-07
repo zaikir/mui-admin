@@ -198,9 +198,12 @@ export default function AttachmentsZone<TFields extends FieldValues>({
               border: 'thin solid #e6e8f0',
               p: 3,
               cursor: 'pointer',
-              '&:hover': {
-                border: `thin solid ${theme.palette.text.secondary}`,
-              },
+              backgroundColor: 'transparent',
+              ...(!files.length && {
+                '&:hover': {
+                  border: `thin solid ${theme.palette.text.secondary}`,
+                },
+              }),
               ...(isDragActive && {
                 backgroundColor: 'rgba(0, 0, 0, 0.05)',
               }),
