@@ -113,6 +113,13 @@ export type BaseDataTableSelectColumnDef = Omit<GridColDef, 'type'> & {
   items: { text: string; value: any }[];
 } & Omit<BaseDataTableBaseColumnDef, 'type'>;
 
+export type BaseDataTableNameColumnDef = Omit<GridColDef, 'type'> & {
+  type: 'name';
+  activeDateKey?: string | ((row: any) => string);
+  dateThreshold?: number;
+  dotColor?: (row: any) => 'red' | 'green';
+} & Omit<BaseDataTableBaseColumnDef, 'type'>;
+
 export type BaseDataTableColumnDef =
   | BaseDataTableBaseColumnDef
   | BaseDataTableEditColumnDef
@@ -120,6 +127,7 @@ export type BaseDataTableColumnDef =
   | BaseDataTableIconButtonColumnDef
   | BaseDataTableSortColumnDef
   | BaseDataTableSelectColumnDef
+  | BaseDataTableNameColumnDef
   | BaseDataTableRelationshipColumnDef;
 
 export type BaseDataInnerState = {

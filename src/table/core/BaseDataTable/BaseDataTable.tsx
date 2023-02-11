@@ -28,6 +28,7 @@ import { DeleteRowColumn } from '../DeleteRowColumn';
 import { EditRowColumn } from '../EditRowColumn';
 import { EmailColumn } from '../EmailColumn';
 import { IconButtonColumn } from '../IconButtonColumn';
+import { NameColumn } from '../NameColumn';
 import { NoRowsOverlay } from '../NoRowsOverlay';
 import { PhoneColumn } from '../PhoneColumn';
 import { RowsFilter, RowsFilterState } from '../RowsFilter';
@@ -96,6 +97,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     },
     email: {
       renderCell: (params) => <EmailColumn {...params} />,
+    },
+    name: {
+      renderCell: (params) => <NameColumn {...params} />,
     },
     date: {
       width: 150,
@@ -267,12 +271,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       ...(() => {
         const def = columnTypes[x.type];
 
-        return (
-          def && {
-            headerName: x.headerName || def.headerName,
-            width: x.width || def.width || 100,
-          }
-        );
+        return {
+          headerName: x.headerName || def?.headerName,
+          width: x.width || def?.width || 100,
+          minWidth: x.minWidth || def?.minWidth || x.width || def?.width || 100,
+        };
       })(),
       type: null,
       field: `skeleton_${x.field}`,
