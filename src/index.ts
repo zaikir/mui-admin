@@ -119,6 +119,7 @@ export {
   type SelectMenuItemType,
 } from './form/inputs/SelectInput';
 export { TimeInput, type TimeInputProps } from './form/inputs/TimeInput';
+export { FileInput, type FileInputProps } from './form/inputs/FileInput';
 export {
   VerificationCodeInput,
   type VerificationCodeInputProps,
