@@ -13,6 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import prettyBytes from 'pretty-bytes';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
@@ -138,13 +139,15 @@ export default function AttachmentsZoneFile({
     }
 
     if (metadata.duration) {
-      entries.push(
-        new Date(metadata.duration * 1000).toISOString().slice(11, 19),
-      );
+      const duration = new Date(metadata.duration * 1000)
+        .toISOString()
+        .slice(11, 19);
+
+      entries.push(duration.startsWith('00:') ? duration.slice(3) : duration);
     }
 
     if (metadata.sample_rate) {
-      entries.push(Math.round(metadata.sample_rate / 1000).toFixed(0));
+      entries.push(`${(metadata.sample_rate / 1000).toFixed(1)} kHz`);
     }
 
     return entries.join(', ');
@@ -166,8 +169,9 @@ export default function AttachmentsZoneFile({
         bgcolor: 'white',
         border: 'thin solid #e6e8f0',
         borderRadius: 1,
-        px: 1.2,
         py: 1.2,
+        pl: 1.2,
+        pr: 0,
         boxShadow: 4,
         cursor: 'pointer',
         '&:hover': {
@@ -227,6 +231,11 @@ export default function AttachmentsZoneFile({
             variant="body2"
             sx={{
               fontSize: '0.75rem',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
             {isSkeletonVisible ? <Skeleton /> : <>{getMetadata()}</>}
