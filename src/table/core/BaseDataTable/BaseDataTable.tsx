@@ -27,6 +27,7 @@ import {
 import { DeleteRowColumn } from '../DeleteRowColumn';
 import { EditRowColumn } from '../EditRowColumn';
 import { EmailColumn } from '../EmailColumn';
+import { FileColumn } from '../FileColumn';
 import { IconButtonColumn } from '../IconButtonColumn';
 import { NameColumn } from '../NameColumn';
 import { NoRowsOverlay } from '../NoRowsOverlay';
@@ -100,6 +101,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     },
     name: {
       renderCell: (params) => <NameColumn {...params} />,
+    },
+    file: {
+      renderCell: (params) => <FileColumn {...params} />,
     },
     date: {
       width: 150,

@@ -58,6 +58,7 @@ export type ConfigurationType = {
     open: string;
     addNew: string;
     copied: string;
+    noFile: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -130,6 +131,7 @@ export const DefaultConfiguration: ConfigurationType = {
     open: 'Open',
     addNew: 'Add new',
     copied: 'Copied',
+    noFile: 'No file',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
