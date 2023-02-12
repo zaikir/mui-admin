@@ -13,7 +13,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import dayjs from 'dayjs';
 import prettyBytes from 'pretty-bytes';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
@@ -65,7 +64,7 @@ export default function AttachmentsZoneFile({
           <Box
             sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
             component="img"
-            src={`${apiClient.defaults.baseURL}/files/${publicId}`}
+            src={`${apiClient.defaults.baseURL}/files/w_100,c_limit/${publicId}`}
           />
         );
       }
