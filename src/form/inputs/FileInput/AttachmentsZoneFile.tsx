@@ -79,7 +79,7 @@ export default function AttachmentsZoneFile({
         </Box>
       );
     },
-    [extension],
+    [extension, id],
   );
 
   const uploadFile = useCallback(
