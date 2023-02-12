@@ -1,4 +1,4 @@
-import { Box } from 'mdi-material-ui';
+import { Box } from '@mui/material';
 // @ts-ignore
 import { FileIcon, defaultStyles } from 'react-file-icon';
 

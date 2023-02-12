@@ -103,6 +103,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       renderCell: (params) => <NameColumn {...params} />,
     },
     file: {
+      width: 200,
       renderCell: (params) => <FileColumn {...params} />,
     },
     date: {
