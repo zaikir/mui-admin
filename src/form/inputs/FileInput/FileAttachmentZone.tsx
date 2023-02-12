@@ -69,7 +69,6 @@ export default function FileAttachmentZone({
         setIsUploading(true);
         setFile({
           id: Math.random(),
-          publicId: '',
           name: acceptedFile.name.replace(extension, ''),
           extension,
           size: acceptedFile.size,
@@ -113,7 +112,7 @@ export default function FileAttachmentZone({
         query: `
         query FilesFetch($where: ${Source}BoolExp) {
           items: ${source}(where: $where, limit: 1) {
-            id name extension size createdAt attachmentType publicId metadata
+            id name extension size createdAt attachmentType metadata
           }
         }`
           .replace(/\n/g, ' ')

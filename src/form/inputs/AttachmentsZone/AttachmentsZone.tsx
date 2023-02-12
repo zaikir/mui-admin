@@ -111,7 +111,6 @@ export default function AttachmentsZone<TFields extends FieldValues>({
 
             return {
               id: Math.random(),
-              publicId: '',
               name: file.name.replace(extension, ''),
               extension,
               size: file.size,
@@ -151,7 +150,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
         query: `
         query FilesFetch($where: ${Source}BoolExp) {
           items: ${source}(where: $where) {
-            id name extension size createdAt attachmentType ${name} publicId
+            id name extension size createdAt attachmentType ${name}
           }
         }`
           .replace(/\n/g, ' ')

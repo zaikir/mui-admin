@@ -1,6 +1,5 @@
 type FetchedFile = {
   id: string | number;
-  publicId: string;
   name: string;
   extension: string;
   size: number;

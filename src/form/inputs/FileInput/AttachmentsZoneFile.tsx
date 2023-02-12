@@ -24,7 +24,6 @@ import { AttachmentsZoneFileProps } from './AttachmentsZoneFile.types';
 
 export default function AttachmentsZoneFile({
   id,
-  publicId,
   name,
   extension,
   createdAt,
@@ -51,7 +50,7 @@ export default function AttachmentsZoneFile({
 
   const getFileImage = useCallback(
     (extension: string) => {
-      if (!publicId) {
+      if (!id) {
         return null;
       }
 
@@ -64,7 +63,7 @@ export default function AttachmentsZoneFile({
           <Box
             sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
             component="img"
-            src={`${apiClient.defaults.baseURL}/files/w_100,c_limit/${publicId}`}
+            src={`${apiClient.defaults.baseURL}/files/w_100,c_limit/${id}`}
           />
         );
       }
@@ -74,15 +73,13 @@ export default function AttachmentsZoneFile({
           sx={{
             width: '100%',
             height: '100%',
-            svg: { width: '100%', height: '100%' },
           }}
-          className="testss"
         >
           {getFileIcon(extension)}
         </Box>
       );
     },
-    [extension, publicId],
+    [extension],
   );
 
   const uploadFile = useCallback(
@@ -185,7 +182,7 @@ export default function AttachmentsZoneFile({
 
         window.open(
           encodeURI(
-            `${apiClient.defaults.baseURL}/files/${publicId}/${name}${extension}`,
+            `${apiClient.defaults.baseURL}/files/${id}/${name}${extension}`,
           ),
           '_blank',
         );
@@ -275,7 +272,7 @@ export default function AttachmentsZoneFile({
             >
               <MenuItem
                 component="a"
-                href={`${apiClient.defaults.baseURL}/files/${publicId}?download=true`}
+                href={`${apiClient.defaults.baseURL}/files/${id}?download=true`}
                 download
                 onClick={(event) => {
                   event.stopPropagation();

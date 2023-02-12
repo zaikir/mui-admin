@@ -24,7 +24,6 @@ import { getFileIcon } from '../../utils/getFileIcon';
 
 export default function AttachmentsZoneFile({
   id,
-  publicId,
   name,
   extension,
   createdAt,
@@ -139,7 +138,7 @@ export default function AttachmentsZoneFile({
 
         window.open(
           encodeURI(
-            `${apiClient.defaults.baseURL}/files/${publicId}/${name}${extension}`,
+            `${apiClient.defaults.baseURL}/files/${id}/${name}${extension}`,
           ),
           '_blank',
         );
@@ -219,7 +218,7 @@ export default function AttachmentsZoneFile({
             >
               <MenuItem
                 component="a"
-                href={`${apiClient.defaults.baseURL}/files/${publicId}?download=true`}
+                href={`${apiClient.defaults.baseURL}/files/${id}?download=true`}
                 download
                 onClick={(event) => {
                   event.stopPropagation();
