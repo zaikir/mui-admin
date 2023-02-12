@@ -176,7 +176,6 @@ export default function FileAttachmentZone({
               source={source}
               readOnly={isReadOnly}
               onFileChange={(newFile) => {
-                console.log(newFile);
                 onChange(newFile.id as any);
               }}
               onFileDelete={(file) => {
