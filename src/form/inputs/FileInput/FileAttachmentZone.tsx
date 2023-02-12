@@ -69,7 +69,7 @@ export default function FileAttachmentZone({
         setIsUploading(true);
         setFile({
           id: Math.random(),
-          publicId: Math.random().toString(),
+          publicId: '',
           name: acceptedFile.name.replace(extension, ''),
           extension,
           size: acceptedFile.size,

@@ -52,6 +52,10 @@ export default function AttachmentsZoneFile({
 
   const getFileImage = useCallback(
     (extension: string) => {
+      if (!publicId) {
+        return null;
+      }
+
       if (
         ['.png', '.jpg', '.jpeg', '.gif', '.ico', '.bmp'].includes(
           extension.toLowerCase(),

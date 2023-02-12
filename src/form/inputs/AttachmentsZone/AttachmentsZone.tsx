@@ -111,7 +111,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
 
             return {
               id: Math.random(),
-              publicId: Math.random().toString(),
+              publicId: '',
               name: file.name.replace(extension, ''),
               extension,
               size: file.size,
