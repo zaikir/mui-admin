@@ -25,6 +25,7 @@ export default function FileAttachmentZone({
   required,
   error,
   helperText,
+  dropzoneProps,
   ...rest
 }: FileAttachmentZoneProps) {
   const source = initialSource ?? 'file';
@@ -54,7 +55,7 @@ export default function FileAttachmentZone({
     [apiClient],
   );
 
-  const { getRootProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     disabled: isReadOnly,
     onDrop: useCallback(
       async (acceptedFiles: File[]) => {
@@ -78,6 +79,7 @@ export default function FileAttachmentZone({
       },
       [uploadFile, showPrompt],
     ),
+    ...dropzoneProps,
   });
 
   useEffect(() => {
@@ -166,6 +168,7 @@ export default function FileAttachmentZone({
             }),
           }}
         >
+          <input {...getInputProps()} />
           {isLoading || file ? (
             <AttachmentsZoneFiles
               isLoading={isLoading}

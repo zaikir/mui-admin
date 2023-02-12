@@ -34,6 +34,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   error,
   source: initialSource,
   title,
+  dropzoneProps,
   ...rest
 }: AttachmentsZoneProps<TFields>) {
   const source = initialSource ?? 'file';
@@ -63,7 +64,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
     [apiClient],
   );
 
-  const { getRootProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     disabled: isReadOnly,
     onDrop: useCallback(
       async (acceptedFiles: File[]) => {
@@ -124,6 +125,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
       },
       [uploadFile, showPrompt],
     ),
+    ...dropzoneProps,
   });
 
   useEffect(() => {
@@ -208,6 +210,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
               }),
             }}
           >
+            <input {...getInputProps()} />
             {isLoading || files.length ? (
               <AttachmentsZoneFiles
                 isLoading={isLoading}

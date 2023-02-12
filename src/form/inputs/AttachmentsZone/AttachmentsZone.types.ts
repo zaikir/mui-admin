@@ -1,3 +1,4 @@
+import { DropzoneOptions } from 'react-dropzone';
 import { FieldValues } from 'react-hook-form';
 
 import { BaseInputProps } from '../../core/BaseInput';
@@ -13,4 +14,5 @@ export type AttachmentsZoneProps<TFields extends FieldValues> =
     helperText?: string;
     error?: boolean;
     title?: string;
+    dropzoneProps?: DropzoneOptions;
   };

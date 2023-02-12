@@ -1,4 +1,5 @@
 import { BoxProps, TextFieldProps } from '@mui/material';
+import { DropzoneOptions } from 'react-dropzone';
 
 import { BaseInputProps } from '../../core/BaseInput';
 
@@ -13,4 +14,5 @@ export type FileAttachmentZoneProps = Omit<BaseInputProps<any>, 'name'> & {
   error?: boolean;
   disabled?: boolean;
   sx?: BoxProps['sx'];
+  dropzoneProps?: DropzoneOptions;
 };
