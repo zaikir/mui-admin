@@ -33,15 +33,14 @@ export default function AttachmentsZoneFile({
   attachmentType,
   source,
   readOnly,
+  metadata,
   onChange,
   onDelete,
 }: AttachmentsZoneFileProps) {
-  const Source = source.charAt(0).toUpperCase() + source.slice(1);
   const isSkeletonVisible = !name;
   const theme = useTheme();
   const {
     rest: { client: apiClient },
-    hasura,
     translations,
     defaultDeleteFileConfirm,
   } = useContext(ConfigurationContext)!;
@@ -127,13 +126,36 @@ export default function AttachmentsZoneFile({
     onDelete();
   };
 
+  const getMetadata = () => {
+    const entries = [prettyBytes(size)];
+
+    if (!metadata) {
+      return entries.join(', ');
+    }
+
+    if (metadata.width && metadata.height) {
+      entries.push(`${metadata.width}x${metadata.height}`);
+    }
+
+    if (metadata.duration) {
+      entries.push(
+        new Date(metadata.duration * 1000).toISOString().slice(11, 19),
+      );
+    }
+
+    if (metadata.sample_rate) {
+      entries.push(Math.round(metadata.sample_rate / 1000).toFixed(0));
+    }
+
+    return entries.join(', ');
+  };
+
   useEffect(() => {
     if (!fileToUpload) {
       return;
     }
 
     uploadFile(fileToUpload);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -172,8 +194,8 @@ export default function AttachmentsZoneFile({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 90 - 16,
-            height: 90 - 16,
+            width: 74,
+            height: 74,
           }}
         >
           {isSkeletonVisible ? (
@@ -202,13 +224,12 @@ export default function AttachmentsZoneFile({
             {isSkeletonVisible ? <Skeleton /> : name}
           </Typography>
           <Typography
-            noWrap
             variant="body2"
             sx={{
               fontSize: '0.75rem',
             }}
           >
-            {isSkeletonVisible ? <Skeleton /> : <>{prettyBytes(size)}</>}
+            {isSkeletonVisible ? <Skeleton /> : <>{getMetadata()}</>}
           </Typography>
           <Typography
             noWrap

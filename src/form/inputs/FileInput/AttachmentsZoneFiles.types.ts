@@ -7,6 +7,7 @@ type FetchedFile = {
   createdAt: string;
   attachmentType?: string;
   fileToUpload?: File;
+  metadata?: Record<string, any> | null;
 };
 
 export type AttachmentsZoneFile = FetchedFile & object;

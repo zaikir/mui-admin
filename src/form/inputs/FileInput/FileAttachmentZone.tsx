@@ -113,7 +113,7 @@ export default function FileAttachmentZone({
         query: `
         query FilesFetch($where: ${Source}BoolExp) {
           items: ${source}(where: $where, limit: 1) {
-            id name extension size createdAt attachmentType publicId
+            id name extension size createdAt attachmentType publicId metadata
           }
         }`
           .replace(/\n/g, ' ')
@@ -124,7 +124,6 @@ export default function FileAttachmentZone({
         },
       });
 
-      console.log(item);
       setFile(item);
       setIsLoading(false);
     })();
