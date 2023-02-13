@@ -24,6 +24,7 @@ import {
   parseTableStateFromQuery,
   updateTableStateInQuery,
 } from '../../utils';
+import { ColorColumn } from '../ColorColumn';
 import { DeleteRowColumn } from '../DeleteRowColumn';
 import { EditRowColumn } from '../EditRowColumn';
 import { EmailColumn } from '../EmailColumn';
@@ -105,6 +106,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     file: {
       width: 200,
       renderCell: (params) => <FileColumn {...params} />,
+    },
+    color: {
+      renderCell: (params) => <ColorColumn {...params} />,
     },
     date: {
       width: 150,

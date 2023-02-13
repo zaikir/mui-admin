@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from 'react';
 import { HexColorPicker, HexColorInput } from 'react-colorful';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
 
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import { FormConfigContext } from 'form/contexts/FormConfigContext';
 import { BaseInput, BaseInputProps } from 'form/core/BaseInput';
 import { BaseTextField } from 'form/core/BaseTextField';
@@ -38,6 +39,7 @@ export default function ColorInput<TFields extends FieldValues>({
   fetchColors,
   ...rest
 }: ColorInputProps<TFields>): JSX.Element {
+  const { translations } = useContext(ConfigurationContext);
   const { dense, readOnly: globalReadOnly } = useContext(FormConfigContext);
   const readOnly = globalReadOnly || readOnlyProp;
   const textFieldProps = rest;
@@ -113,7 +115,7 @@ export default function ColorInput<TFields extends FieldValues>({
               helperText={error?.message || rest.helperText || ' '}
               fullWidth={rest.fullWidth ?? true}
               readOnly
-              placeholder="Not set"
+              placeholder={translations.notSet}
               InputProps={{
                 ...textFieldProps.InputProps,
                 startAdornment: (
@@ -217,7 +219,7 @@ export default function ColorInput<TFields extends FieldValues>({
                       }}
                     />
                     {clearable && (
-                      <Tooltip title="Clear">
+                      <Tooltip title={translations.clear}>
                         <IconButton
                           onClick={() => {
                             onChange({ target: { value: null } });

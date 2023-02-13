@@ -120,6 +120,10 @@ export type BaseDataTableNameColumnDef = Omit<GridColDef, 'type'> & {
   dotColor?: (row: any) => 'red' | 'green';
 } & Omit<BaseDataTableBaseColumnDef, 'type'>;
 
+export type BaseDataTableColorColumnDef = Omit<GridColDef, 'type'> & {
+  type: 'color';
+} & Omit<BaseDataTableBaseColumnDef, 'type'>;
+
 export type BaseDataTableFileColumnDef = Omit<GridColDef, 'type'> & {
   type: 'file';
   size?: number;
@@ -134,6 +138,7 @@ export type BaseDataTableColumnDef =
   | BaseDataTableSelectColumnDef
   | BaseDataTableNameColumnDef
   | BaseDataTableFileColumnDef
+  | BaseDataTableColorColumnDef
   | BaseDataTableRelationshipColumnDef;
 
 export type BaseDataInnerState = {
