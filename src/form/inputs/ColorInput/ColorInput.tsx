@@ -184,7 +184,7 @@ export default function ColorInput<TFields extends FieldValues>({
                 }}
               >
                 <HexColorPicker
-                  color={value || '#FFFFFF'}
+                  color={value || ''}
                   onChange={(newColor) => {
                     onChange({ target: { value: newColor } });
                   }}
@@ -200,7 +200,7 @@ export default function ColorInput<TFields extends FieldValues>({
                 >
                   <Box sx={{ display: 'flex' }}>
                     <HexColorInput
-                      color={value || '#FFFFFF'}
+                      color={value || ''}
                       onChange={(x) => onChange({ target: { value: x } })}
                       placeholder="FFFFFF"
                       style={{
