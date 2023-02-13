@@ -46,11 +46,12 @@ const BaseTextField = forwardRef(
               transform: 'translate(48px, 17px)',
             },
           }),
-          ...(readOnly && {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#e6e8f0 !important',
-            },
-          }),
+          ...(readOnly &&
+            !rest.error && {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#e6e8f0 !important',
+              },
+            }),
           ...rest.sx,
         }}
         onFocus={(e) => {

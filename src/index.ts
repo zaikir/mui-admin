@@ -113,6 +113,7 @@ export {
   RadioGroupInput,
   type RadioGroupInputProps,
 } from './form/inputs/RadioGroupInput';
+export { ColorInput, type ColorInputProps } from './form/inputs/ColorInput';
 export {
   SelectInput,
   type SelectInputProps,
