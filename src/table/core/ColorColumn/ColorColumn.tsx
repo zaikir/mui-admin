@@ -20,16 +20,20 @@ export default function ColorColumn({ value, row, colDef }: ColorColumnProps) {
     >
       <Box
         sx={{
-          mr: '3px',
-          width: 28,
-          height: 28,
+          mr: '6px',
+          width: 26,
+          height: 26,
           borderRadius: 0.5,
           bgcolor: value || 'white',
           border: 'thin solid #cccccc',
-          ...(!value && {
-            backgroundImage: `linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 50%, #ddd 50%, #ddd 75%, transparent 75%, #fff)`,
-            backgroundSize: `7px 7px`,
-          }),
+          ...(!value
+            ? {
+                backgroundImage: `linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 50%, #ddd 50%, #ddd 75%, transparent 75%, #fff)`,
+                backgroundSize: `7px 7px`,
+              }
+            : {
+                cursor: 'pointer',
+              }),
         }}
         {...(value && {
           component: 'button',
