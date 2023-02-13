@@ -17,17 +17,10 @@ export default function ColorColumn({ value, row, colDef }: ColorColumnProps) {
         display: 'flex',
         alignItems: 'center',
       }}
-      {...(value && {
-        component: 'button',
-        onClick: () => {
-          navigator.clipboard.writeText(value);
-          showAlert(translations.copied);
-        },
-      })}
     >
       <Box
         sx={{
-          mr: 1,
+          mr: '3px',
           width: 28,
           height: 28,
           borderRadius: 0.5,
@@ -38,8 +31,18 @@ export default function ColorColumn({ value, row, colDef }: ColorColumnProps) {
             backgroundSize: `7px 7px`,
           }),
         }}
+        {...(value && {
+          component: 'button',
+          onClick: () => {
+            navigator.clipboard.writeText(value);
+            showAlert(translations.copied);
+          },
+        })}
       />
-      <Box component="span" sx={{ ...(!value && { opacity: 0.5 }) }}>
+      <Box
+        component="span"
+        sx={{ ...(!value && { opacity: 0.5 }), fontSize: '13px' }}
+      >
         {!value ? translations.notSet : value}
       </Box>
     </Box>
