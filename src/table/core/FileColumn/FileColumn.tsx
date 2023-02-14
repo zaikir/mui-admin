@@ -59,7 +59,12 @@ function FileContent(props: {
       <>
         <Box sx={{ width: size, height: size }}>
           <Box
-            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '4px',
+            }}
             component="img"
             src={`${apiClient.defaults.baseURL}/files/w_40,c_limit/${id}`}
           />
