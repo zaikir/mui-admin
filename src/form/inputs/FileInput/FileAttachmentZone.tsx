@@ -152,19 +152,20 @@ export default function FileAttachmentZone({
           {...getRootProps()}
           sx={{
             borderRadius: 1,
-            // border: 'thin solid #e6e8f0',
             cursor: 'pointer',
+            border: 'thin solid transparent',
             backgroundColor: 'transparent',
-            ...(!file && {
-              '&:hover': {
-                border: `thin solid ${theme.palette.text.primary}`,
-              },
-            }),
             ...(error && {
               border: `thin solid ${theme.palette.error.main} !important`,
             }),
             ...(isDragActive && {
               backgroundColor: 'rgba(0, 0, 0, 0.05)',
+            }),
+            ...(!file && {
+              border: 'thin solid #e6e8f0',
+              '&:hover': {
+                border: `thin solid ${theme.palette.text.primary}`,
+              },
             }),
           }}
         >
