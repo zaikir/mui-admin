@@ -155,9 +155,6 @@ export default function FileAttachmentZone({
             cursor: 'pointer',
             border: 'thin solid transparent',
             backgroundColor: 'transparent',
-            ...(error && {
-              border: `thin solid ${theme.palette.error.main} !important`,
-            }),
             ...(isDragActive && {
               backgroundColor: 'rgba(0, 0, 0, 0.05)',
             }),
@@ -166,6 +163,9 @@ export default function FileAttachmentZone({
               '&:hover': {
                 border: `thin solid ${theme.palette.text.primary}`,
               },
+            }),
+            ...(error && {
+              border: `thin solid ${theme.palette.error.main} !important`,
             }),
           }}
         >

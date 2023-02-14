@@ -20,13 +20,14 @@ function FileContent(props: {
   id: number | string;
   file: FileInfo;
   size: number;
+  hideText?: boolean;
 }) {
-  const { id, file, size } = props;
+  const { id, file, size, hideText } = props;
   const {
     rest: { client: apiClient },
   } = useContext(ConfigurationContext);
 
-  const FileName = (
+  const FileName = hideText ? null : (
     <Box
       sx={{
         ml: 1,
@@ -56,12 +57,7 @@ function FileContent(props: {
   if (file.contentType.startsWith('image/')) {
     return (
       <>
-        <Box
-          sx={{ width: size, height: size }}
-          component="a"
-          href={`${apiClient.defaults.baseURL}/files/${id}`}
-          target="_blank"
-        >
+        <Box sx={{ width: size, height: size }}>
           <Box
             sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
             component="img"
@@ -76,12 +72,7 @@ function FileContent(props: {
   if (file.contentType.startsWith('video/')) {
     return (
       <>
-        <Box
-          sx={{ width: size, height: size }}
-          component="a"
-          href={`${apiClient.defaults.baseURL}/files/${id}`}
-          target="_blank"
-        >
+        <Box sx={{ width: size, height: size }}>
           {getFileIcon(file.extension)}
         </Box>
         {FileName}
@@ -92,12 +83,7 @@ function FileContent(props: {
   if (file.contentType.startsWith('audio/')) {
     return (
       <>
-        <Box
-          sx={{ width: size, height: size }}
-          component="a"
-          href={`${apiClient.defaults.baseURL}/files/${id}`}
-          target="_blank"
-        >
+        <Box sx={{ width: size, height: size }}>
           {getFileIcon(file.extension)}
         </Box>
         {FileName}
@@ -107,12 +93,7 @@ function FileContent(props: {
 
   return (
     <>
-      <Box
-        sx={{ width: size, height: size }}
-        component="a"
-        href={`${apiClient.defaults.baseURL}/files/${id}`}
-        target="_blank"
-      >
+      <Box sx={{ width: size, height: size }}>
         {getFileIcon(file.extension)}
       </Box>
       {FileName}
@@ -128,7 +109,7 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
   } = useContext(ConfigurationContext);
   const [file, setFile] = useState<null | FileInfo>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { size = 42 } = colDef as BaseDataTableFileColumnDef;
+  const { hideText, size = 42 } = colDef as BaseDataTableFileColumnDef;
 
   useEffect(() => {
     if (value == null) {
@@ -198,7 +179,7 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
         },
       }}
     >
-      <FileContent id={value} file={file} size={size} />
+      <FileContent id={value} file={file} size={size} hideText={hideText} />
     </Box>
   );
 }
