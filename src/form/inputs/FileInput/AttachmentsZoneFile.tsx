@@ -50,7 +50,7 @@ export default function AttachmentsZoneFile({
 
   const getFileImage = useCallback(
     (extension: string) => {
-      if (!id) {
+      if (!id || (typeof id === 'number' && id < 1)) {
         return null;
       }
 
