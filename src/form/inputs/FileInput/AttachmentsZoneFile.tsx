@@ -168,7 +168,7 @@ export default function AttachmentsZoneFile({
         py: 1.2,
         pl: 1.2,
         pr: 0,
-        boxShadow: 4,
+        boxShadow: 0,
         cursor: 'pointer',
         '&:hover': {
           border: `thin dashed ${theme.palette.text.primary}`,

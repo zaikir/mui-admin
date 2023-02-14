@@ -152,7 +152,7 @@ export default function FileAttachmentZone({
           {...getRootProps()}
           sx={{
             borderRadius: 1,
-            border: 'thin solid #e6e8f0',
+            // border: 'thin solid #e6e8f0',
             cursor: 'pointer',
             backgroundColor: 'transparent',
             ...(!file && {
