@@ -145,9 +145,11 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
         <Box sx={{ width: size, height: size }}>
           <Skeleton variant="rectangular" width="100%" height="100%" />
         </Box>
-        <Box sx={{ ml: 1, flex: 1 }}>
-          <Skeleton sx={{ width: '100%' }} />
-        </Box>
+        {!hideText && (
+          <Box sx={{ ml: 1, flex: 1 }}>
+            <Skeleton sx={{ width: '100%' }} />
+          </Box>
+        )}
       </Box>
     );
   }
@@ -158,11 +160,13 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
         <Box sx={{ width: size, height: size }}>
           <FileHidden sx={{ width: '100%', height: '100%', opacity: 0.1 }} />
         </Box>
-        <Box sx={{ ml: 1, flex: 1 }}>
-          <Typography variant="caption" sx={{ opacity: 0.4 }}>
-            {translations.noFile}
-          </Typography>
-        </Box>
+        {!hideText && (
+          <Box sx={{ ml: 1, flex: 1 }}>
+            <Typography variant="caption" sx={{ opacity: 0.4 }}>
+              {translations.noFile}
+            </Typography>
+          </Box>
+        )}
       </Box>
     );
   }
