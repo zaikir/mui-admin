@@ -43,6 +43,7 @@ function FileContent(props: {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'break-spaces',
+          lineHeight: 1.2,
         }}
         title={`${file.name}${file.extension}`}
       >
