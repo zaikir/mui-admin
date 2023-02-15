@@ -175,7 +175,7 @@ export type BaseDataTableProps<
 > = Omit<MuiDataGridProps, ExcludedMuiDataGridProps> &
   Omit<
     RowsFilterProps<TabFilter, SearchFilter, CustomFilter>,
-    'initialState' | 'onChange'
+    'initialState' | 'onChange' | 'slots'
   > &
   BaseTablePersistence &
   BaseTableEvents & {

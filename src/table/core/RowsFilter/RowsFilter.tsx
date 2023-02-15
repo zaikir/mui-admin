@@ -92,8 +92,8 @@ export default function RowsFilter({
         }
       }}
       slots={{
-        beforeSearch: slots?.beforeSearch,
-        afterSearch: slots?.afterSearch,
+        beforeSearch: searchFilter.slots?.beforeSearch ?? slots?.beforeSearch,
+        afterSearch: searchFilter.slots?.afterSearch ?? slots?.afterSearch,
       }}
       {...(FiltersButton && { FiltersButton })}
     />
