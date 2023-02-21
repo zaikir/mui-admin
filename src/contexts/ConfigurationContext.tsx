@@ -94,9 +94,6 @@ export type ConfigurationType = {
       entityDeleted: SnackbarType;
     };
   };
-  languages?: {
-    defaultLanguageId: number | string;
-  };
 };
 
 const defaultSnackbarOptions: OptionsObject = {

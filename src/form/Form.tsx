@@ -180,7 +180,7 @@ const Form = forwardRef(
 
     return (
       <ThemeProvider theme={theme}>
-        <FormConfigProvider dense={dense} readOnly={readOnly}>
+        <FormConfigProvider dense={dense} readOnly={readOnly} spacing={spacing}>
           <FormProvider {...methods}>
             {persistStateMode && (
               <FormGetter

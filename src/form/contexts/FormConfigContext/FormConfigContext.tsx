@@ -3,11 +3,13 @@ import { createContext } from 'react';
 export type FormConfigContextType = {
   dense?: boolean;
   readOnly?: boolean;
+  spacing: number;
 };
 
 export const DefaultConfiguration: FormConfigContextType = {
   dense: false,
   readOnly: false,
+  spacing: 2,
 };
 
 export const FormConfigContext =
