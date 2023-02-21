@@ -35,6 +35,7 @@ import { NoRowsOverlay } from '../NoRowsOverlay';
 import { PhoneColumn } from '../PhoneColumn';
 import { RowsFilter, RowsFilterState } from '../RowsFilter';
 import { SortColumn } from '../SortColumn';
+import { TranslationColumn } from '../TranslationColumn';
 
 export default function BaseDataTable(props: BaseDataTableProps) {
   const {
@@ -109,6 +110,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     },
     color: {
       renderCell: (params) => <ColorColumn {...params} />,
+    },
+    translation: {
+      sortable: false,
+      renderCell: (params) => <TranslationColumn {...params} />,
     },
     date: {
       width: 150,
