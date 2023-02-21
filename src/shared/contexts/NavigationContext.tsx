@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 
+import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import { NotificationsContext } from 'contexts/NotificationsContext';
 import {
   isNavigationAllowed as isNavigationAllowedBase,
@@ -33,11 +34,13 @@ export function NavigationContextProvider(props: {
     null,
   );
   const notificationsContext = useContext(NotificationsContext);
+  const { translations } = useContext(ConfigurationContext);
 
   const isNavigationAllowed = useCallback(async () => {
     if (prevent && notificationsContext?.showConfirm) {
       const isAllowed = await isNavigationAllowedBase(
         notificationsContext?.showConfirm,
+        translations,
         prevent,
       );
 
@@ -45,7 +48,7 @@ export function NavigationContextProvider(props: {
     }
 
     return true;
-  }, [notificationsContext?.showConfirm, prevent]);
+  }, [notificationsContext?.showConfirm, translations, prevent]);
 
   const contextData = useMemo(
     () => ({

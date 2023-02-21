@@ -43,11 +43,11 @@ export default function TranslationInput<TFields extends FieldValues>({
     <BaseInput<TFields>
       name={name}
       value={controlledValue}
-      xs={xs}
+      xs={xs || 12}
       sm={sm}
-      md={md}
-      lg={lg}
-      xl={xl}
+      md={md ?? 12}
+      lg={lg ?? 12}
+      xl={xl ?? 12}
       grid={grid}
       render={({ skeleton, field: { value, onChange } }) => (
         <Box>

@@ -61,6 +61,9 @@ export type ConfigurationType = {
     noFile: string;
     notSet: string;
     clear: string;
+    changesNotSaved: string;
+    youWillLoseAllUnsavedData: string;
+    goAnyways: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -136,6 +139,9 @@ export const DefaultConfiguration: ConfigurationType = {
     noFile: 'No file',
     notSet: 'Not set',
     clear: 'Clear',
+    changesNotSaved: 'Form was not saved',
+    youWillLoseAllUnsavedData: 'You will lose all unsaved data',
+    goAnyways: 'Continue',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,

@@ -5,6 +5,10 @@ import {
   useNavigate as useNavigateBase,
 } from 'react-router-dom';
 
+import {
+  ConfigurationContext,
+  ConfigurationType,
+} from 'contexts/ConfigurationContext';
 import { NotificationsContext } from 'contexts/NotificationsContext';
 import { NavigationContext } from 'shared/contexts/NavigationContext';
 import { type ShowAlertProps } from 'table/core/ConfirmDialog';
@@ -21,6 +25,7 @@ interface NavigateFunction {
 
 export async function isNavigationAllowed(
   confirm: any,
+  translations: ConfigurationType['translations'],
   options?: PreventNavigationOptions,
 ) {
   const isEnabled = options?.preventNavigation!();
@@ -30,12 +35,10 @@ export async function isNavigationAllowed(
 
   const isAllowed = await confirm({
     ...options?.confirm,
-    title: options?.confirm?.title ?? 'Изменения не сохранены!',
-    text:
-      options?.confirm?.text ??
-      'При выходе вы потеряете все несохраненные данные.',
-    accept: options?.confirm?.accept ?? 'Перейти',
-    cancel: options?.confirm?.cancel ?? 'Отмена',
+    title: options?.confirm?.title ?? translations.changesNotSaved, // 'Изменения не сохранены!'
+    text: options?.confirm?.text ?? translations.youWillLoseAllUnsavedData, // 'При выходе вы потеряете все несохраненные данные.',
+    accept: options?.confirm?.accept ?? translations.goAnyways, // 'Перейти',
+    cancel: options?.confirm?.cancel ?? translations.cancel, // Отмена,
   });
 
   return isAllowed;
@@ -46,12 +49,17 @@ let listeners: any[] = [];
 export function useNavigate(options?: PreventNavigationOptions) {
   const baseNavigate = useNavigateBase();
   const { showConfirm } = useContext(NotificationsContext)!;
+  const { translations } = useContext(ConfigurationContext);
   const navigationContext = useContext(NavigationContext)!;
   const preventOptions = navigationContext?.prevent || options;
 
   const navigate = async (...args: any[]) => {
     if (preventOptions?.preventNavigation) {
-      const allowExit = await isNavigationAllowed(showConfirm, preventOptions);
+      const allowExit = await isNavigationAllowed(
+        showConfirm,
+        translations,
+        preventOptions,
+      );
 
       if (!allowExit) {
         return;
