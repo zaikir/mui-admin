@@ -160,9 +160,12 @@ export default function FileAttachmentZone({
             }),
             ...(!file && {
               border: 'thin solid #e6e8f0',
-              '&:hover': {
-                border: `thin solid ${theme.palette.text.primary}`,
-              },
+              ...(!isReadOnly &&
+                !rest.disabled && {
+                  '&:hover': {
+                    border: `thin solid ${theme.palette.text.primary}`,
+                  },
+                }),
             }),
             ...(error && {
               border: `thin solid ${theme.palette.error.main} !important`,

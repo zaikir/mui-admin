@@ -73,7 +73,7 @@ const DataTableEx = forwardRef(
         return {
           ...rest.editable,
           onEdit:
-            (typeof rest.editable === 'object' && rest.editable.onEdit) ??
+            (typeof rest.editable === 'object' && rest.editable.onEdit) ||
             ((row: any) => {
               setSelectedItem(row);
               setIsEditItemModalOpened(true);
