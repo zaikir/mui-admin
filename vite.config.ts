@@ -9,7 +9,7 @@ import * as path from 'path'
 export default defineConfig({
   build: {
     target: 'esnext',
-    minify: true,
+    minify: false,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'mui-admin',

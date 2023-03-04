@@ -143,6 +143,7 @@ export default function FileAttachmentZone({
               margin: '0px -5px',
               backgroundColor: 'white',
               position: 'absolute',
+              transform: `translate(14px, -9px) scale(0.75)`,
             }}
           >
             {label}

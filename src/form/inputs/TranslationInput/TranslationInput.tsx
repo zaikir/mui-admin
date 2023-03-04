@@ -49,8 +49,35 @@ export default function TranslationInput<TFields extends FieldValues>({
       lg={lg ?? 12}
       xl={xl ?? 12}
       grid={grid}
+      formFetcherValueResolver={{
+        selection: name,
+        resolveValue: (item) =>
+          Object.assign(
+            {},
+            ...languages.map((language) => ({
+              [`${name}_${language.id}`]: item[name][language.id],
+            })),
+          ),
+      }}
+      formSubmitterValueResolver={{
+        resolveValue: (item) => {
+          const result = {} as Record<string | number, string>;
+
+          languages.forEach((language) => {
+            const key = `${name}_${language.id}`;
+            result[language.id] = item[key];
+
+            delete item[key];
+          });
+
+          return {
+            ...item,
+            [name]: result,
+          };
+        },
+      }}
       render={({ skeleton, field: { value, onChange } }) => (
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {label && (
             <Typography variant="subtitle2" mb={1} sx={{ opacity: 0.8 }}>
               {skeleton ? <Skeleton width={150} /> : <span>{label}</span>}
@@ -75,16 +102,6 @@ export default function TranslationInput<TFields extends FieldValues>({
                     label={language.name}
                     formFetcherValueResolver={null}
                     formSubmitterValueResolver={null}
-                    onChange={(x) => {
-                      onChange({
-                        target: {
-                          value: {
-                            ...value,
-                            [`${name}_${language.id}`]: x.target.value ?? null,
-                          },
-                        },
-                      });
-                    }}
                     {...rest}
                   />
                 )}
