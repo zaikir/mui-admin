@@ -4,6 +4,7 @@ export type LanguagesContextType = {
   languages: {
     id: string | number;
     name: string;
+    code: string;
   }[];
   defaultLanguageId: string | number;
 };

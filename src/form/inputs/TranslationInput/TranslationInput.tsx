@@ -41,7 +41,7 @@ export default function TranslationInput<TFields extends FieldValues>({
 
   return (
     <BaseInput<TFields>
-      name={name}
+      name={(name + '_root') as any}
       value={controlledValue}
       xs={xs || 12}
       sm={sm}
@@ -78,11 +78,11 @@ export default function TranslationInput<TFields extends FieldValues>({
       }}
       render={({ skeleton, field: { value, onChange } }) => (
         <Box sx={{ flex: 1 }}>
-          {label && (
+          {/* {label && (
             <Typography variant="subtitle2" mb={1} sx={{ opacity: 0.8 }}>
               {skeleton ? <Skeleton width={150} /> : <span>{label}</span>}
             </Typography>
-          )}
+          )} */}
           <Grid container spacing={spacing}>
             {languages.map((language) => (
               <Grid
@@ -99,7 +99,7 @@ export default function TranslationInput<TFields extends FieldValues>({
                   <FormInput
                     grid={false}
                     name={`${name}_${language.id}`}
-                    label={language.name}
+                    label={`${label} [${language.code.toUpperCase()}]`}
                     formFetcherValueResolver={null}
                     formSubmitterValueResolver={null}
                     {...rest}
