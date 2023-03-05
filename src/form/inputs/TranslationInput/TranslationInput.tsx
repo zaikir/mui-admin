@@ -45,9 +45,9 @@ export default function TranslationInput<TFields extends FieldValues>({
       value={controlledValue}
       xs={xs || 12}
       sm={sm}
-      md={md ?? 12}
-      lg={lg ?? 12}
-      xl={xl ?? 12}
+      md={md}
+      lg={lg}
+      xl={xl}
       grid={grid}
       formFetcherValueResolver={{
         selection: name,
@@ -88,10 +88,10 @@ export default function TranslationInput<TFields extends FieldValues>({
               <Grid
                 key={language.id}
                 xs={gridCols?.xs ?? 12}
-                sm={gridCols?.sm}
-                md={gridCols?.md}
-                lg={gridCols?.lg}
-                xl={gridCols?.xl}
+                sm={gridCols?.sm ?? 6}
+                md={gridCols?.md ?? 4}
+                lg={gridCols?.lg ?? 3}
+                xl={gridCols?.xl ?? 2}
               >
                 {skeleton ? (
                   <Skeleton width="75%" />
