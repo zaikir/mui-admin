@@ -168,7 +168,7 @@ export default function AttachmentsZoneFile({
         py: '9.5px',
         height: '95px',
         pl: 1.2,
-        pr: 0,
+        pr: 1,
         boxShadow: 0,
         cursor: 'pointer',
         '&:hover': {
