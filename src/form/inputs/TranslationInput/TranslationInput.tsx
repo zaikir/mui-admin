@@ -88,9 +88,9 @@ export default function TranslationInput<TFields extends FieldValues>({
               <Grid
                 key={language.id}
                 xs={gridCols?.xs ?? 12}
-                sm={gridCols?.sm ?? 6}
-                md={gridCols?.md ?? 4}
-                lg={gridCols?.lg ?? 3}
+                sm={gridCols?.sm}
+                md={gridCols?.md}
+                lg={gridCols?.lg}
                 xl={gridCols?.xl}
               >
                 {skeleton ? (
