@@ -252,6 +252,9 @@ export {
 export { buildHasuraQuery, type HasuraQuery } from './utils/buildHasuraQuery';
 export { getGraphqlPath } from './utils/getGraphqlPath';
 export { colorToHex } from './utils/colorToHex';
+export { ControlledPromise } from './utils/promise/control';
+export { PromiseUtils } from './utils/promise/utils';
+export { MathUtils } from './utils/math';
 // form
 export {
   parseFormStateFromQuery,
