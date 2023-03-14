@@ -80,16 +80,16 @@ export default function FormDialog({
           {...(formSubmitterProps as any)}
           entityId={entityId}
           resetAfterSubmit={false}
-          onSubmit={(data) => {
-            handleClose();
-
+          onSubmit={async (data) => {
             if (onSubmit) {
               onSubmit(data);
             }
 
             if (formSubmitterProps?.onSubmit) {
-              formSubmitterProps?.onSubmit(data);
+              await formSubmitterProps?.onSubmit(data);
             }
+
+            handleClose();
           }}
           // @ts-ignore
           selection={formSubmitterProps?.selection ?? ['id']}
