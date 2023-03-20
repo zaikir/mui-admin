@@ -4,12 +4,13 @@ import {
   InputAdornment,
   Menu,
   Skeleton,
+  TextField,
   TextFieldProps,
   Tooltip,
 } from '@mui/material';
 import { TrashCan } from 'mdi-material-ui';
 import { useContext, useEffect, useState } from 'react';
-import { HexColorPicker, HexColorInput } from 'react-colorful';
+import { RgbaStringColorPicker } from 'react-colorful';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
@@ -185,7 +186,7 @@ export default function ColorInput<TFields extends FieldValues>({
                   },
                 }}
               >
-                <HexColorPicker
+                <RgbaStringColorPicker
                   color={value || ''}
                   onChange={(newColor) => {
                     onChange({ target: { value: newColor } });
@@ -201,10 +202,10 @@ export default function ColorInput<TFields extends FieldValues>({
                   }}
                 >
                   <Box sx={{ display: 'flex' }}>
-                    <HexColorInput
-                      color={value || ''}
+                    <TextField
+                      value={value || ''}
                       onChange={(x) => onChange({ target: { value: x } })}
-                      placeholder="FFFFFF"
+                      placeholder="rgba(255, 255, 255, 1)"
                       style={{
                         fontFamily: 'inherit',
                         fontSize: '16px',
