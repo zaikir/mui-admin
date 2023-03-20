@@ -1,5 +1,6 @@
-import { BaseInputProps } from '@kirz/mui-admin';
 import { FieldValues } from 'react-hook-form';
+
+import { BaseInputProps } from '../../core/BaseInput';
 
 export type AttachmentsZoneProps<TFields extends FieldValues> =
   BaseInputProps<TFields> & {
