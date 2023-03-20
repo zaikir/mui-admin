@@ -1,5 +1,9 @@
-import { DataGrid, GridColumnTypesRecord } from '@mui/x-data-grid';
-import type { GridColDef } from '@mui/x-data-grid';
+import {
+  DataGridPro,
+  GridColDef,
+  GridColumnTypesRecord,
+  GridPinnedColumns,
+} from '@mui/x-data-grid-pro';
 
 import { ConfigurationType } from 'contexts/ConfigurationContext';
 import { NotificationsContextType } from 'contexts/NotificationsContext';
@@ -14,7 +18,7 @@ import type {
 import { RowsSearchFilterProps } from '../RowsSearchFilter';
 import { DataTableTabFilter } from '../RowsTabsFilter';
 
-type MuiDataGridProps = React.ComponentProps<typeof DataGrid>;
+type MuiDataGridProps = React.ComponentProps<typeof DataGridPro>;
 type NativeColumnType =
   | 'string'
   | 'number'
@@ -152,6 +156,15 @@ export type BaseDataInnerState = {
   page: number;
   pageSize: number;
   sortModel: MuiDataGridProps['sortModel'];
+  persistPageSize: Record<string, number>;
+  persistSortModel: Record<string, MuiDataGridProps['sortModel']>;
+  visibility: Record<string, Record<string, boolean>>;
+  columnSize: Record<
+    string,
+    Record<string, { width: number } | { flex: number }>
+  >;
+  pinnedColumns: Record<string, GridPinnedColumns>;
+  columnsOrder: Record<string, string[]>;
 };
 
 export type BaseDataTableState = RowsFilterState & BaseDataInnerState;
@@ -185,6 +198,7 @@ export type BaseDataTableProps<
   > &
   BaseTablePersistence &
   BaseTableEvents & {
+    id: string;
     columns: TColumn[];
     editable?: EditableProps;
     deletable?: DeletableProps;
@@ -193,4 +207,5 @@ export type BaseDataTableProps<
     title?: BaseDataTableTitle;
     persistScrollBar?: boolean;
     skeletonLoading?: boolean | { rowsCount: number };
+    columnTypes?: Record<string, any>;
   };

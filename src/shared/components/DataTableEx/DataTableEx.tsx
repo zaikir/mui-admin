@@ -155,7 +155,7 @@ const DataTableEx = forwardRef(
               deletable={rest.deletable ?? true}
               components={components}
               {...(inline && {
-                rowsPerPageOptions: rest.rowsPerPageOptions ?? [3, 10, 25, 50],
+                pageSizeOptions: rest.pageSizeOptions ?? [3, 10, 25, 50],
                 autoPageSize: rest.autoPageSize ?? !rest.autoHeight,
                 persistScrollBar: rest.persistScrollBar ?? false,
               })}

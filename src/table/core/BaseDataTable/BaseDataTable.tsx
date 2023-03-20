@@ -1,5 +1,6 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import { DataGrid, GridColumnTypesRecord } from '@mui/x-data-grid';
+import { GridColumnTypesRecord } from '@mui/x-data-grid';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import {
   useCallback,
   useContext,
@@ -39,10 +40,11 @@ import { TranslationColumn } from '../TranslationColumn';
 
 export default function BaseDataTable(props: BaseDataTableProps) {
   const {
+    id,
     columns,
     editable,
     deletable,
-    rowsPerPageOptions = [50, 100, 250, 500],
+    pageSizeOptions = [50, 100, 250, 500],
     tabsFilter,
     searchFilter,
     customFilter,
@@ -74,8 +76,21 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       filters: {},
       search: '',
       page: 0,
-      pageSize: rowsPerPageOptions[0],
+      pageSize: pageSizeOptions[0],
       sortModel: sortBy ? [sortBy] : [],
+      persistPageSize: {},
+      persistSortModel: {},
+      visibility: {},
+      columnSize: {},
+      pinnedColumns: {},
+      columnsOrder: {},
+    };
+
+    const savedState = JSON.parse(localStorage.getItem(id) || '{}');
+
+    const state: BaseDataTableState = {
+      ...initialState,
+      ...savedState,
     };
 
     if (persistStateMode === 'query') {
@@ -83,14 +98,24 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       const parsedState: Partial<BaseDataTableState> =
         parseTableStateFromQuery(queryPrefix);
 
+      const tab = parsedState.tab ?? state.tab;
+
       return {
-        ...initialState,
+        ...state,
         ...parsedState,
-      };
+        pageSize:
+          parsedState.pageSize ??
+          state.persistPageSize?.[tab] ??
+          pageSizeOptions[0],
+        sortModel:
+          parsedState.sortModel ??
+          state.persistSortModel?.[tab] ??
+          (sortBy ? [sortBy] : []),
+      } as BaseDataTableState;
     }
 
-    return initialState;
-  }, [defaultTabId, persistStateMode, queryPrefix, rowsPerPageOptions, sortBy]);
+    return state;
+  }, [defaultTabId, persistStateMode, queryPrefix, pageSizeOptions, sortBy]);
 
   const columnTypes: GridColumnTypesRecord = {
     ...rest.columnTypes,
@@ -254,13 +279,14 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           }),
       }));
 
-    const cols = [
+    let cols = [
       ...(editable
         ? [
             {
               field: '__edit',
               type: 'edit' as const,
               ...(typeof editable === 'object' && editable),
+              sort: -1,
             } as any,
           ]
         : []),
@@ -271,25 +297,56 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               field: '__delete',
               type: 'delete' as const,
               ...(typeof deletable === 'object' && deletable),
+              sort: Number.MAX_SAFE_INTEGER,
             } as any,
           ]
         : []),
     ];
 
+    if (tableState.columnsOrder?.[tableState.tab]?.length) {
+      cols = cols
+        .map((x) => ({
+          ...x,
+          sort:
+            x.sort ??
+            tableState.columnsOrder?.[tableState.tab].indexOf(x.field),
+        }))
+        .sort((a, b) => a.sort - b.sort);
+    }
+
+    const extractFlex = ({ flex, ...def }: any) => {
+      if (def.width) {
+        return def;
+      }
+
+      return { ...def, flex };
+    };
+
     if (!skeletonLoading) {
-      return cols;
+      return cols.map((col) => {
+        const def = columnTypes?.[col.type];
+
+        return extractFlex({
+          flex: 1,
+          ...def,
+          ...tableState.columnSize?.[tableState.tab]?.[col.field],
+          ...col,
+        });
+      });
     }
 
     return cols.map(({ valueGetter, valueFormatter, ...x }) => ({
       ...x,
       ...(() => {
-        const def = columnTypes[x.type];
+        const def = columnTypes?.[x.type];
 
-        return {
+        return extractFlex({
+          flex: 1,
           headerName: x.headerName || def?.headerName,
           width: x.width || def?.width || 100,
+          ...tableState.columnSize?.[tableState.tab]?.[x.field],
           minWidth: x.minWidth || def?.minWidth || x.width || def?.width || 100,
-        };
+        });
       })(),
       type: null,
       field: `skeleton_${x.field}`,
@@ -309,10 +366,19 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       },
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns, editable, deletable, tableState.tab, skeletonLoading]);
+  }, [
+    columns,
+    editable,
+    deletable,
+    tableState.tab,
+    skeletonLoading,
+    tableState.columnSize,
+    tableState.columnsOrder,
+  ]);
 
   const isFirstRender = useRef(true);
-  const prevState = useRef<BaseDataTableState | null>();
+  const prevQueryState = useRef<Partial<BaseDataTableState> | null>();
+  const prevPersistState = useRef<Partial<BaseDataTableState> | null>();
   const onStateChangedRef = useRef<typeof onStateChanged>(onStateChanged);
 
   const onFiltersChange = useCallback((state: RowsFilterState) => {
@@ -325,62 +391,106 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
   useEffect(() => {
     const fullTableState = tableState;
+
+    const currentQueryState = {
+      filters: fullTableState.filters,
+      page: fullTableState.page,
+      pageSize: fullTableState.pageSize,
+      search: fullTableState.search,
+      sortModel: fullTableState.sortModel,
+      tab: fullTableState.tab,
+    };
+
+    const currentPersistState = {
+      columnSize: fullTableState.columnSize,
+      visibility: fullTableState.visibility,
+      persistPageSize: fullTableState.persistPageSize,
+      persistSortModel: fullTableState.persistSortModel,
+      pinnedColumns: fullTableState.pinnedColumns,
+      columnsOrder: fullTableState.columnsOrder,
+    };
+
     if (isFirstRender.current) {
       if (onInitialized) {
         onInitialized(fullTableState);
       }
 
-      prevState.current = fullTableState;
+      prevQueryState.current = currentQueryState;
+      prevPersistState.current = currentPersistState;
+
       isFirstRender.current = false;
       return;
     }
 
-    if (JSON.stringify(prevState.current) === JSON.stringify(fullTableState)) {
+    const isQueryStateChanged =
+      JSON.stringify(prevQueryState.current) !==
+      JSON.stringify(currentQueryState);
+    const isPersistStateChanged =
+      JSON.stringify(prevPersistState.current) !==
+      JSON.stringify(currentPersistState);
+
+    if (!isQueryStateChanged && !isPersistStateChanged) {
       return;
     }
 
-    prevState.current = fullTableState;
+    (() => {
+      if (!isQueryStateChanged) {
+        return;
+      }
+
+      if (!persistStateMode || persistStateMode === 'none') {
+        return;
+      }
+
+      if (persistStateMode === 'query') {
+        const newSortModel =
+          fullTableState.sortModel?.length &&
+          (!sortBy ||
+            JSON.stringify(sortBy) !==
+              JSON.stringify(fullTableState.sortModel[0])) &&
+          fullTableState.sortModel[0];
+
+        updateTableStateInQuery(
+          {
+            ...(fullTableState.page > 0 && { page: fullTableState.page }),
+            ...(fullTableState.pageSize !== pageSizeOptions[0] && {
+              pageSize: fullTableState.pageSize,
+            }),
+            ...(newSortModel && {
+              sortModelField: newSortModel.field,
+              sortModelSort: newSortModel.sort,
+            }),
+            ...(fullTableState.tab !== defaultTabId && {
+              tab: fullTableState.tab,
+            }),
+            ...(fullTableState.search.trim().length > 0 && {
+              search: fullTableState.search.trim(),
+            }),
+            ...(fullTableState.filters &&
+              Object.keys(fullTableState.filters).length > 0 && {
+                filters: fullTableState.filters,
+              }),
+          },
+          queryPrefix,
+        );
+      }
+
+      prevQueryState.current = fullTableState;
+    })();
+
+    (() => {
+      if (!isPersistStateChanged) {
+        return;
+      }
+
+      localStorage.setItem(id, JSON.stringify(currentPersistState));
+      prevPersistState.current = currentPersistState;
+    })();
 
     if (onStateChangedRef.current) {
       onStateChangedRef.current(fullTableState);
     }
 
-    if (!persistStateMode || persistStateMode === 'none') {
-      return;
-    }
-
-    if (persistStateMode === 'query') {
-      const newSortModel =
-        fullTableState.sortModel?.length &&
-        (!sortBy ||
-          JSON.stringify(sortBy) !==
-            JSON.stringify(fullTableState.sortModel[0])) &&
-        fullTableState.sortModel[0];
-
-      updateTableStateInQuery(
-        {
-          ...(fullTableState.page > 0 && { page: fullTableState.page }),
-          ...(fullTableState.pageSize !== rowsPerPageOptions[0] && {
-            pageSize: fullTableState.pageSize,
-          }),
-          ...(newSortModel && {
-            sortModelField: newSortModel.field,
-            sortModelSort: newSortModel.sort,
-          }),
-          ...(fullTableState.tab !== defaultTabId && {
-            tab: fullTableState.tab,
-          }),
-          ...(fullTableState.search.trim().length > 0 && {
-            search: fullTableState.search.trim(),
-          }),
-          ...(fullTableState.filters &&
-            Object.keys(fullTableState.filters).length > 0 && {
-              filters: fullTableState.filters,
-            }),
-        },
-        queryPrefix,
-      );
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableState]);
 
@@ -411,43 +521,103 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         searchFilter={searchFilter}
         customFilter={customFilter}
       />
-      <DataGrid
+      <DataGridPro
         {...rest}
-        page={tableState.page}
-        onPageChange={(newPage, details) => {
+        paginationModel={{
+          page: tableState.page,
+          pageSize: tableState.pageSize,
+        }}
+        onPaginationModelChange={(model, details) => {
           if (skeletonLoading) {
             return;
           }
 
-          setTableState((prev) => ({ ...prev, page: newPage }));
+          setTableState((prev) => ({
+            ...prev,
+            page: model.page,
+            pageSize: model.pageSize,
+            persistPageSize: { [prev.tab]: model.pageSize },
+          }));
 
-          if (rest.onPageChange) {
-            rest.onPageChange(newPage, details);
+          if (rest.onPaginationModelChange) {
+            rest.onPaginationModelChange(model, details);
           }
         }}
-        pageSize={tableState.pageSize}
-        onPageSizeChange={(newPageSize, details) => {
+        columnVisibilityModel={tableState.visibility?.[tableState.tab]}
+        onColumnVisibilityModelChange={(model, details) => {
           if (skeletonLoading) {
             return;
           }
 
-          setTableState((prev) => ({ ...prev, pageSize: newPageSize }));
+          setTableState((prev) => ({
+            ...prev,
+            visibility: {
+              ...prev.visibility,
+              [prev.tab]: model,
+            },
+          }));
 
-          if (rest.onPageSizeChange) {
-            rest.onPageSizeChange(newPageSize, details);
+          if (rest.onColumnVisibilityModelChange) {
+            rest.onColumnVisibilityModelChange(model, details);
           }
         }}
-        sortModel={tableState.sortModel}
-        onSortModelChange={(newSortModel, details) => {
+        onColumnResize={(params, event, details) => {
           if (skeletonLoading) {
             return;
           }
 
-          setTableState((prev) => ({ ...prev, sortModel: newSortModel }));
+          setTableState((prev) => ({
+            ...prev,
+            columnSize: {
+              ...prev.columnSize,
+              [prev.tab]: {
+                ...prev.columnSize?.[tableState.tab],
+                [params.colDef.field]: { width: params.width },
+              },
+            },
+          }));
 
-          if (rest.onSortModelChange) {
-            rest.onSortModelChange(newSortModel, details);
+          if (rest.onColumnResize) {
+            rest.onColumnResize(params, event, details);
           }
+        }}
+        pinnedColumns={tableState.pinnedColumns?.[tableState.tab]}
+        onPinnedColumnsChange={(pinnedColumns, details) => {
+          if (skeletonLoading) {
+            return;
+          }
+
+          setTableState((prev) => ({
+            ...prev,
+            pinnedColumns: {
+              ...prev.pinnedColumns,
+              [prev.tab]: pinnedColumns,
+            },
+          }));
+
+          if (rest.onPinnedColumnsChange) {
+            rest.onPinnedColumnsChange(pinnedColumns, details);
+          }
+        }}
+        onColumnOrderChange={(params, event, details) => {
+          setTableState((prev) => {
+            const columns = allColumns;
+
+            const currentOrder = prev.columnsOrder[prev.tab]
+              ? [...prev.columnsOrder[prev.tab]]
+              : columns.map((x) => x.field);
+
+            [currentOrder[params.oldIndex], currentOrder[params.targetIndex]] =
+              [currentOrder[params.targetIndex], currentOrder[params.oldIndex]];
+
+            return {
+              ...prev,
+              columnsOrder: {
+                ...prev.columnsOrder,
+                [prev.tab]: currentOrder,
+              },
+            };
+          });
         }}
         {...(skeletonLoading
           ? {
@@ -464,23 +634,21 @@ export default function BaseDataTable(props: BaseDataTableProps) {
                 ? rows.filter((row) => filterRowsFunc(row, tableState))
                 : rows,
             })}
-        columns={allColumns}
-        rowsPerPageOptions={rowsPerPageOptions}
-        disableSelectionOnClick={rest.disableSelectionOnClick ?? true}
-        showColumnRightBorder={rest.showColumnRightBorder ?? false}
-        disableColumnMenu={rest.disableColumnMenu ?? true}
+        columns={allColumns as any}
+        pageSizeOptions={pageSizeOptions}
+        disableRowSelectionOnClick={rest.disableRowSelectionOnClick ?? true}
         getRowClassName={(params) => {
           const oddEven =
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+
           return (
             oddEven +
             (rest.getRowClassName ? ` ${rest.getRowClassName(params)}` : '')
           );
         }}
-        columnTypes={columnTypes}
         disableColumnFilter
         disableDensitySelector
-        disableColumnSelector
+        disableColumnMenu
         onRowDoubleClick={(event, ...other) => {
           // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
           if (editable && editable.onEdit) {
@@ -498,10 +666,6 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         }}
         sortingOrder={rest.sortingOrder ?? ['desc', 'asc']}
         pagination
-        {...(persistScrollBar && {
-          scrollbarSize: 0,
-        })}
-        headerHeight={rest.headerHeight ?? 48}
         components={{
           NoRowsOverlay: rest.components?.NoRowsOverlay ?? NoRowsOverlay,
           ...rest.components,
@@ -510,6 +674,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           '.MuiDataGrid-row.odd ': {
             backgroundColor: 'rgb(248, 248, 248)',
           },
+          '.MuiDataGrid-cell:focus, .MuiDataGrid-columnHeader:focus, .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-columnHeader':
+            {
+              outline: 'none !important',
+            },
           ...(persistScrollBar && {
             '.MuiDataGrid-virtualScroller': {
               overflowY: { xs: 'auto', md: 'scroll' },
@@ -517,6 +685,23 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             },
           }),
           ...rest.sx,
+        }}
+        /* Table state */
+        sortModel={tableState.sortModel}
+        onSortModelChange={(newSortModel, details) => {
+          if (skeletonLoading) {
+            return;
+          }
+
+          setTableState((prev) => ({
+            ...prev,
+            sortModel: newSortModel,
+            persistSortModel: { [prev.tab]: newSortModel },
+          }));
+
+          if (rest.onSortModelChange) {
+            rest.onSortModelChange(newSortModel, details);
+          }
         }}
       />
     </Box>
