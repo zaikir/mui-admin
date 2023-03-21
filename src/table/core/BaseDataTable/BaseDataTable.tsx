@@ -183,6 +183,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       width: 40,
       minWidth: 40,
       sortable: false,
+      resizable: false,
+      disableColumnMenu: true,
       headerName: '',
       renderCell: (params) => <EditRowColumn {...params} />,
       ...(editable && typeof editable === 'object' && editable.columnProps),
@@ -190,6 +192,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     delete: {
       width: !persistScrollBar ? 40 : 60,
       sortable: false,
+      resizable: false,
+      disableColumnMenu: true,
       headerName: '',
       renderCell: (params) => <DeleteRowColumn {...params} />,
       ...(deletable && typeof deletable === 'object' && deletable.columnProps),
@@ -198,12 +202,16 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       width: !persistScrollBar ? 40 : 60,
       sortable: false,
       headerName: '',
+      resizable: false,
+      disableColumnMenu: true,
       renderCell: (params) => <IconButtonColumn {...params} />,
     },
     sort: {
       width: 65,
       sortable: false,
       headerName: '',
+      resizable: false,
+      disableColumnMenu: true,
       renderCell: (params) => <SortColumn {...params} />,
     },
     select: {
@@ -300,6 +308,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               type: 'edit' as const,
               ...(typeof editable === 'object' && editable),
               sort: -1,
+              resizable: false,
+              disableColumnMenu: true,
             } as any,
           ]
         : []),
@@ -311,6 +321,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               type: 'delete' as const,
               ...(typeof deletable === 'object' && deletable),
               sort: Number.MAX_SAFE_INTEGER,
+              resizable: false,
+              disableColumnMenu: true,
             } as any,
           ]
         : []),
@@ -338,13 +350,16 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     if (!skeletonLoading) {
       return cols.map((col) => {
         const def = columnTypes?.[col.type];
+        const size = tableState.columnSize?.[tableState.tab]?.[col.field] ??
+          col?.width ??
+          def?.width ?? { flex: 1 };
 
-        return extractFlex({
-          flex: 1,
+        return {
+          // flex: 1,
           ...def,
           ...col,
-          ...tableState.columnSize?.[tableState.tab]?.[col.field],
-        });
+          ...(typeof size === 'number' ? { width: size } : size),
+        };
       });
     }
 
@@ -352,22 +367,23 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       ...x,
       ...(() => {
         const def = columnTypes?.[x.type];
-        const storedWidth = tableState.columnSize?.[tableState.tab]?.[x.field];
+        const size = tableState.columnSize?.[tableState.tab]?.[x.field] ??
+          x?.width ??
+          def?.width ?? { flex: 1 };
 
-        return extractFlex({
-          flex: 1,
+        return {
           headerName: x.headerName || def?.headerName,
           width: x.width || def?.width || 100,
-          ...storedWidth,
+          ...(typeof size === 'number' ? { width: size } : size),
           minWidth:
             x.minWidth ||
             def?.minWidth ||
             // @ts-ignore
-            storedWidth?.width ||
+            size?.width ||
             x.width ||
             def?.width ||
             100,
-        });
+        };
       })(),
       type: null,
       field: `skeleton_${x.field}`,
@@ -759,7 +775,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
                     },
                   }));
 
-                  props.hideMenu();
+                  props.hideMenu({
+                    stopPropagation: () => {},
+                  });
                 }}
               >
                 <ListItemButton>
