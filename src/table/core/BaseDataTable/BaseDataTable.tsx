@@ -679,6 +679,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           ...rest.components,
         }}
         sx={{
+          '.MuiDataGrid-menuIcon > .MuiButtonBase-root': {
+            marginRight: '10px',
+          },
           '.MuiDataGrid-row.odd ': {
             backgroundColor: 'rgb(248, 248, 248)',
           },
