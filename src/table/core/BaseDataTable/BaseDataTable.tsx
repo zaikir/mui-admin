@@ -1,6 +1,16 @@
-import { Box, Skeleton, Typography, debounce } from '@mui/material';
+import {
+  Box,
+  Skeleton,
+  Typography,
+  debounce,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { GridColumnTypesRecord } from '@mui/x-data-grid';
-import { DataGridPro } from '@mui/x-data-grid-pro';
+import { DataGridPro, GridColumnMenu } from '@mui/x-data-grid-pro';
+import { ArrowSplitVertical } from 'mdi-material-ui';
 import {
   useCallback,
   useContext,
@@ -69,7 +79,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const skeletonWidths = useRef<Record<string, number>>({});
   const [reset, setReset] = useState(false);
 
-  const { store, hasura, locale } = useContext(ConfigurationContext);
+  const { store, hasura, locale, translations } =
+    useContext(ConfigurationContext);
   const navigate = useNavigate();
 
   const defaultTableState = useMemo(() => {
@@ -724,6 +735,49 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         }}
         slots={{
           footer: CustomGridFooter,
+          columnMenu: (props: any) => (
+            <Box
+              sx={{
+                '.MuiListItemIcon-root': {
+                  minWidth: 'unset !important',
+                },
+              }}
+            >
+              <ListItem
+                dense
+                disablePadding
+                sx={{ mb: -1 }}
+                onClick={() => {
+                  setTableState((prev) => ({
+                    ...prev,
+                    columnSize: {
+                      ...prev.columnSize,
+                      [prev.tab]: {
+                        ...prev.columnSize?.[tableState.tab],
+                        [props.colDef.field]: { flex: 1 },
+                      },
+                    },
+                  }));
+
+                  props.hideMenu();
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <ArrowSplitVertical fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={translations.columnFillAvailableSpace}
+                    primaryTypographyProps={{
+                      variant: 'body1',
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+
+              <GridColumnMenu {...props} />
+            </Box>
+          ),
         }}
         slotProps={{
           footer: {

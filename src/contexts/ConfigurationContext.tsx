@@ -65,6 +65,7 @@ export type ConfigurationType = {
     youWillLoseAllUnsavedData: string;
     goAnyways: string;
     resetTableState: string;
+    columnFillAvailableSpace: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -149,6 +150,7 @@ export const DefaultConfiguration: ConfigurationType = {
     youWillLoseAllUnsavedData: 'You will lose all unsaved data',
     goAnyways: 'Continue',
     resetTableState: 'Reset to defaults',
+    columnFillAvailableSpace: 'Fill available space',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
