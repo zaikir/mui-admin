@@ -98,6 +98,11 @@ export type ConfigurationType = {
       entityDeleted: SnackbarType;
     };
   };
+  store: {
+    setItem: (key: string, value: any) => void;
+    getItem: (key: string) => any;
+    removeItem: (key: string) => void;
+  };
 };
 
 const defaultSnackbarOptions: OptionsObject = {
@@ -192,6 +197,30 @@ export const DefaultConfiguration: ConfigurationType = {
       entityCreated: { text: 'Saved', variant: 'success' },
       entityUpdated: { text: 'Saved', variant: 'success' },
       entityDeleted: { text: 'Deleted', variant: 'success' },
+    },
+  },
+  store: {
+    setItem: (key: string, value: any) => {
+      localStorage.setItem(
+        key,
+        typeof value === 'string' ? value : JSON.stringify(value),
+      );
+    },
+    getItem: (key: string) => {
+      const value = localStorage.getItem(key);
+      if (!value) {
+        return null;
+      }
+
+      try {
+        const parsed = JSON.parse(value);
+        return parsed;
+      } catch {
+        return value;
+      }
+    },
+    removeItem: (key: string) => {
+      localStorage.removeItem(key);
     },
   },
 };

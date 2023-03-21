@@ -69,7 +69,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const skeletonWidths = useRef<Record<string, number>>({});
   const [reset, setReset] = useState(false);
 
-  const { hasura, locale } = useContext(ConfigurationContext);
+  const { store, hasura, locale } = useContext(ConfigurationContext);
   const navigate = useNavigate();
 
   const defaultTableState = useMemo(() => {
@@ -88,7 +88,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       columnsOrder: {},
     };
 
-    const savedState = JSON.parse(localStorage.getItem(id) || '{}');
+    const savedState = store.getItem(`prefs_${id}`) || {};
 
     const state: BaseDataTableState = {
       ...initialState,
@@ -514,7 +514,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         return;
       }
 
-      localStorage.setItem(id, JSON.stringify(currentPersistState));
+      store.setItem(`prefs_${id}`, currentPersistState);
       prevPersistState.current = currentPersistState;
     })();
 
@@ -662,9 +662,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             (rest.getRowClassName ? ` ${rest.getRowClassName(params)}` : '')
           );
         }}
-        disableColumnFilter
-        disableDensitySelector
-        disableColumnMenu
+        disableColumnFilter={rest.disableColumnFilter ?? true}
+        disableDensitySelector={rest.disableDensitySelector ?? true}
+        // disableColumnMenu
         onRowDoubleClick={(event, ...other) => {
           // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
           if (editable && editable.onEdit) {
@@ -681,7 +681,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           }
         }}
         sortingOrder={rest.sortingOrder ?? ['desc', 'asc']}
-        pagination
+        pagination={rest.pagination ?? true}
         components={{
           NoRowsOverlay: rest.components?.NoRowsOverlay ?? NoRowsOverlay,
           ...rest.components,
@@ -728,10 +728,13 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         slotProps={{
           footer: {
             resetTableState: () => {
-              localStorage.removeItem(id);
+              store.removeItem(`prefs_${id}`);
 
               setTableState((prev) => ({
                 ...prev,
+                tab: defaultTabId,
+                search: '',
+                filters: {},
                 page: 0,
                 pageSize: pageSizeOptions[0],
                 sortModel: sortBy ? [sortBy] : [],
