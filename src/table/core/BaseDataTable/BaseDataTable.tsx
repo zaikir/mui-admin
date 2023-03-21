@@ -329,8 +329,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         return extractFlex({
           flex: 1,
           ...def,
-          ...tableState.columnSize?.[tableState.tab]?.[col.field],
           ...col,
+          ...tableState.columnSize?.[tableState.tab]?.[col.field],
         });
       });
     }
@@ -339,13 +339,21 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       ...x,
       ...(() => {
         const def = columnTypes?.[x.type];
+        const storedWidth = tableState.columnSize?.[tableState.tab]?.[x.field];
 
         return extractFlex({
           flex: 1,
           headerName: x.headerName || def?.headerName,
           width: x.width || def?.width || 100,
-          ...tableState.columnSize?.[tableState.tab]?.[x.field],
-          minWidth: x.minWidth || def?.minWidth || x.width || def?.width || 100,
+          ...storedWidth,
+          minWidth:
+            x.minWidth ||
+            def?.minWidth ||
+            // @ts-ignore
+            storedWidth?.width ||
+            x.width ||
+            def?.width ||
+            100,
         });
       })(),
       type: null,
