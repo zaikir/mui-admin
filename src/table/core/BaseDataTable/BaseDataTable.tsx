@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography, debounce } from '@mui/material';
 import { GridColumnTypesRecord } from '@mui/x-data-grid';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import {
@@ -389,6 +389,27 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const prevPersistState = useRef<Partial<BaseDataTableState> | null>();
   const onStateChangedRef = useRef<typeof onStateChanged>(onStateChanged);
 
+  const onColumnResize = useMemo(
+    () =>
+      debounce((params, event, details) => {
+        setTableState((prev) => ({
+          ...prev,
+          columnSize: {
+            ...prev.columnSize,
+            [prev.tab]: {
+              ...prev.columnSize?.[tableState.tab],
+              [params.colDef.field]: { width: params.width },
+            },
+          },
+        }));
+
+        if (rest.onColumnResize) {
+          rest.onColumnResize(params, event, details);
+        }
+      }, 200),
+    [],
+  );
+
   const onFiltersChange = useCallback((state: RowsFilterState) => {
     setTableState((prev) => ({ ...prev, ...state }));
   }, []);
@@ -569,26 +590,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             rest.onColumnVisibilityModelChange(model, details);
           }
         }}
-        onColumnResize={(params, event, details) => {
-          if (skeletonLoading) {
-            return;
-          }
-
-          setTableState((prev) => ({
-            ...prev,
-            columnSize: {
-              ...prev.columnSize,
-              [prev.tab]: {
-                ...prev.columnSize?.[tableState.tab],
-                [params.colDef.field]: { width: params.width },
-              },
-            },
-          }));
-
-          if (rest.onColumnResize) {
-            rest.onColumnResize(params, event, details);
-          }
-        }}
+        onColumnResize={onColumnResize}
         pinnedColumns={tableState.pinnedColumns?.[tableState.tab]}
         onPinnedColumnsChange={(pinnedColumns, details) => {
           if (skeletonLoading) {
