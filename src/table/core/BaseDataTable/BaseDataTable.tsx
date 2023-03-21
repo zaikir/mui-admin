@@ -713,10 +713,6 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         }}
         sortingOrder={rest.sortingOrder ?? ['desc', 'asc']}
         pagination={rest.pagination ?? true}
-        components={{
-          NoRowsOverlay: rest.components?.NoRowsOverlay ?? NoRowsOverlay,
-          ...rest.components,
-        }}
         sx={{
           '.MuiDataGrid-menuIcon > .MuiButtonBase-root': {
             marginRight: '10px',
@@ -754,6 +750,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           }
         }}
         slots={{
+          noRowsOverlay: NoRowsOverlay,
           footer: CustomGridFooter,
           columnMenu: (props: any) => (
             <Box
@@ -800,6 +797,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               <GridColumnMenu {...props} />
             </Box>
           ),
+          ...rest.slots,
         }}
         slotProps={{
           footer: {
@@ -824,7 +822,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               setReset(true);
             },
           } as any,
+          ...rest.slotProps,
         }}
+        columnHeaderHeight={48}
       />
     </Box>
   );
