@@ -20,6 +20,7 @@ import type {
   BaseDataTableSelectColumnDef,
   BaseDataTableState,
 } from './BaseDataTable.types';
+import { CustomGridFooter } from './BaseDataTableFooter';
 import {
   isValueEmpty,
   parseTableStateFromQuery,
@@ -66,6 +67,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     : '0';
   const persistScrollBar = initialPersistScrollBar ?? false;
   const skeletonWidths = useRef<Record<string, number>>({});
+  const [reset, setReset] = useState(false);
 
   const { hasura, locale } = useContext(ConfigurationContext);
   const navigate = useNavigate();
@@ -523,6 +525,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableState]);
 
+  useEffect(() => {
+    setReset(false);
+  }, [reset]);
+
   const titleNode = (() => {
     if (!title) {
       return null;
@@ -715,6 +721,30 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           if (rest.onSortModelChange) {
             rest.onSortModelChange(newSortModel, details);
           }
+        }}
+        slots={{
+          footer: CustomGridFooter,
+        }}
+        slotProps={{
+          footer: {
+            resetTableState: () => {
+              localStorage.removeItem(id);
+
+              setTableState((prev) => ({
+                ...prev,
+                page: 0,
+                pageSize: pageSizeOptions[0],
+                sortModel: sortBy ? [sortBy] : [],
+                persistPageSize: {},
+                persistSortModel: {},
+                visibility: {},
+                columnSize: {},
+                pinnedColumns: {},
+                columnsOrder: {},
+              }));
+              setReset(true);
+            },
+          } as any,
         }}
       />
     </Box>

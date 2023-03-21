@@ -64,6 +64,7 @@ export type ConfigurationType = {
     changesNotSaved: string;
     youWillLoseAllUnsavedData: string;
     goAnyways: string;
+    resetTableState: string;
   };
   locale: string;
   defaultPhoneCountry: CountryCode;
@@ -142,6 +143,7 @@ export const DefaultConfiguration: ConfigurationType = {
     changesNotSaved: 'Form was not saved',
     youWillLoseAllUnsavedData: 'You will lose all unsaved data',
     goAnyways: 'Continue',
+    resetTableState: 'Reset to defaults',
   },
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
