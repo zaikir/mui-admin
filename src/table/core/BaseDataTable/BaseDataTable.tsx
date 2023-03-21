@@ -339,14 +339,6 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         .sort((a, b) => a.sort - b.sort);
     }
 
-    const extractFlex = ({ flex, ...def }: any) => {
-      if (def.width) {
-        return def;
-      }
-
-      return { ...def, flex };
-    };
-
     if (!skeletonLoading) {
       return cols.map((col) => {
         const def = columnTypes?.[col.type];
@@ -358,7 +350,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           // flex: 1,
           ...def,
           ...col,
-          ...(typeof size === 'number' ? { width: size } : size),
+          ...(typeof size === 'number'
+            ? { width: size, flex: 0 }
+            : { flex: undefined, ...size }),
         };
       });
     }
@@ -374,7 +368,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         return {
           headerName: x.headerName || def?.headerName,
           width: x.width || def?.width || 100,
-          ...(typeof size === 'number' ? { width: size } : size),
+          ...(typeof size === 'number'
+            ? { width: size, flex: 0 }
+            : { flex: undefined, ...size }),
           minWidth:
             x.minWidth ||
             def?.minWidth ||
@@ -556,6 +552,14 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     setReset(false);
   }, [reset]);
 
+  useEffect(() => {
+    setReset(true);
+  }, [tableState.tab]);
+
+  if (reset) {
+    return null;
+  }
+
   const titleNode = (() => {
     if (!title) {
       return null;
@@ -623,7 +627,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             rest.onColumnVisibilityModelChange(model, details);
           }
         }}
-        onColumnResize={onColumnResize}
+        onColumnWidthChange={onColumnResize}
         pinnedColumns={tableState.pinnedColumns?.[tableState.tab]}
         onPinnedColumnsChange={(pinnedColumns, details) => {
           if (skeletonLoading) {
