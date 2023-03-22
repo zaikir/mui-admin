@@ -357,47 +357,49 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       });
     }
 
-    return cols.map(({ valueGetter, valueFormatter, ...x }) => ({
-      ...x,
-      ...(() => {
-        const def = columnTypes?.[x.type];
-        const size = tableState.columnSize?.[tableState.tab]?.[x.field] ??
-          x?.width ??
-          def?.width ?? { flex: 1 };
+    return cols
+      .filter((x) => tableState.visibility?.[tableState.tab]?.[x.field] ?? true)
+      .map(({ valueGetter, valueFormatter, ...x }) => ({
+        ...x,
+        ...(() => {
+          const def = columnTypes?.[x.type];
+          const size = tableState.columnSize?.[tableState.tab]?.[x.field] ??
+            x?.width ??
+            def?.width ?? { flex: 1 };
 
-        return {
-          headerName: x.headerName || def?.headerName,
-          width: x.width || def?.width || 100,
-          ...(typeof size === 'number'
-            ? { width: size, flex: 0 }
-            : { flex: undefined, ...size }),
-          minWidth:
-            x.minWidth ||
-            def?.minWidth ||
-            // @ts-ignore
-            size?.width ||
-            x.width ||
-            def?.width ||
-            100,
-        };
-      })(),
-      type: null,
-      field: `skeleton_${x.field}`,
-      renderCell(params) {
-        if (
-          x.type &&
-          ['edit', 'delete', 'icon-button', 'sort'].includes(x.type)
-        ) {
-          return <Skeleton width={20} height={20} variant="rectangular" />;
-        }
+          return {
+            headerName: x.headerName || def?.headerName,
+            width: x.width || def?.width || 100,
+            ...(typeof size === 'number'
+              ? { width: size, flex: 0 }
+              : { flex: undefined, ...size }),
+            minWidth:
+              x.minWidth ||
+              def?.minWidth ||
+              // @ts-ignore
+              size?.width ||
+              x.width ||
+              def?.width ||
+              100,
+          };
+        })(),
+        type: null,
+        field: `skeleton_${x.field}`,
+        renderCell(params) {
+          if (
+            x.type &&
+            ['edit', 'delete', 'icon-button', 'sort'].includes(x.type)
+          ) {
+            return <Skeleton width={20} height={20} variant="rectangular" />;
+          }
 
-        const key = `${params.id}_${params.field}`;
-        skeletonWidths.current[key] =
-          skeletonWidths.current[key] || 50 + Math.random() * 30;
+          const key = `${params.id}_${params.field}`;
+          skeletonWidths.current[key] =
+            skeletonWidths.current[key] || 50 + Math.random() * 30;
 
-        return <Skeleton width={`${skeletonWidths.current[key]}%`} />;
-      },
-    }));
+          return <Skeleton width={`${skeletonWidths.current[key]}%`} />;
+        },
+      }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     columns,
@@ -806,7 +808,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
               setTableState((prev) => ({
                 ...prev,
-                tab: defaultTabId,
+                // tab: defaultTabId,
                 search: '',
                 filters: {},
                 page: 0,
