@@ -9,7 +9,11 @@ import {
   ListItemText,
 } from '@mui/material';
 import { GridColumnTypesRecord } from '@mui/x-data-grid';
-import { DataGridPro, GridColumnMenu } from '@mui/x-data-grid-pro';
+import {
+  DataGridPro,
+  GridColumnMenu,
+  useGridApiRef,
+} from '@mui/x-data-grid-pro';
 import { GridApiPro } from '@mui/x-data-grid-pro/models/gridApiPro';
 import { ArrowSplitVertical } from 'mdi-material-ui';
 import {
@@ -71,7 +75,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     onStateChanged,
     ...rest
   } = props;
-  const tableRef = useRef<GridApiPro>();
+  const tableRef = useGridApiRef();
   const queryPrefix = 'queryPrefix' in rest ? rest.queryPrefix : undefined;
   const defaultTabId = tabsFilter?.tabs?.[0]
     ? tabsFilter.tabs[0].id ?? '0'
@@ -411,8 +415,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    columns,
     JSON.stringify([
-      columns,
       editable,
       deletable,
       tableState.tab,
@@ -601,7 +605,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         customFilter={customFilter}
       />
       <DataGridPro
-        apiRef={tableRef as any}
+        apiRef={tableRef}
         {...rest}
         paginationModel={{
           page: tableState.page,
