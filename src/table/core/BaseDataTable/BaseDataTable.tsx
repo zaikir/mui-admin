@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { GridColumnTypesRecord } from '@mui/x-data-grid';
 import { DataGridPro, GridColumnMenu } from '@mui/x-data-grid-pro';
+import { GridApiPro } from '@mui/x-data-grid-pro/models/gridApiPro';
 import { ArrowSplitVertical } from 'mdi-material-ui';
 import {
   useCallback,
@@ -70,7 +71,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     onStateChanged,
     ...rest
   } = props;
-
+  const tableRef = useRef<GridApiPro>();
   const queryPrefix = 'queryPrefix' in rest ? rest.queryPrefix : undefined;
   const defaultTabId = tabsFilter?.tabs?.[0]
     ? tabsFilter.tabs[0].id ?? '0'
@@ -310,6 +311,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               sort: -1,
               resizable: false,
               disableColumnMenu: true,
+              disableReorder: true,
+              disableExport: true,
+              hideable: false,
+              pinnable: false,
             } as any,
           ]
         : []),
@@ -323,6 +328,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               sort: Number.MAX_SAFE_INTEGER,
               resizable: false,
               disableColumnMenu: true,
+              disableReorder: true,
+              disableExport: true,
+              hideable: false,
+              pinnable: false,
             } as any,
           ]
         : []),
@@ -402,13 +411,15 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    columns,
-    editable,
-    deletable,
-    tableState.tab,
-    skeletonLoading,
-    tableState.columnSize,
-    tableState.columnsOrder,
+    JSON.stringify([
+      columns,
+      editable,
+      deletable,
+      tableState.tab,
+      skeletonLoading,
+      tableState.columnSize,
+    ]),
+    // tableState.columnsOrder,
   ]);
 
   const isFirstRender = useRef(true);
@@ -590,6 +601,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         customFilter={customFilter}
       />
       <DataGridPro
+        apiRef={tableRef as any}
         {...rest}
         paginationModel={{
           page: tableState.page,
@@ -630,40 +642,39 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           }
         }}
         onColumnWidthChange={onColumnResize}
-        pinnedColumns={tableState.pinnedColumns?.[tableState.tab]}
-        onPinnedColumnsChange={(pinnedColumns, details) => {
-          if (skeletonLoading) {
+        {...(!rest.disableColumnPinning && {
+          pinnedColumns: tableState.pinnedColumns?.[tableState.tab],
+          onPinnedColumnsChange: (pinnedColumns, details) => {
+            if (skeletonLoading) {
+              return;
+            }
+
+            setTableState((prev) => ({
+              ...prev,
+              pinnedColumns: {
+                ...prev.pinnedColumns,
+                [prev.tab]: pinnedColumns,
+              },
+            }));
+
+            if (rest.onPinnedColumnsChange) {
+              rest.onPinnedColumnsChange(pinnedColumns, details);
+            }
+          },
+        })}
+        onColumnOrderChange={(params, event, details) => {
+          const state = tableRef.current?.exportState();
+
+          if (!state?.columns?.orderedFields) {
             return;
           }
 
-          setTableState((prev) => ({
-            ...prev,
-            pinnedColumns: {
-              ...prev.pinnedColumns,
-              [prev.tab]: pinnedColumns,
-            },
-          }));
-
-          if (rest.onPinnedColumnsChange) {
-            rest.onPinnedColumnsChange(pinnedColumns, details);
-          }
-        }}
-        onColumnOrderChange={(params, event, details) => {
           setTableState((prev) => {
-            const columns = allColumns;
-
-            const currentOrder = prev.columnsOrder[prev.tab]
-              ? [...prev.columnsOrder[prev.tab]]
-              : columns.map((x) => x.field);
-
-            [currentOrder[params.oldIndex], currentOrder[params.targetIndex]] =
-              [currentOrder[params.targetIndex], currentOrder[params.oldIndex]];
-
             return {
               ...prev,
               columnsOrder: {
                 ...prev.columnsOrder,
-                [prev.tab]: currentOrder,
+                [prev.tab]: state!.columns!.orderedFields!,
               },
             };
           });
@@ -802,6 +813,13 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           ...rest.slots,
         }}
         slotProps={{
+          columnsPanel: {
+            sx: {
+              '.MuiFormControlLabel-root.Mui-disabled': {
+                display: 'none',
+              },
+            },
+          },
           footer: {
             resetTableState: () => {
               store.removeItem(`prefs_${id}`);
