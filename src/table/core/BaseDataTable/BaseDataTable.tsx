@@ -82,6 +82,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     : '0';
   const persistScrollBar = initialPersistScrollBar ?? false;
   const skeletonWidths = useRef<Record<string, number>>({});
+  const [reset, setReset] = useState(false);
 
   const { store, hasura, locale, translations } =
     useContext(ConfigurationContext);
@@ -564,6 +565,14 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableState]);
 
+  useEffect(() => {
+    setReset(false);
+  }, [reset]);
+
+  if (reset) {
+    return null;
+  }
+
   const titleNode = (() => {
     if (!title) {
       return null;
@@ -830,6 +839,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
                 pinnedColumns: {},
                 columnsOrder: {},
               }));
+
+              setReset(true);
             },
           } as any,
           ...rest.slotProps,
