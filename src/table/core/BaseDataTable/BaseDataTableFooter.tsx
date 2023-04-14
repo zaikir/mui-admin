@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
 
-export function CustomGridFooter({ resetTableState }: any) {
+export function CustomGridFooter({ resetTableState, exportCsv }: any) {
   const { translations } = useContext(ConfigurationContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -23,9 +23,19 @@ export function CustomGridFooter({ resetTableState }: any) {
           '.MuiTablePagination-spacer': {
             display: 'none',
           },
+          '.MuiTablePagination-actions': {
+            marginRight: '40px',
+          },
         }}
       />
-      <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto', mr: 1 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          position: 'absolute',
+          right: 1,
+        }}
+      >
         <IconButton onClick={handleClick}>
           <Cog />
         </IconButton>
@@ -42,6 +52,14 @@ export function CustomGridFooter({ resetTableState }: any) {
             horizontal: 'left',
           }}
         >
+          {/* <MenuItem
+            onClick={() => {
+              resetTableState();
+              handleClose();
+            }}
+          >
+            {translations.exportCsv}
+          </MenuItem> */}
           <MenuItem
             onClick={() => {
               resetTableState();

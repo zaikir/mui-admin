@@ -821,6 +821,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
             },
           },
           footer: {
+            exportCsv: () => {},
             resetTableState: () => {
               store.removeItem(`prefs_${id}`);
 
