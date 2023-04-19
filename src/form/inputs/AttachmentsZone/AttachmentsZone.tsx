@@ -36,6 +36,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   source: initialSource,
   title,
   dropzoneProps,
+  gridProps,
   ...rest
 }: AttachmentsZoneProps<TFields>) {
   const source = initialSource ?? 'file';
@@ -45,7 +46,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
 
   const theme = useTheme();
   const [files, setFiles] = useState<AttachmentsZoneFile[]>(value ?? []);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!value);
   const [isUploading, setIsUploading] = useState(false);
   const {
     rest: { client: apiClient },
@@ -234,6 +235,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                 onFileDelete={(file) => {
                   setFiles((items) => items.filter((x) => x.id !== file.id));
                 }}
+                gridProps={gridProps}
               />
             ) : (
               <Box

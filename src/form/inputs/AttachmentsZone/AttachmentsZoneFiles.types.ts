@@ -1,3 +1,5 @@
+import { GridProps } from '@mui/material';
+
 type FetchedFile = {
   id: string | number;
   name: string;
@@ -25,4 +27,5 @@ export type AttachmentsZoneFilesProps = {
     oldFile: AttachmentsZoneFile,
   ) => void;
   onFileDelete: (file: AttachmentsZoneFile) => void;
+  gridProps?: GridProps;
 };

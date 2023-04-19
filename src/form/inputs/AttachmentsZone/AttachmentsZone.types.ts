@@ -1,3 +1,4 @@
+import { GridProps } from '@mui/material';
 import { DropzoneOptions } from 'react-dropzone';
 import { FieldValues } from 'react-hook-form';
 
@@ -15,4 +16,5 @@ export type AttachmentsZoneProps<TFields extends FieldValues> =
     error?: boolean;
     title?: string;
     dropzoneProps?: DropzoneOptions;
+    gridProps?: GridProps;
   };

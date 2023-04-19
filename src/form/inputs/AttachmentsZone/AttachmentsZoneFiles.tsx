@@ -17,6 +17,7 @@ export default function AttachmentsZoneFiles({
   attachmentsTypes,
   source,
   readOnly,
+  gridProps,
   onFileChange,
   onFileDelete,
 }: AttachmentsZoneFilesProps) {
@@ -57,7 +58,15 @@ export default function AttachmentsZoneFiles({
           )}
           <Grid container spacing={2}>
             {section.items.map((file) => (
-              <Grid key={file.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+              <Grid
+                key={file.id}
+                xs={gridProps?.xs ?? 12}
+                sm={gridProps?.sm ?? 6}
+                md={gridProps?.md ?? 4}
+                lg={gridProps?.lg ?? 3}
+                xl={gridProps?.xl ?? 2}
+                {...gridProps}
+              >
                 <FileAvatar
                   key={file.id}
                   {...file}
