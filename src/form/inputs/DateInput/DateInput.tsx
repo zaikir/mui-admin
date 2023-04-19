@@ -36,6 +36,8 @@ export default function DateInput<TFields extends FieldValues>({
   fullWidth,
   clearable: clearableProp,
   readOnly: readOnlyProp,
+  formFetcherValueResolver,
+  formSubmitterValueResolver,
   sx,
   ...rest
 }: DateInputProps<TFields>): JSX.Element {
@@ -54,6 +56,8 @@ export default function DateInput<TFields extends FieldValues>({
       md={md}
       lg={lg}
       xl={xl}
+      formFetcherValueResolver={formFetcherValueResolver}
+      formSubmitterValueResolver={formSubmitterValueResolver}
       grid={grid}
       rules={{
         validate: (value: string) =>

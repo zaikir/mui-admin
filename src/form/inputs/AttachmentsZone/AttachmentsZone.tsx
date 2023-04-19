@@ -21,6 +21,7 @@ import { FormConfigContext } from '../../contexts/FormConfigContext';
 import { AutocompleteInput } from '../AutocompleteInput';
 
 export default function AttachmentsZone<TFields extends FieldValues>({
+  value,
   name,
   entityId,
   attachmentsTypes,
@@ -43,7 +44,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   const isReadOnly = rest.readOnly || readOnly;
 
   const theme = useTheme();
-  const [files, setFiles] = useState<AttachmentsZoneFile[]>([]);
+  const [files, setFiles] = useState<AttachmentsZoneFile[]>(value ?? []);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const {
@@ -146,6 +147,10 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   ]);
 
   useEffect(() => {
+    if (value) {
+      return;
+    }
+
     (async () => {
       const { items } = await hasura.request({
         type: 'custom',
