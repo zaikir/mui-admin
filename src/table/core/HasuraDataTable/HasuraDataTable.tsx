@@ -29,6 +29,7 @@ const HasuraDataTable = forwardRef(
     {
       columns,
       source,
+      argsSource: initialArgsSource,
       tabsFilter,
       searchFilter,
       customFilter,
@@ -56,6 +57,10 @@ const HasuraDataTable = forwardRef(
       const selectSource = selectProps?.source ?? source;
       const SelectSource =
         selectSource.charAt(0).toUpperCase() + selectSource.slice(1);
+      const argsSource = initialArgsSource ?? selectSource;
+      const ArgsSource = initialArgsSource
+        ? initialArgsSource.charAt(0).toUpperCase() + initialArgsSource.slice(1)
+        : SelectSource;
 
       setIsLoading(true);
 
@@ -185,8 +190,8 @@ const HasuraDataTable = forwardRef(
           type: 'custom',
           query: `
         query ${SelectSource}FetchRows (${
-            args ? `$args: ${selectSource}Args!,` : ''
-          }$where: ${SelectSource}BoolExp, $orderBy: [${SelectSource}OrderBy!], $limit: Int, $offset: Int) {
+            args ? `$args: ${argsSource}Args!,` : ''
+          }$where: ${ArgsSource}BoolExp, $orderBy: [${ArgsSource}OrderBy!], $limit: Int, $offset: Int) {
           items: ${selectSource}(${
             args ? `args: $args,` : ''
           }where: $where, orderBy: $orderBy, limit: $limit, offset: $offset) {

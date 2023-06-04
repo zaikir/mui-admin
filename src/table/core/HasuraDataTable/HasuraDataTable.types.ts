@@ -54,6 +54,7 @@ export type HasuraDataTableProps = Omit<
   'rows' | 'onDelete' | 'ref' | 'skeletonLoading'
 > & {
   source: string;
+  argsSource?: string;
   deleteProps?: HasuraDeleteProps;
   selectProps?: Partial<HasuraSelectProps>;
   skeletonRowsCount?: number;
