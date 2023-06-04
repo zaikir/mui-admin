@@ -190,7 +190,7 @@ const HasuraDataTable = forwardRef(
           type: 'custom',
           query: `
         query ${SelectSource}FetchRows (${
-            args ? `$args: ${argsSource}Args!,` : ''
+            args ? `$args: ${selectSource}Args!,` : ''
           }$where: ${ArgsSource}BoolExp, $orderBy: [${ArgsSource}OrderBy!], $limit: Int, $offset: Int) {
           items: ${selectSource}(${
             args ? `args: $args,` : ''
