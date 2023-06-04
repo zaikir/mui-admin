@@ -16,6 +16,7 @@ export type HasuraOrderBy =
 
 export type HasuraSelectProps = {
   filter: Record<string, any> | null;
+  functionArgs?: Record<string, any>;
   source?: string;
   onSelection?: (selections: string[]) => string[];
   onSort?: (orderBy: Record<string, any>) => any;

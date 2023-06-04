@@ -122,6 +122,7 @@ const HasuraDataTable = forwardRef(
         );
 
       const defaultFilter = selectProps?.filter;
+      const args = selectProps?.functionArgs;
       const filters = !defaultFilter ? [] : [defaultFilter];
       const selectedTab =
         tabsFilter?.tabs &&
@@ -183,16 +184,23 @@ const HasuraDataTable = forwardRef(
         {
           type: 'custom',
           query: `
-        query ${SelectSource}FetchRows ($where: ${SelectSource}BoolExp, $orderBy: [${SelectSource}OrderBy!], $limit: Int, $offset: Int) {
-          items: ${selectSource}(where: $where, orderBy: $orderBy, limit: $limit, offset: $offset) {
+        query ${SelectSource}FetchRows (${
+            args ? `$args: ${selectSource}Args!,` : ''
+          }$where: ${SelectSource}BoolExp, $orderBy: [${SelectSource}OrderBy!], $limit: Int, $offset: Int) {
+          items: ${selectSource}(${
+            args ? `args: $args,` : ''
+          }where: $where, orderBy: $orderBy, limit: $limit, offset: $offset) {
             ${selections.join(' ')}
           }
-          total: ${selectSource}Aggregate(where: $where) { aggregate { count } }
+          total: ${selectSource}Aggregate(${selectSource}(${
+            args ? `args: $args,` : ''
+          }where: $where) { aggregate { count } }
         }`
             .replace(/\n/g, ' ')
             .replace(/ +/g, ' ')
             .trim(),
           variables: {
+            ...(args && { args }),
             where: {
               _and: [
                 ...(where ? [where] : []),
