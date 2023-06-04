@@ -192,7 +192,7 @@ const HasuraDataTable = forwardRef(
           }where: $where, orderBy: $orderBy, limit: $limit, offset: $offset) {
             ${selections.join(' ')}
           }
-          total: ${selectSource}Aggregate(${selectSource}(${
+          total: ${selectSource}Aggregate(${
             args ? `args: $args,` : ''
           }where: $where) { aggregate { count } }
         }`
