@@ -57,7 +57,6 @@ const HasuraDataTable = forwardRef(
       const selectSource = selectProps?.source ?? source;
       const SelectSource =
         selectSource.charAt(0).toUpperCase() + selectSource.slice(1);
-      const argsSource = initialArgsSource ?? selectSource;
       const ArgsSource = initialArgsSource
         ? initialArgsSource.charAt(0).toUpperCase() + initialArgsSource.slice(1)
         : SelectSource;
