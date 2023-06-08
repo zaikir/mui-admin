@@ -319,7 +319,6 @@ export default function BaseAutocompleteInput<
                 inputProps={{
                   ...params.inputProps,
                   ...(inputProps?.type === 'number' && {
-                    parse: false,
                     unmask: true,
                   }),
                   ...inputProps?.inputProps,

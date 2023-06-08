@@ -9,61 +9,58 @@ export type InternalNumberInputProps = {
   lazy?: boolean;
   min?: number;
   max?: number;
+  unmask?: 'typed' | boolean;
+  signed?: boolean;
   padFractionalZeros?: boolean;
-  unmask?: boolean | 'typed';
-  parse?: boolean;
   thousandsSeparator?: string;
 };
 
 export const InternalNumberInput = forwardRef<
   HTMLElement,
-  InternalNumberInputProps & {
-    onChange: (event: { target: { name: string; value: string } }) => void;
-    name: string;
-  }
+  InternalNumberInputProps &
+    Omit<HTMLInputElement, 'value'> & {
+      value: number | null;
+      onChange: (event: { target: { value: string | number | null } }) => void;
+    }
 >((props, ref) => {
-  const {
-    // @ts-ignore
-    // eslint-disable-next-line react/prop-types
-    value,
-    onChange,
-    parse,
-    // @ts-ignore
-    type,
-    ...other
-  } = props;
+  const { value, onChange, type, unmask, ...other } = props;
 
   const { thousandsSeparator, decimalSeparator } =
     useContext(ConfigurationContext);
 
   return (
     <IMaskInput
-      value={value != null ? value.toString() : null}
       {...other}
-      // @ts-ignore
-      inputRef={ref}
-      onAccept={(x: any) => {
-        const newValue = (() => {
-          if (x == null || (typeof x === 'string' && !x.trim().length)) {
-            // @ts-ignore
-            return parse ?? true ? null : x;
-          }
-
-          return parse ?? true ? parseFloat(x) : x;
-        })();
-
-        if (value !== newValue) {
-          // @ts-ignore
-          onChange({ target: { value: newValue } });
+      value={value === null ? '' : value}
+      inputRef={ref as any}
+      onAccept={(newValue: unknown, mask) => {
+        if (value === newValue) {
+          return;
         }
+
+        if (unmask === false || unmask === true) {
+          onChange({ target: { value: newValue as any } });
+          return;
+        }
+
+        if (newValue === null || typeof newValue !== 'number') {
+          onChange({ target: { value: null } });
+          return;
+        }
+
+        onChange({ target: { value: newValue } });
       }}
-      unmask={other.unmask ?? true}
+      unmask={unmask ?? (value === null ? false : 'typed')}
       mask={Number}
+      format={(v: any) => (v == null ? '' : v)}
       thousandsSeparator={other.thousandsSeparator ?? thousandsSeparator}
       radix={decimalSeparator}
       scale={3}
-      inputMode="numeric"
-      pattern="[0-9]*"
+      signed={other.signed ?? false}
+      {...({
+        inputMode: 'numeric',
+        pattern: '[0-9]*',
+      } as Partial<HTMLInputElement>)}
     />
   );
 });

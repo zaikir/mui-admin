@@ -174,7 +174,7 @@ export default function FormInput<TFields extends FieldValues>({
             ...textFieldProps.InputProps,
             endAdornment: (
               <>
-                {clearable && value && !rest.disabled && !readOnly ? (
+                {clearable && value != null && !rest.disabled && !readOnly ? (
                   <InputClearButton
                     onClick={() => onChange({ target: { value: null } })}
                   />
