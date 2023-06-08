@@ -43,7 +43,11 @@ export const InternalNumberInput = forwardRef<
           return;
         }
 
-        if (newValue === null || typeof newValue !== 'number') {
+        if (
+          newValue === null ||
+          typeof newValue !== 'number' ||
+          !mask.unmaskedValue
+        ) {
           onChange({ target: { value: null } });
           return;
         }
