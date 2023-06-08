@@ -102,6 +102,8 @@ export default function FormInput<TFields extends FieldValues>({
       lazy,
       padFractionalZeros,
       thousandsSeparator,
+      signed,
+      unmask,
       ...other
     } = rest as InternalNumberInputProps;
     inputProps = {
@@ -112,6 +114,8 @@ export default function FormInput<TFields extends FieldValues>({
       lazy,
       padFractionalZeros,
       thousandsSeparator,
+      signed,
+      unmask,
     };
     textFieldProps = other;
     InputComponent = InternalNumberInput;

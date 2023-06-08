@@ -23,7 +23,7 @@ export const InternalNumberInput = forwardRef<
       onChange: (event: { target: { value: string | number | null } }) => void;
     }
 >((props, ref) => {
-  const { value, onChange, type, unmask, ...other } = props;
+  const { value, onChange, type, unmask, signed, ...other } = props;
 
   const { thousandsSeparator, decimalSeparator } =
     useContext(ConfigurationContext);
@@ -60,7 +60,7 @@ export const InternalNumberInput = forwardRef<
       thousandsSeparator={other.thousandsSeparator ?? thousandsSeparator}
       radix={decimalSeparator}
       scale={3}
-      signed={other.signed ?? false}
+      signed={signed ?? false}
       {...({
         inputMode: 'numeric',
         pattern: '[0-9]*',
