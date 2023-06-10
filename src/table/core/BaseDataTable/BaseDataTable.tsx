@@ -233,7 +233,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       headerAlign: 'left',
     },
     relationship: {
-      valueGetter({ field, row }) {
+      valueGetter({ field, row, colDef }) {
         const col = columns.find(
           (x) => x.field === field,
         ) as BaseDataTableRelationshipColumnDef & {
@@ -248,7 +248,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
         return displayValue;
       },
-      renderCell({ value, field, row }) {
+      renderCell(props) {
+        const { value, field, row, colDef } = props;
+
         const col = columns.find(
           (x) => x.field === field,
         ) as BaseDataTableRelationshipColumnDef & {
@@ -277,7 +279,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               }),
             }}
           >
-            {isValueEmpty(value) ? col!.placeholder ?? '—' : value}
+            {isValueEmpty(value)
+              ? col!.placeholder ?? '—'
+              : colDef.valueFormatter
+              ? colDef.valueFormatter(props as any)
+              : value}
           </Box>
         );
       },
