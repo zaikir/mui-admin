@@ -3,9 +3,12 @@ import {
   Ref,
   useCallback,
   useContext,
+  useEffect,
   useImperativeHandle,
 } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+import { FormConfigContext } from 'form/contexts/FormConfigContext';
 
 import { FormFetcherContext } from '../../contexts/FormFetcherContext';
 import { BaseInput } from '../BaseInput';
@@ -21,12 +24,20 @@ const HasuraSelector = forwardRef(
       selection: string;
       flattenSelections?: boolean;
       resolveValue?: (item: Record<string, any>) => any;
+      refetchOnSubmit?: boolean;
     },
     ref: Ref<HasuraSelectorRef>,
   ) => {
     const formFetcherContext = useContext(FormFetcherContext);
+    const { subscribeFormSubmit } = useContext(FormConfigContext);
     const { setValue } = useFormContext();
-    const { name, selection, flattenSelections, resolveValue } = props;
+    const {
+      name,
+      selection,
+      flattenSelections,
+      refetchOnSubmit,
+      resolveValue,
+    } = props;
 
     const names =
       typeof name === 'string' || !name ? [name ?? selection] : name;
@@ -54,6 +65,14 @@ const HasuraSelector = forwardRef(
       }),
       [refetch],
     );
+
+    useEffect(() => {
+      if (!refetchOnSubmit) {
+        return;
+      }
+
+      return subscribeFormSubmit(refetch);
+    }, [subscribeFormSubmit, refetch, refetchOnSubmit]);
 
     return (
       <>

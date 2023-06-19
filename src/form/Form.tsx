@@ -17,6 +17,7 @@ import {
   useRef,
   SetStateAction,
   Dispatch,
+  useCallback,
 } from 'react';
 import { Control, FormProvider, useForm, UseFormProps } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
@@ -73,12 +74,14 @@ const Form = forwardRef(
     }: PropsWithChildren<FormProps<any>>,
     ref: Ref<FormElementRef>,
   ) => {
+    const formId = useRef(new Date().valueOf()).current;
     const fetcherState = useContext(FormFetcherContext);
     const submitterState = useContext(FormSubmitterContext);
     const submitButtonRef = useRef<HTMLButtonElement>(null);
     const submitPromiseResolverRef = useRef<(value: unknown) => void>();
     const isFormDirtyRef = useRef(false);
     const forceSubmit = useRef(false);
+    const formSubmitEvent = useRef(new Event(`form-submit-${formId}`));
 
     const restoredDefaultValues = (() => {
       if (persistStateMode?.type === 'query') {
@@ -178,9 +181,24 @@ const Form = forwardRef(
       }
     }, [setControl, methods]);
 
+    const subscribeFormSubmit = useCallback((func: () => void) => {
+      const eventHandlerId = `form-submit-${formId}`;
+
+      document.addEventListener(eventHandlerId, func);
+
+      return () => {
+        document.removeEventListener(eventHandlerId, func);
+      };
+    }, []);
+
     return (
       <ThemeProvider theme={theme}>
-        <FormConfigProvider dense={dense} readOnly={readOnly} spacing={spacing}>
+        <FormConfigProvider
+          dense={dense}
+          readOnly={readOnly}
+          spacing={spacing}
+          subscribeFormSubmit={subscribeFormSubmit}
+        >
           <FormProvider {...methods}>
             {persistStateMode && (
               <FormGetter
@@ -223,8 +241,8 @@ const Form = forwardRef(
                 forceSubmit.current = false;
                 const handler = submitterState?.onSubmit || onSubmit;
                 if (handler) {
-                  methods.handleSubmit((row) =>
-                    handler(row, {
+                  methods.handleSubmit(async (row) => {
+                    const result = await handler(row, {
                       // @ts-ignore
                       ref: {
                         async reset(values?: any) {
@@ -232,8 +250,12 @@ const Form = forwardRef(
                           isFormDirtyRef.current = false;
                         },
                       },
-                    }),
-                  )(event);
+                    });
+
+                    document.dispatchEvent(formSubmitEvent.current);
+
+                    return result;
+                  })(event);
                 }
               }}
               noValidate
