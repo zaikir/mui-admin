@@ -4,7 +4,6 @@ import { useContext } from 'react';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import { FormGetter } from 'form/core/FormGetter';
-import { useNavigate } from 'shared/hooks/useNavigate';
 
 export default function OpenInNewInputAdorement(props: {
   entityId?: string | number;
@@ -12,7 +11,6 @@ export default function OpenInNewInputAdorement(props: {
   baseUrl: string;
 }) {
   const { field, baseUrl, entityId } = props;
-  const navigate = useNavigate();
   const { translations } = useContext(ConfigurationContext);
 
   const content = (value: any) => (
@@ -20,10 +18,7 @@ export default function OpenInNewInputAdorement(props: {
       <span>
         <IconButton
           disabled={value == null}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`${baseUrl}/${value}`);
-          }}
+          href={`${baseUrl}/${value}`}
           sx={{ ml: '-7px' }}
         >
           <OpenInNew />
