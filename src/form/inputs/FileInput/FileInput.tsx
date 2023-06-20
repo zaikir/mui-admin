@@ -20,6 +20,8 @@ export default function FileInput<TFields extends FieldValues>({
   helperText,
   clearable: clearableProp,
   readOnly: readOnlyProp,
+  formFetcherValueResolver,
+  formSubmitterValueResolver,
   sx,
   ...rest
 }: FileInputProps<TFields>): JSX.Element {
@@ -38,6 +40,8 @@ export default function FileInput<TFields extends FieldValues>({
       lg={lg}
       xl={xl}
       grid={grid}
+      formFetcherValueResolver={formFetcherValueResolver}
+      formSubmitterValueResolver={formSubmitterValueResolver}
       render={({
         field: { value, onChange, onBlur },
         fieldState: { error },
