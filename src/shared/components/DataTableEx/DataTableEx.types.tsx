@@ -12,6 +12,9 @@ type IconButtonProps = React.ComponentProps<typeof IconButton>;
 
 export type DataTableExProps = Omit<DataTableProps, 'mode'> & {
   title?: string;
+  titleProps?: {
+    position?: 'search' | 'default';
+  };
   addButton?: IconButtonProps | false;
   editPageUrl?: string | ((row: any) => string) | false;
   automaticallyOpenEditPage?: boolean;

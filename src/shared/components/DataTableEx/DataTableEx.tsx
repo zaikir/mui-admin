@@ -24,6 +24,7 @@ const DataTableEx = forwardRef(
   (
     {
       title,
+      titleProps,
       addButton,
       source,
       editPageUrl,
@@ -100,6 +101,37 @@ const DataTableEx = forwardRef(
 
     const FormDialogComponent = components?.FormDialog || FormDialog;
 
+    const isTitleInline = !(
+      !titleProps?.position || titleProps?.position === 'default'
+    );
+
+    const titleNode = (title || addButton) && (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          mb: !isTitleInline ? (addButton ?? true ? 1 : 1) : 0,
+          height: '40px',
+        }}
+      >
+        {title && <Typography variant="subtitle1">{title}</Typography>}
+        {(addButton ?? true) && (
+          <Tooltip title={translations.addNew}>
+            <IconButton
+              {...addButton}
+              sx={{ ml: 1 }}
+              onClick={() => {
+                setSelectedItem(null);
+                setIsEditItemModalOpened(true);
+              }}
+            >
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
+    );
+
     return (
       <>
         <Box
@@ -109,33 +141,7 @@ const DataTableEx = forwardRef(
             flexDirection: 'column',
           }}
         >
-          {(title || addButton) && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                mb: addButton ?? true ? 1 : 1,
-                height: '40px',
-              }}
-            >
-              {title && <Typography variant="subtitle1">{title}</Typography>}
-              {(addButton ?? true) && (
-                <Tooltip title={translations.addNew}>
-                  <IconButton
-                    {...addButton}
-                    sx={{ ml: 1 }}
-                    onClick={() => {
-                      setSelectedItem(null);
-                      setIsEditItemModalOpened(true);
-                    }}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
-            </Box>
-          )}
-
+          {!isTitleInline && titleNode}
           <Box
             sx={{
               ...(inline && !rest.autoHeight
@@ -154,6 +160,16 @@ const DataTableEx = forwardRef(
               source={source}
               deletable={rest.deletable ?? true}
               components={components}
+              searchFilter={
+                rest.searchFilter && {
+                  ...rest.searchFilter,
+                  slots: {
+                    beforeSearch:
+                      titleProps?.position === 'search' ? titleNode : null,
+                    ...rest.searchFilter.slots,
+                  },
+                }
+              }
               {...(inline && {
                 pageSizeOptions: rest.pageSizeOptions ?? [3, 10, 25, 50],
                 autoPageSize: rest.autoPageSize ?? !rest.autoHeight,
