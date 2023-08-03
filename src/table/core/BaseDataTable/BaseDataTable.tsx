@@ -516,6 +516,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       }
 
       if (!persistStateMode || persistStateMode === 'none') {
+        prevQueryState.current = fullTableState;
         return;
       }
 

@@ -61,6 +61,10 @@ export default function RowsCustomFilterForm({
       containerProps={{
         className: 'mui-admin-table-filters-form',
       }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
     >
       <ChangesWatcher initial={value} onChange={onChange} />
       {(inputs as any[]).map((inputObj) => {
