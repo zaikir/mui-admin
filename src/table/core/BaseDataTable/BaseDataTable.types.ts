@@ -199,7 +199,7 @@ export type BaseDataTableProps<
   BaseTablePersistence &
   BaseTableEvents & {
     id: string;
-    columns: TColumn[];
+    columns: (TColumn & { hidden?: boolean })[];
     editable?: EditableProps;
     deletable?: DeletableProps;
     sortBy?: { field: string; sort: 'asc' | 'desc' };

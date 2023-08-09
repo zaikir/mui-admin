@@ -89,6 +89,8 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const navigate = useNavigate();
 
   const defaultTableState = useMemo(() => {
+    const hiddenColumns = columns.filter((x) => x.hidden === false);
+
     const initialState: BaseDataTableState = {
       tab: defaultTabId,
       filters: {},
@@ -98,7 +100,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       sortModel: sortBy ? [sortBy] : [],
       persistPageSize: {},
       persistSortModel: {},
-      visibility: {},
+      visibility: hiddenColumns.length
+        ? { 0: Object.fromEntries(columns.map((col) => [col.field, false])) }
+        : {},
       columnSize: {},
       pinnedColumns: {},
       columnsOrder: {},
@@ -133,7 +137,14 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     }
 
     return state;
-  }, [defaultTabId, persistStateMode, queryPrefix, pageSizeOptions, sortBy]);
+  }, [
+    defaultTabId,
+    persistStateMode,
+    queryPrefix,
+    pageSizeOptions,
+    sortBy,
+    columns,
+  ]);
 
   const columnTypes: GridColumnTypesRecord = {
     ...rest.columnTypes,
@@ -834,18 +845,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
               setTableState((prev) => ({
                 ...prev,
-                // tab: defaultTabId,
-                search: '',
-                filters: {},
-                page: 0,
-                pageSize: pageSizeOptions[0],
-                sortModel: sortBy ? [sortBy] : [],
-                persistPageSize: {},
-                persistSortModel: {},
-                visibility: {},
-                columnSize: {},
-                pinnedColumns: {},
-                columnsOrder: {},
+                ...defaultTableState,
               }));
 
               setReset(true);
