@@ -88,10 +88,10 @@ export default function BaseDataTable(props: BaseDataTableProps) {
     useContext(ConfigurationContext);
   const navigate = useNavigate();
 
-  const defaultTableState = useMemo(() => {
-    const hiddenColumns = columns.filter((x) => x.hidden === false);
+  const initialTableState = useMemo(() => {
+    const hiddenColumns = columns.filter((x) => x.hidden);
 
-    const initialState: BaseDataTableState = {
+    return {
       tab: defaultTabId,
       filters: {},
       search: '',
@@ -101,8 +101,35 @@ export default function BaseDataTable(props: BaseDataTableProps) {
       persistPageSize: {},
       persistSortModel: {},
       visibility: hiddenColumns.length
-        ? { 0: Object.fromEntries(columns.map((col) => [col.field, false])) }
+        ? Object.fromEntries(
+            (tabsFilter?.tabs?.length
+              ? tabsFilter.tabs.map((x) => x.id)
+              : ['0']
+            ).map((tabId) => [
+              tabId,
+              Object.fromEntries(
+                hiddenColumns.map((col) => [col.field, false]),
+              ),
+            ]),
+          )
         : {},
+      columnSize: {},
+      pinnedColumns: {},
+      columnsOrder: {},
+    };
+  }, [pageSizeOptions, sortBy, columns, tabsFilter?.tabs]);
+
+  const defaultTableState = useMemo(() => {
+    const initialState: BaseDataTableState = {
+      tab: defaultTabId,
+      filters: {},
+      search: '',
+      page: 0,
+      pageSize: pageSizeOptions[0],
+      sortModel: sortBy ? [sortBy] : [],
+      persistPageSize: {},
+      persistSortModel: {},
+      visibility: initialTableState,
       columnSize: {},
       pinnedColumns: {},
       columnsOrder: {},
@@ -138,6 +165,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
     return state;
   }, [
+    initialTableState,
     defaultTabId,
     persistStateMode,
     queryPrefix,
@@ -845,7 +873,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
 
               setTableState((prev) => ({
                 ...prev,
-                ...defaultTableState,
+                ...initialTableState,
               }));
 
               setReset(true);

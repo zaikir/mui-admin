@@ -139,7 +139,7 @@ export type BaseDataTableFileColumnDef = Omit<GridColDef, 'type'> & {
   hideText?: boolean;
 } & Omit<BaseDataTableBaseColumnDef, 'type'>;
 
-export type BaseDataTableColumnDef =
+export type BaseDataTableColumnDef = (
   | BaseDataTableBaseColumnDef
   | BaseDataTableEditColumnDef
   | BaseDataTableDeleteColumnDef
@@ -150,7 +150,8 @@ export type BaseDataTableColumnDef =
   | BaseDataTableFileColumnDef
   | BaseDataTableColorColumnDef
   | BaseDataTableTranslationColumnDef
-  | BaseDataTableRelationshipColumnDef;
+  | BaseDataTableRelationshipColumnDef
+) & { hidden?: boolean };
 
 export type BaseDataInnerState = {
   page: number;
@@ -199,7 +200,7 @@ export type BaseDataTableProps<
   BaseTablePersistence &
   BaseTableEvents & {
     id: string;
-    columns: (TColumn & { hidden?: boolean })[];
+    columns: TColumn[];
     editable?: EditableProps;
     deletable?: DeletableProps;
     sortBy?: { field: string; sort: 'asc' | 'desc' };
