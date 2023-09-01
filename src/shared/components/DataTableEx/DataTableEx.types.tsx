@@ -20,7 +20,11 @@ export type DataTableExProps = Omit<DataTableProps, 'mode'> & {
   automaticallyOpenEditPage?: boolean;
   children?: React.ReactNode;
   formTitle?: (isNew: boolean) => string;
-  formDialogProps?: Partial<FormDialogProps>;
+  formDialogProps?: Partial<
+    FormDialogProps & {
+      onOpen?: () => void;
+    }
+  >;
   inline?: boolean;
   inlineHeight?: number;
   queryPrefix?: string;

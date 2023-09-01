@@ -4,6 +4,7 @@ import {
   forwardRef,
   Ref,
   useContext,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -98,6 +99,14 @@ const DataTableEx = forwardRef(
       }),
       [],
     );
+
+    useEffect(() => {
+      if (!isEditItemModalOpened) {
+        return;
+      }
+
+      formDialogProps?.onOpen?.();
+    }, [isEditItemModalOpened, formDialogProps?.onOpen]);
 
     const FormDialogComponent = components?.FormDialog || FormDialog;
 
