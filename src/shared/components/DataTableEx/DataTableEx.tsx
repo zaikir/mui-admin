@@ -106,7 +106,7 @@ const DataTableEx = forwardRef(
       }
 
       formDialogProps?.onOpen?.();
-    }, [isEditItemModalOpened, formDialogProps?.onOpen]);
+    }, [isEditItemModalOpened]);
 
     const FormDialogComponent = components?.FormDialog || FormDialog;
 
