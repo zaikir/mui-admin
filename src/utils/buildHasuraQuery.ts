@@ -107,7 +107,7 @@ export function buildHasuraQuery(query: HasuraQuery): ResultHasuraQuery {
         data: update${Source}(where: $where${query.set ? ', _set: $set' : ''}${
         query.inc ? ', _inc: $inc' : ''
       }) {
-          ${query.selection || 'affected_rows'}
+          ${query.selection || '__typename'}
         }
       }`
         .replace(/\n/g, ' ')
@@ -126,7 +126,7 @@ export function buildHasuraQuery(query: HasuraQuery): ResultHasuraQuery {
     return {
       query: `mutation Insert${Source}($insert: [${Source}InsertInput!]!) {
         data: insert${Source}(objects: $insert) {
-          ${query.selection || 'affected_rows'}
+          ${query.selection || '__typename'}
         }
       }`
         .replace(/\n/g, ' ')

@@ -92,7 +92,7 @@ export default function AttachmentsZoneFile({
       type: 'custom',
       query: `mutation DeleteFile($where: ${Source}BoolExp!, $set: ${Source}SetInput!) {
         update${Source}(where: $where, _set: $set) {
-          affected_rows
+          __typename
         }
       }`,
       variables: {
