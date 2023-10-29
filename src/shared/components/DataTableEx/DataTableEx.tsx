@@ -192,6 +192,15 @@ const DataTableEx = forwardRef(
           source={source}
           {...(selectedItem && { entityId: selectedItem.id })}
           {...formDialogProps}
+          {...(selectedItem && {
+            formProps: {
+              ...formDialogProps?.formProps,
+              defaultValues: {
+                ...formDialogProps?.formProps?.defaultValues,
+                ...selectedItem,
+              },
+            },
+          })}
           maxWidth={formDialogProps?.maxWidth ?? 'sm'}
           open={isEditItemModalOpened}
           onClose={() => {

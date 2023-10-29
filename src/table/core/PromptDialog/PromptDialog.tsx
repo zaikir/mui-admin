@@ -24,7 +24,7 @@ export type PromptDialogProps = {
   title: string;
   text?: string;
   form: React.ReactNode;
-  cancel?: string;
+  cancel?: string | false;
   accept?: string;
   width?: number;
   formSubmitterProps?: FormSubmitterProps;
@@ -49,7 +49,7 @@ const PromptDialog = forwardRef(
     const [text, setText] = useState<string>();
     const [formContent, setFormContent] = useState<React.ReactNode>();
     const [acceptButtonText, setAcceptButtonText] = useState<string>();
-    const [cancelButtonText, setCancelButtonText] = useState<string>();
+    const [cancelButtonText, setCancelButtonText] = useState<string | false>();
     const [allDialogProps, setAllDialogProps] = useState<PromptDialogProps>();
 
     const formRef = useRef<FormElementRef>(null);
@@ -130,9 +130,11 @@ const PromptDialog = forwardRef(
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose}>
-            {cancelButtonText || translations.cancel}
-          </Button>
+          {cancelButtonText !== false && (
+            <Button onClick={handleClose}>
+              {cancelButtonText || translations.cancel}
+            </Button>
+          )}
           <SubmitButton formRef={formRef} grid={false}>
             {acceptButtonText}
           </SubmitButton>
