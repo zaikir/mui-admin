@@ -139,12 +139,12 @@ export function FormSubmitter({
             mutation: [
               ...(idsToAdd.length
                 ? [
-                    `result_insert_${x.name}: insert${ResolverSource} (objects: $insert_${x.name}) { affected_rows }`,
+                    `result_insert_${x.name}: insert${ResolverSource} (objects: $insert_${x.name}) { __typename }`,
                   ]
                 : []),
               ...(idsToRemove.length
                 ? [
-                    `result_remove_${x.name}: update${ResolverSource} (where: $where_remove_${x.name}, _set: $set_remove_${x.name}) { affected_rows }`,
+                    `result_remove_${x.name}: update${ResolverSource} (where: $where_remove_${x.name}, _set: $set_remove_${x.name}) { __typename }`,
                   ]
                 : []),
             ].join(' '),
