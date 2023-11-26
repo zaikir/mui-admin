@@ -6,6 +6,7 @@ export default function TablePageLayout({ ...rest }: TablePageLayoutProps) {
     <BasePageLayout
       {...rest}
       paperProps={{
+        ...rest.paperProps,
         sx: [
           {
             pt: 1,
@@ -14,8 +15,7 @@ export default function TablePageLayout({ ...rest }: TablePageLayoutProps) {
               mx: -2,
               borderColor: 'transparent',
             },
-            ...((typeof rest?.paperProps?.sx === 'object' &&
-              rest?.paperProps?.sx) as any),
+            ...(rest.paperProps?.sx as any),
           },
         ],
       }}
