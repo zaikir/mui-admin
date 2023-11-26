@@ -79,6 +79,8 @@ export default function FormInput<TFields extends FieldValues>({
         xl={xl}
         clearable={clearable}
         readOnly={readOnly}
+        formFetcherValueResolver={formFetcherValueResolver}
+        formSubmitterValueResolver={formSubmitterValueResolver}
         {...rest}
         size={dense ? 'small' : rest.size}
         sx={{
