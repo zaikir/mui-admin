@@ -6,14 +6,18 @@ export default function TablePageLayout({ ...rest }: TablePageLayoutProps) {
     <BasePageLayout
       {...rest}
       paperProps={{
-        sx: {
-          pt: 1,
-          px: 2,
-          '& .MuiDataGrid-root': {
-            mx: -2,
-            borderColor: 'transparent',
+        sx: [
+          {
+            pt: 1,
+            px: 2,
+            '& .MuiDataGrid-root': {
+              mx: -2,
+              borderColor: 'transparent',
+            },
+            ...((typeof rest?.paperProps?.sx === 'object' &&
+              rest?.paperProps?.sx) as any),
           },
-        },
+        ],
       }}
     />
   );
