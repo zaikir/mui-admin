@@ -79,6 +79,7 @@ export default function FormInput<TFields extends FieldValues>({
         xl={xl}
         clearable={clearable}
         readOnly={readOnly}
+        value={controlledValue}
         formFetcherValueResolver={formFetcherValueResolver}
         formSubmitterValueResolver={formSubmitterValueResolver}
         {...rest}
