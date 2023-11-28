@@ -36,8 +36,13 @@ export default function AttachmentsZoneFiles({
 
           return acc;
         }, {} as Record<string, AttachmentsZoneFile[]>),
-      ).map(([title, items]) => ({ title, items })),
-    [files, isLoading, skeletonFiles],
+      )
+        .map(([title, items]) => ({ title, items }))
+        .filter(
+          (y) =>
+            !showSections || attachmentsTypes.find((x) => x.value === y.title),
+        ),
+    [files, isLoading, showSections, skeletonFiles],
   );
 
   return (
