@@ -226,7 +226,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                 foreignKeyValue={entityId}
                 source={source}
                 readOnly={isReadOnly}
-                showSections={attachmentsTypes.length > 1}
+                showSections={rest?.showSections ?? attachmentsTypes.length > 1}
                 onFileChange={(newFile, oldFile) => {
                   setFiles((items) =>
                     items.map((x) => (x.id === oldFile.id ? newFile : x)),
