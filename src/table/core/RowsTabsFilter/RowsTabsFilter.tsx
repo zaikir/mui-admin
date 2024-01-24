@@ -1,6 +1,8 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 
+import { FormTabIcon } from 'form/core/FormTabs/FormTabIcon';
+
 import {
   DataTableTabFilter,
   RowsTabsFilterProps,
@@ -57,13 +59,16 @@ export default function RowsTabsFilter({
         {tabsWithIds.map((tab) => (
           <Tab
             {...tabProps}
+            {...tab}
             key={tab.id}
             value={tab.id}
             label={tab.label}
+            icon={tab.icon && <FormTabIcon icon={tab.icon} badge={tab.badge} />}
             sx={{
               pl: { xs: 0, md: 0.25 },
               pr: { xs: 0, md: 0.5 },
               ...tabProps?.sx,
+              ...(tab?.sx as any),
             }}
           />
         ))}
