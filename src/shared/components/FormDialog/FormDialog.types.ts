@@ -25,4 +25,5 @@ export type FormDialogProps = Omit<DialogProps, 'title' | 'onClose'> & {
   components?: {
     ActionButtons?: React.ReactNode;
   };
+  dismissable?: boolean;
 };

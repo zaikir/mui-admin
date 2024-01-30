@@ -32,6 +32,7 @@ export default function FormDialog({
   autoFocus,
   onSubmit,
   components,
+  dismissable,
   ...rest
 }: FormDialogProps) {
   const { translations } = useContext(ConfigurationContext);
@@ -65,9 +66,11 @@ export default function FormDialog({
     >
       <DialogTitle sx={{ display: 'flex', alignItems: 'center' }}>
         {title}
-        <IconButton onClick={() => handleClose()} sx={{ ml: 'auto', mr: -1 }}>
-          <CloseIcon />
-        </IconButton>
+        {dismissable !== false && (
+          <IconButton onClick={() => handleClose()} sx={{ ml: 'auto', mr: -1 }}>
+            <CloseIcon />
+          </IconButton>
+        )}
       </DialogTitle>
       <DialogContent>
         <FormSubmitter
@@ -113,9 +116,11 @@ export default function FormDialog({
       <DialogActions>
         {components?.ActionButtons || (
           <>
-            <Button variant="text" onClick={() => handleClose()}>
-              {translations.cancel}
-            </Button>
+            {dismissable !== false && (
+              <Button variant="text" onClick={() => handleClose()}>
+                {translations.cancel}
+              </Button>
+            )}
             <SubmitButton variant="text" formRef={formRef}>
               {entityId ? translations.save : translations.create}
             </SubmitButton>
