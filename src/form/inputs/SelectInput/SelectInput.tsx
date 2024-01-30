@@ -121,7 +121,7 @@ export default function SelectInput<TFields extends FieldValues>({
           )}
           {items.map((item) =>
             'component' in item ? (
-              <Fragment key={item.value}>{item.component}</Fragment>
+              item.component
             ) : (
               <MenuItem key={item.value} {...item}>
                 {'text' in item ? item.text : item.children}
