@@ -4,7 +4,7 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material';
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { ConfigurationContext } from '../../../contexts/ConfigurationContext';
@@ -14,7 +14,11 @@ import { InputClearButton } from '../../core/InputClearButton';
 
 export type SelectMenuItemType = MenuItemTypeMap<object, 'li'>['props'] & {
   value: string | number;
-} & ({ text: string } | { children: React.ReactNode });
+} & (
+    | { text: string }
+    | { children: React.ReactNode }
+    | { component: React.ReactNode }
+  );
 
 export type SelectInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
@@ -115,11 +119,15 @@ export default function SelectInput<TFields extends FieldValues>({
               <em>{nullOptionText || translations!.nullSelectOptionText}</em>
             </MenuItem>
           )}
-          {items.map((item) => (
-            <MenuItem key={item.value} {...item}>
-              {'text' in item ? item.text : item.children}
-            </MenuItem>
-          ))}
+          {items.map((item) =>
+            'component' in item ? (
+              <Fragment key={item.value}>{item.component}</Fragment>
+            ) : (
+              <MenuItem key={item.value} {...item}>
+                {'text' in item ? item.text : item.children}
+              </MenuItem>
+            ),
+          )}
         </TextField>
       )}
     />
