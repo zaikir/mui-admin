@@ -114,18 +114,46 @@ export default function FormDialog({
         </FormSubmitter>
       </DialogContent>
       <DialogActions>
-        {components?.ActionButtons || (
-          <>
-            {dismissable !== false && (
-              <Button variant="text" onClick={() => handleClose()}>
-                {translations.cancel}
-              </Button>
-            )}
+        {(() => {
+          const cancelButtonText = translations.cancel;
+          const cancelButton = dismissable !== false && (
+            <Button variant="text" onClick={() => handleClose()}>
+              {cancelButtonText}
+            </Button>
+          );
+
+          const submitButtonText = entityId
+            ? translations.save
+            : translations.create;
+          const submitButton = (
             <SubmitButton variant="text" formRef={formRef}>
-              {entityId ? translations.save : translations.create}
+              {submitButtonText}
             </SubmitButton>
-          </>
-        )}
+          );
+
+          const context = {
+            cancelButton,
+            cancelButtonText,
+            entityId,
+            formRef,
+            submitButton,
+            submitButtonText,
+            handleClose,
+          };
+
+          if (typeof components?.ActionButtons === 'function') {
+            return components?.ActionButtons(context);
+          }
+
+          return (
+            components?.ActionButtons ?? (
+              <>
+                {cancelButton}
+                {submitButton}
+              </>
+            )
+          );
+        })()}
       </DialogActions>
     </Dialog>
   );

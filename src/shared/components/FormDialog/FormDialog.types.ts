@@ -2,6 +2,7 @@ import { DialogProps } from '@mui/material';
 import type { Omit } from 'type-zoo/types';
 
 import Form from 'form/Form';
+import { FormElementRef } from 'form/Form.types';
 import { FormFetcher } from 'form/contexts/FormFetcherContext';
 import { FormSubmitter } from 'form/contexts/FormSubmitterContext';
 
@@ -23,7 +24,17 @@ export type FormDialogProps = Omit<DialogProps, 'title' | 'onClose'> & {
   children: React.ReactNode;
   onSubmit?: (item: any) => void;
   components?: {
-    ActionButtons?: React.ReactNode;
+    ActionButtons?:
+      | React.ReactNode
+      | ((props: {
+          handleClose: () => void;
+          cancelButton: React.ReactNode;
+          cancelButtonText: string;
+          submitButton: React.ReactNode;
+          submitButtonText: string;
+          formRef: React.RefObject<FormElementRef>;
+          entityId: FormFetcherProps['entityId'];
+        }) => React.ReactNode);
   };
   dismissable?: boolean;
 };
