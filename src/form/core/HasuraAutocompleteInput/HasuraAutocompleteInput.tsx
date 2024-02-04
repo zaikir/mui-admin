@@ -37,6 +37,7 @@ export default function HasuraAutocompleteInput<
     controlRef,
     disableFetch,
     skipFetchContextCheck,
+    primaryKey = 'id',
     onSelection = null,
     onFetch = null,
     ...rest
@@ -78,7 +79,9 @@ export default function HasuraAutocompleteInput<
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const removedKeys = Object.keys(hasura.removeUpdate);
   const selectedOption =
-    value != null && !rest.multiple && items.find((x) => x.id === value);
+    value != null &&
+    !rest.multiple &&
+    items.find((x) => x[primaryKey] === value);
 
   const Source = source.charAt(0).toUpperCase() + source.slice(1);
 
@@ -124,12 +127,14 @@ export default function HasuraAutocompleteInput<
       if (rest.multiple) {
         return {
           // @ts-ignore
-          id: { _in: rest.keepObject ? value.map((x) => x.value) : value },
+          [primaryKey]: {
+            _in: rest.keepObject ? value.map((x) => x.value) : value,
+          },
         };
       }
 
       // @ts-ignore
-      return { id: { _eq: rest.keepObject ? value.value : value } };
+      return { [primaryKey]: { _eq: rest.keepObject ? value.value : value } };
     })();
 
     return {
@@ -327,7 +332,7 @@ export default function HasuraAutocompleteInput<
               value:
                 typeof itemValue === 'function'
                   ? itemValue(item)
-                  : item[itemValue ?? 'id'],
+                  : item[itemValue ?? primaryKey],
               item,
             } as TOption),
         )}

@@ -49,4 +49,5 @@ export type HasuraAutocompleteInputProps<
     controlRef?: Ref<HasuraAutocompleteRef>;
     disableFetch?: boolean;
     skipFetchContextCheck?: boolean;
+    primaryKey?: string;
   };
