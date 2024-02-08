@@ -66,7 +66,7 @@ function FileContent(props: {
               borderRadius: '4px',
             }}
             component="img"
-            src={`${apiClient.defaults.baseURL}/files/w_40,c_limit/${id}`}
+            src={`${apiClient.defaults.baseURL}/files/w_100,c_limit/${id}`}
           />
         </Box>
         {FileName}
