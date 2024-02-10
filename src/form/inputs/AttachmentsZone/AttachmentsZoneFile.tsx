@@ -56,7 +56,13 @@ export default function AttachmentsZoneFile({
       const formData = new FormData();
       formData.append('file', file);
       formData.append('attachmentType', attachmentType);
-      formData.append(foreignKey, foreignKeyValue.toString());
+      if (typeof foreignKeyValue === 'object') {
+        Object.entries(foreignKeyValue).forEach(([key, value]) => {
+          formData.append(key, value.toString());
+        });
+      } else {
+        formData.append(foreignKey, foreignKeyValue.toString());
+      }
 
       const response = await apiClient.post('/files', formData, {
         onUploadProgress(progressEvent) {
@@ -77,7 +83,13 @@ export default function AttachmentsZoneFile({
         ...(response.data as any),
       });
     },
-    [apiClient, attachmentType, foreignKey, foreignKeyValue, onChange],
+    [
+      apiClient,
+      attachmentType,
+      foreignKey,
+      JSON.stringify(foreignKeyValue),
+      onChange,
+    ],
   );
 
   const handleDelete = async () => {

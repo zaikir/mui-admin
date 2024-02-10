@@ -16,7 +16,7 @@ export type AttachmentsZoneFilesProps = {
   source: string;
   files: AttachmentsZoneFile[];
   foreignKey: string;
-  foreignKeyValue: string | number;
+  foreignKeyValue: string | number | Record<string, string | number>;
   isLoading?: boolean;
   showSections: boolean;
   disabled?: boolean;

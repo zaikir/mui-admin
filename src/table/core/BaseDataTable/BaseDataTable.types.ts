@@ -42,7 +42,7 @@ type EditableProps =
       columnProps?: Partial<GridColumnTypesRecord>;
       onEdit?: (row: any) => void;
       link?: (row: any) => string;
-      Icon?: ReactNode;
+      icon?: 'pencil' | 'eye';
     }
   | false;
 

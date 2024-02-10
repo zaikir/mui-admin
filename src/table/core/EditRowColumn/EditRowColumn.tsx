@@ -1,20 +1,19 @@
 import { IconButton } from '@mui/material';
 import { GridRenderCellParams, GridStateColDef } from '@mui/x-data-grid';
-import { Pencil } from 'mdi-material-ui';
-import { ReactNode } from 'react';
+import { Eye, Pencil } from 'mdi-material-ui';
 
 type ColDefType = GridStateColDef<any, any, any> & {
   onEdit?: (row: any) => void;
   link?: (row: any) => string;
-  Icon?: ReactNode;
+  icon?: 'pencil' | 'eye';
 };
 
 export type EditRowColumnProps = GridRenderCellParams<any, any, any>;
 
 export default function EditRowColumn({ row, colDef }: EditRowColumnProps) {
-  const { onEdit, link, Icon } = colDef as ColDefType;
+  const { onEdit, link, icon } = colDef as ColDefType;
 
-  const IconComponent = Icon ?? <Pencil fontSize="small" />;
+  const IconComponent = icon === 'eye' ? Eye : Pencil;
 
   if (link) {
     return (
@@ -27,7 +26,7 @@ export default function EditRowColumn({ row, colDef }: EditRowColumnProps) {
           }
         }}
       >
-        {IconComponent}
+        <IconComponent fontSize="small" />
       </IconButton>
     );
   }
@@ -42,7 +41,7 @@ export default function EditRowColumn({ row, colDef }: EditRowColumnProps) {
         }
       }}
     >
-      {IconComponent}
+      <IconComponent fontSize="small" />
     </IconButton>
   );
 }

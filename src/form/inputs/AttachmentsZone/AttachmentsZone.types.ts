@@ -9,7 +9,7 @@ export type AttachmentsZoneProps<TFields extends FieldValues> =
     mode?: 'hasura';
     source?: string;
     uploadUrl?: string;
-    entityId: string | number;
+    entityId: string | number | Record<string, string | number>;
     attachmentsTypes: { value: string; text: string }[];
     filter?: Record<string, any>;
     helperText?: string;
