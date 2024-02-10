@@ -26,6 +26,7 @@ export default function AttachmentsZoneFile({
   id,
   name,
   extension,
+  contentType,
   createdAt,
   size,
   fileToUpload,
@@ -34,6 +35,7 @@ export default function AttachmentsZoneFile({
   foreignKeyValue,
   source,
   readOnly,
+  displayMode,
   onChange,
   onDelete,
 }: AttachmentsZoneFileProps) {
@@ -133,14 +135,18 @@ export default function AttachmentsZoneFile({
         display: 'flex',
         flexDirection: 'column',
         bgcolor: 'white',
-        border: 'thin solid #e6e8f0',
-        borderRadius: 1,
-        p: 1,
-        boxShadow: 4,
         cursor: 'pointer',
-        '&:hover': {
-          border: `thin dashed ${theme.palette.text.primary}`,
-        },
+        ...(displayMode === 'simple'
+          ? {}
+          : {
+              border: 'thin solid #e6e8f0',
+              borderRadius: 1,
+              p: 1,
+              boxShadow: 4,
+              '&:hover': {
+                border: `thin dashed ${theme.palette.text.primary}`,
+              },
+            }),
       }}
       onClick={(event) => {
         event.stopPropagation();
@@ -162,15 +168,19 @@ export default function AttachmentsZoneFile({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 38,
-            height: 38,
-            px: 0.5,
+            width: displayMode === 'simple' ? 100 : 38,
+            height: displayMode === 'simple' ? 100 : 38,
+            px: displayMode === 'simple' ? 0 : 0.5,
           }}
         >
           {isSkeletonVisible ? (
             <Skeleton variant="rectangular" width="100%" height="100%" />
           ) : (
-            getFileIcon(extension)
+            getFileIcon(extension, {
+              contentType,
+              id,
+              baseUrl: apiClient.defaults.baseURL,
+            })
           )}
         </Box>
         <Box
@@ -178,7 +188,7 @@ export default function AttachmentsZoneFile({
             flex: 1,
             overflow: 'hidden',
             pl: 1,
-            display: 'flex',
+            display: displayMode === 'simple' ? 'none' : 'flex',
             flexDirection: 'column',
           }}
         >
