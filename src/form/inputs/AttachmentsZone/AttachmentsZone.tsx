@@ -165,7 +165,15 @@ export default function AttachmentsZone<TFields extends FieldValues>({
           .replace(/ +/g, ' ')
           .trim(),
         variables: {
-          where: { [name]: { _eq: entityId } },
+          where:
+            typeof entityId === 'object'
+              ? Object.fromEntries(
+                  Object.entries(entityId).map((key, value) => [
+                    key,
+                    { _eq: value },
+                  ]),
+                )
+              : { [name]: { _eq: entityId } },
         },
       });
 
