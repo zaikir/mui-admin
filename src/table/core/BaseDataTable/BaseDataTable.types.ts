@@ -4,6 +4,7 @@ import {
   GridColumnTypesRecord,
   GridPinnedColumns,
 } from '@mui/x-data-grid-pro';
+import { ReactNode } from 'react';
 
 import { ConfigurationType } from 'contexts/ConfigurationContext';
 import { NotificationsContextType } from 'contexts/NotificationsContext';
@@ -41,6 +42,7 @@ type EditableProps =
       columnProps?: Partial<GridColumnTypesRecord>;
       onEdit?: (row: any) => void;
       link?: (row: any) => string;
+      Icon?: ReactNode;
     }
   | false;
 
