@@ -366,7 +366,21 @@ export default function BaseDataTable(props: BaseDataTableProps) {
               pinnable: false,
             } as any,
           ]
-        : []),
+        : [
+            {
+              headerName: '',
+              field: '__heading__',
+              selector: false,
+              sortable: false,
+              width: 10,
+              minWidth: 10,
+              disableColumnMenu: true,
+              disableReorder: true,
+              disableExport: true,
+              hideable: false,
+              renderCell: () => null,
+            },
+          ]),
       ...items,
       ...(deletable
         ? [
