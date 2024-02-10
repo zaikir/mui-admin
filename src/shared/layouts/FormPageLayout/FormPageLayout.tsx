@@ -114,7 +114,7 @@ export function FormPageLayout({
     setTimeout(() => {
       setReload(false);
     }, 50);
-  }, [entityId]);
+  }, [JSON.stringify(entityId)]);
 
   useEffect(() => {
     if (allowUnsavedExit) {

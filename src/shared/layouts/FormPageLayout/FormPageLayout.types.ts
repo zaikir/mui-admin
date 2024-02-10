@@ -14,7 +14,9 @@ type FormSubmitterProps = React.ComponentProps<typeof FormSubmitter>;
 export type FormPageLayoutProps = Omit<BasePageLayoutProps, 'title'> & {
   source: string;
   readOnly?: boolean;
-  getEntityId?: (params: Record<string, string>) => string | number;
+  getEntityId?: (
+    params: Record<string, string>,
+  ) => string | number | Record<string, any>;
   children?: React.ReactNode;
   tagsSlot?: React.ReactNode;
   formProps?: Partial<FormProps>;
