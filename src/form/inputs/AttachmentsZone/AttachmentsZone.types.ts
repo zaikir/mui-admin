@@ -18,4 +18,5 @@ export type AttachmentsZoneProps<TFields extends FieldValues> =
     dropzoneProps?: DropzoneOptions;
     gridProps?: GridProps;
     showSections?: boolean;
+    displayMode?: 'informative' | 'simple';
   };

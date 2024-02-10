@@ -37,6 +37,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   title,
   dropzoneProps,
   gridProps,
+  displayMode,
   ...rest
 }: AttachmentsZoneProps<TFields>) {
   const source = initialSource ?? 'file';
@@ -119,6 +120,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
               size: file.size,
               createdAt: new Date().toISOString(),
               attachmentType,
+              contentType: file.type,
               fileToUpload: file,
             };
           }),
@@ -158,7 +160,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
         query: `
         query FilesFetch($where: ${Source}BoolExp) {
           items: ${source}(where: $where) {
-            id name extension size createdAt attachmentType ${name}
+            id name extension size createdAt attachmentType contentType ${name}
           }
         }`
           .replace(/\n/g, ' ')
@@ -212,7 +214,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
               borderRadius: 1,
               border: 'thin solid #e6e8f0',
               p: 3,
-              cursor: 'pointer',
+              ...(!rest.readOnly && { cursor: 'pointer' }),
               backgroundColor: 'transparent',
               ...(!files.length && {
                 '&:hover': {
@@ -244,6 +246,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                   setFiles((items) => items.filter((x) => x.id !== file.id));
                 }}
                 gridProps={gridProps}
+                displayMode={displayMode}
               />
             ) : (
               <Box

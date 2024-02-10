@@ -6,6 +6,7 @@ type FetchedFile = {
   extension: string;
   size: number;
   createdAt: string;
+  contentType: string;
   attachmentType: string;
   fileToUpload?: File;
 };
@@ -28,4 +29,5 @@ export type AttachmentsZoneFilesProps = {
   ) => void;
   onFileDelete: (file: AttachmentsZoneFile) => void;
   gridProps?: GridProps;
+  displayMode?: 'simple' | 'informative';
 };
