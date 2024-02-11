@@ -137,7 +137,11 @@ export default function AttachmentsZoneFile({
         bgcolor: 'white',
         cursor: 'pointer',
         ...(displayMode === 'simple'
-          ? {}
+          ? {
+              '&:hover img, &:hover video': {
+                outline: `thin solid #d2d2d2`,
+              },
+            }
           : {
               border: 'thin solid #e6e8f0',
               borderRadius: 1,
@@ -162,7 +166,7 @@ export default function AttachmentsZoneFile({
         );
       }}
     >
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box
           sx={{
             display: 'flex',
@@ -220,56 +224,60 @@ export default function AttachmentsZoneFile({
         </Box>
         {!isUploading ? (
           <>
-            <IconButton
-              size="small"
-              sx={{ ml: 0.5 }}
-              disabled={isSkeletonVisible}
-              onClick={(event) => {
-                event.stopPropagation();
-                setMenuAnchorEl(event.currentTarget);
-              }}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              anchorEl={menuAnchorEl}
-              open={Boolean(menuAnchorEl)}
-              onClose={() => {
-                setMenuAnchorEl(null);
-              }}
-            >
-              <MenuItem
-                component="a"
-                href={`${apiClient.defaults.baseURL}/files/${id}?download=true`}
-                download
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setMenuAnchorEl(null);
-                }}
-              >
-                <ListItemIcon>
-                  <FileDownloadIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>
-                  {translations.attachmentsFileMenuDownload}
-                </ListItemText>
-              </MenuItem>
-              {!readOnly && (
-                <MenuItem
+            {(displayMode !== 'simple' || !readOnly) && (
+              <>
+                <IconButton
+                  size="small"
+                  sx={{ ml: 0.5 }}
+                  disabled={isSkeletonVisible}
                   onClick={(event) => {
                     event.stopPropagation();
-                    handleDelete();
+                    setMenuAnchorEl(event.currentTarget);
                   }}
                 >
-                  <ListItemIcon>
-                    <DeleteForeverIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {translations.attachmentsFileMenuDelete}
-                  </ListItemText>
-                </MenuItem>
-              )}
-            </Menu>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={menuAnchorEl}
+                  open={Boolean(menuAnchorEl)}
+                  onClose={() => {
+                    setMenuAnchorEl(null);
+                  }}
+                >
+                  <MenuItem
+                    component="a"
+                    href={`${apiClient.defaults.baseURL}/files/${id}?download=true`}
+                    download
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setMenuAnchorEl(null);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <FileDownloadIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>
+                      {translations.attachmentsFileMenuDownload}
+                    </ListItemText>
+                  </MenuItem>
+                  {!readOnly && (
+                    <MenuItem
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDelete();
+                      }}
+                    >
+                      <ListItemIcon>
+                        <DeleteForeverIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        {translations.attachmentsFileMenuDelete}
+                      </ListItemText>
+                    </MenuItem>
+                  )}
+                </Menu>
+              </>
+            )}
           </>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.5 }}>
