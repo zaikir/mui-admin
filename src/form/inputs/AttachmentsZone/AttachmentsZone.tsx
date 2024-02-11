@@ -195,7 +195,12 @@ export default function AttachmentsZone<TFields extends FieldValues>({
       sx={{ display: 'flex', alignItems: 'center' }}
     >
       <FormControl required={required} size="small" sx={{ flex: 1 }}>
-        <Box>
+        <Box
+          component="div"
+          className={
+            !isLoading && !files.length ? 'ma-attachment-zone-empty' : ''
+          }
+        >
           {title && (
             <Box
               sx={{
