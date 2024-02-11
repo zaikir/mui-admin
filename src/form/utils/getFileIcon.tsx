@@ -4,7 +4,12 @@ import { FileIcon, defaultStyles } from 'react-file-icon';
 
 export function getFileIcon(
   extension: string,
-  file?: { contentType: string; id: number | string; baseUrl: string },
+  file?: {
+    contentType: string;
+    id: number | string;
+    baseUrl: string;
+    size?: number;
+  },
 ) {
   const ext = extension.replace(/\./g, '');
 
@@ -27,7 +32,9 @@ export function getFileIcon(
                 borderRadius: '4px',
                 objectFit: 'cover',
               }}
-              src={`${file.baseUrl}/files/w_100,c_limit/${file.id}`}
+              src={`${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
+                file.id
+              }`}
             />
           );
         }
