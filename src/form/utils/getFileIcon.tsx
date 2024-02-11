@@ -21,6 +21,12 @@ export function getFileIcon(
           return (
             <Box
               component="img"
+              sx={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '4px',
+                objectFit: 'cover',
+              }}
               src={`${file.baseUrl}/files/w_100,c_limit/${file.id}`}
             />
           );
@@ -30,8 +36,13 @@ export function getFileIcon(
           return (
             <Box
               component="video"
-              src={`${file.baseUrl}/files/${file.id}`}
-              controls
+              src={`${file.baseUrl}/files/${file.id}#t=0.1`}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '4px',
+              }}
             />
           );
         }

@@ -179,7 +179,7 @@ export default function AttachmentsZoneFile({
             getFileIcon(extension, {
               contentType,
               id,
-              baseUrl: apiClient.defaults.baseURL,
+              baseUrl: apiClient.defaults.baseURL!,
             })
           )}
         </Box>
