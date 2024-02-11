@@ -11,7 +11,7 @@ import { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
 import type { Omit } from 'type-zoo/types';
 
 import type { ConfigurationType } from 'contexts/ConfigurationContext';
-import Form from 'form/Form';
+import Form, { FormProps } from 'form/Form';
 import {
   FormSubmitter,
   FormSubmitterProps,
@@ -29,6 +29,7 @@ export type PromptDialogProps = {
   width?: number;
   formSubmitterProps?: FormSubmitterProps;
   dialogProps?: Omit<DialogProps, 'open'>;
+  formProps?: FormProps<any>;
 };
 
 export type PromptDialogElementRef = {
@@ -118,12 +119,21 @@ const PromptDialog = forwardRef(
                 onAccept(item);
               }}
             >
-              <Form ref={formRef} dirtySubmit={false}>
+              <Form
+                ref={formRef}
+                dirtySubmit={false}
+                {...allDialogProps.formProps}
+              >
                 {formContent}
               </Form>
             </FormSubmitter>
           ) : (
-            <Form ref={formRef} dirtySubmit={false} onSubmit={onAccept}>
+            <Form
+              ref={formRef}
+              dirtySubmit={false}
+              onSubmit={onAccept}
+              {...allDialogProps?.formProps}
+            >
               {formContent}
             </Form>
           )}
