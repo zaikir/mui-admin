@@ -54,31 +54,19 @@ function FileContent(props: {
     </Box>
   );
 
-  if (file.contentType.startsWith('image/')) {
+  if (
+    file.contentType.startsWith('image/') ||
+    file.contentType.startsWith('video/')
+  ) {
     return (
       <>
         <Box sx={{ width: size, height: size }}>
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '4px',
-            }}
-            component="img"
-            src={`${apiClient.defaults.baseURL}/files/w_100,c_limit/${id}`}
-          />
-        </Box>
-        {FileName}
-      </>
-    );
-  }
-
-  if (file.contentType.startsWith('video/')) {
-    return (
-      <>
-        <Box sx={{ width: size, height: size }}>
-          {getFileIcon(file.extension)}
+          {getFileIcon(file.extension, {
+            id,
+            size: 100,
+            baseUrl: apiClient.defaults.baseURL!,
+            contentType: file.contentType,
+          })}
         </Box>
         {FileName}
       </>
