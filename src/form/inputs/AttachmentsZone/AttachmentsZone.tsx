@@ -216,11 +216,12 @@ export default function AttachmentsZone<TFields extends FieldValues>({
               p: 3,
               ...(!rest.readOnly && { cursor: 'pointer' }),
               backgroundColor: 'transparent',
-              ...(!files.length && {
-                '&:hover': {
-                  border: `thin solid ${theme.palette.text.primary}`,
-                },
-              }),
+              ...(!files.length &&
+                !readOnly && {
+                  '&:hover': {
+                    border: `thin solid ${theme.palette.text.primary}`,
+                  },
+                }),
               ...(isDragActive && {
                 backgroundColor: 'rgba(0, 0, 0, 0.05)',
               }),

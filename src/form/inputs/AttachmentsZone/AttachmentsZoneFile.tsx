@@ -184,6 +184,7 @@ export default function AttachmentsZoneFile({
               contentType,
               id,
               baseUrl: apiClient.defaults.baseURL!,
+              size: displayMode === 'simple' ? 300 : 100,
             })
           )}
         </Box>
