@@ -50,6 +50,7 @@ export function getFileIcon(
             >
               <Box
                 component="video"
+                preload="metadata"
                 src={`${file.baseUrl}/files/${file.id}#t=0.1`}
                 sx={{
                   width: '100%',
