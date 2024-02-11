@@ -18,6 +18,7 @@ export default function AttachmentsZoneFiles({
   source,
   readOnly,
   gridProps,
+  displayMode,
   onFileChange,
   onFileDelete,
 }: AttachmentsZoneFilesProps) {
@@ -79,6 +80,7 @@ export default function AttachmentsZoneFiles({
                   foreignKeyValue={foreignKeyValue}
                   source={source}
                   readOnly={readOnly}
+                  displayMode={displayMode}
                   onChange={(newFile) => {
                     onFileChange(newFile, file);
                   }}
