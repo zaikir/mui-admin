@@ -31,7 +31,7 @@ const DataTableEx = forwardRef(
       editPageUrl,
       automaticallyOpenEditPage,
       children,
-      formDialogProps,
+      formDialogProps: initialFormDialogProps,
       inline,
       inlineHeight,
       components,
@@ -46,6 +46,9 @@ const DataTableEx = forwardRef(
     const [selectedItem, setSelectedItem] = useState<any>(null);
 
     const tableRef = useRef<DataTableRef>(null);
+
+    const { onOpen, entityIdResolver, ...formDialogProps } =
+      initialFormDialogProps ?? {};
 
     const editable = useMemo<any>(() => {
       if (rest.editable === false) {
@@ -105,7 +108,7 @@ const DataTableEx = forwardRef(
         return;
       }
 
-      formDialogProps?.onOpen?.();
+      onOpen?.();
     }, [isEditItemModalOpened]);
 
     const FormDialogComponent = components?.FormDialog || FormDialog;
@@ -191,8 +194,8 @@ const DataTableEx = forwardRef(
         <FormDialogComponent
           source={source}
           {...(selectedItem && {
-            entityId: formDialogProps?.entityIdResolver
-              ? formDialogProps.entityIdResolver(selectedItem)
+            entityId: entityIdResolver
+              ? entityIdResolver(selectedItem)
               : selectedItem.id,
           })}
           {...formDialogProps}
