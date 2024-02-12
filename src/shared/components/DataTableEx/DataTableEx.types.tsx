@@ -23,6 +23,7 @@ export type DataTableExProps = Omit<DataTableProps, 'mode'> & {
   formDialogProps?: Partial<
     FormDialogProps & {
       onOpen?: () => void;
+      entityIdResolver?: (entity: any) => FormDialogProps['entityId'];
     }
   >;
   inline?: boolean;

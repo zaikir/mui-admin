@@ -190,7 +190,11 @@ const DataTableEx = forwardRef(
         </Box>
         <FormDialogComponent
           source={source}
-          {...(selectedItem && { entityId: selectedItem.id })}
+          {...(selectedItem && {
+            entityId: formDialogProps?.entityIdResolver
+              ? formDialogProps.entityIdResolver(selectedItem)
+              : selectedItem.id,
+          })}
           {...formDialogProps}
           {...(selectedItem && {
             formProps: {
