@@ -50,11 +50,13 @@ const HasuraSelector = forwardRef(
       }
 
       const result = await formFetcherContext.refetch([selectorName]);
-      names.forEach((key) => {
-        setValue(key, result[key]);
+      const resolved = resolveValue ? resolveValue(result) : result;
+
+      Object.entries(resolved).forEach(([key, value]) => {
+        setValue(key, value);
       });
 
-      return result;
+      return resolved;
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name, names, formFetcherContext, flattenSelections, setValue]);
 
