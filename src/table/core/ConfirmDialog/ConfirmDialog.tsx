@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { forwardRef, Ref, useImperativeHandle, useRef, useState } from 'react';
+import useKeypress from 'react-use-keypress';
 
 export type ShowAlertProps = {
   title: string;
@@ -32,6 +33,10 @@ const ConfirmDialog = forwardRef(
     const [allDialogProps, setAllDialogProps] = useState<ShowAlertProps>();
 
     const resolvePromiseRef = useRef<(result: boolean) => void>();
+
+    useKeypress('Enter', () => {
+      onAccept();
+    });
 
     const handleClose = () => {
       setIsOpened(false);
@@ -98,16 +103,7 @@ const ConfirmDialog = forwardRef(
               {cancelButtonText}
             </Button>
           )}
-          <Button
-            onClick={onAccept}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                onAccept();
-              }
-            }}
-          >
-            {acceptButtonText}
-          </Button>
+          <Button onClick={onAccept}>{acceptButtonText}</Button>
         </DialogActions>
       </Dialog>
     );
