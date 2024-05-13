@@ -87,9 +87,27 @@ const ConfirmDialog = forwardRef(
         )}
         <DialogActions>
           {cancelButtonText && (
-            <Button onClick={handleClose}>{cancelButtonText}</Button>
+            <Button
+              onClick={handleClose}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  handleClose();
+                }
+              }}
+            >
+              {cancelButtonText}
+            </Button>
           )}
-          <Button onClick={onAccept}>{acceptButtonText}</Button>
+          <Button
+            onClick={onAccept}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                onAccept();
+              }
+            }}
+          >
+            {acceptButtonText}
+          </Button>
         </DialogActions>
       </Dialog>
     );
