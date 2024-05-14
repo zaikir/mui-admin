@@ -95,16 +95,6 @@ export default function TimeInput<TFields extends FieldValues>({
                 InputProps={{
                   ...params?.InputProps,
                   ...textFieldProps?.InputProps,
-                  startAdornment: textFieldProps?.InputProps
-                    ?.startAdornment ?? (
-                    <InputAdornment position="start">
-                      <AccessTime
-                        {...((readOnly || rest.disabled) && {
-                          htmlColor: 'rgba(55, 65, 81, 0.26)',
-                        })}
-                      />
-                    </InputAdornment>
-                  ),
                   endAdornment: (
                     <>
                       {clearable && value ? (
