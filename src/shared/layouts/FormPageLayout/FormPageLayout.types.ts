@@ -3,6 +3,7 @@ import type { Omit } from 'type-zoo/types';
 import Form from 'form/Form';
 import { FormFetcher } from 'form/contexts/FormFetcherContext';
 import { FormSubmitter } from 'form/contexts/FormSubmitterContext';
+import { SubmitButton } from 'form/core/SubmitButton';
 
 import { FormBreadcrumbsProps } from './FormBreadcrumbs.types';
 import { BasePageLayoutProps } from '../BasePageLayout/BasePageLayout.types';
@@ -27,4 +28,7 @@ export type FormPageLayoutProps = Omit<BasePageLayoutProps, 'title'> & {
   breadcrumbsDeps?: FormBreadcrumbsProps['deps'];
   hideSaveButton?: boolean;
   allowUnsavedExit?: boolean;
+  slots?: {
+    SubmitButton?: typeof SubmitButton;
+  };
 };

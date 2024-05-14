@@ -23,6 +23,7 @@ function SaveButton(props: {
   exitAfterSubmitRef: React.MutableRefObject<boolean>;
   onSubmittedRef: React.MutableRefObject<() => void>;
   disabled?: boolean;
+  slots?: any;
   handleGoBack: () => void;
 }) {
   const { handleGoBack, formRef, exitAfterSubmitRef, disabled } = props;
@@ -30,6 +31,7 @@ function SaveButton(props: {
   const isFormDirtyRef = useRef(false);
 
   const isMenuDisabled = useRef(false);
+  const Component = props.slots?.SubmitButton ?? SubmitButton;
 
   return (
     <>
@@ -39,7 +41,7 @@ function SaveButton(props: {
         }}
       />
 
-      <SubmitButton
+      <Component
         formRef={formRef}
         grid={false}
         sx={{ ml: 'auto' }}
@@ -53,8 +55,8 @@ function SaveButton(props: {
         }}
       >
         {translations.save}
-      </SubmitButton>
-      <SubmitButton
+      </Component>
+      <Component
         formRef={formRef}
         grid={false}
         sx={{ ml: 1, display: { xs: 'none', sm: 'flex' } }}
@@ -69,7 +71,7 @@ function SaveButton(props: {
         }}
       >
         {translations.saveAndExit}
-      </SubmitButton>
+      </Component>
     </>
   );
 }
@@ -88,6 +90,7 @@ export function FormPageLayout({
   breadcrumbsDeps,
   hideSaveButton,
   allowUnsavedExit,
+  slots,
   ...rest
 }: FormPageLayoutProps) {
   const params = useParams() as Record<string, string>;
@@ -222,8 +225,8 @@ export function FormPageLayout({
               />
             }
             actionContent={
-              !readOnly &&
-              !hideSaveButton && (
+              rest.actionContent ??
+              (!readOnly && !hideSaveButton && (
                 <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                   {tagsSlot}
                   {isRemoved && (
@@ -249,10 +252,11 @@ export function FormPageLayout({
                       exitAfterSubmitRef={exitAfterSubmitRef}
                       onSubmittedRef={onSubmittedRef as any}
                       handleGoBack={handleGoBack}
+                      slots={slots}
                     />
                   )}
                 </Box>
-              )
+              ))
             }
           >
             {children}
