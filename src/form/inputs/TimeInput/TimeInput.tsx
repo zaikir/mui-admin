@@ -72,9 +72,12 @@ export default function TimeInput<TFields extends FieldValues>({
       }) => (
         <TimePicker
           {...rest}
+          // @ts-ignore
           value={value ? dayjs(value, 'HH:mm') : null}
           readOnly={readOnly}
+          // @ts-ignore
           onChange={(newValue, keyboardInputValue) => {
+            // @ts-ignore
             const timeStr = newValue ? newValue.format('HH:mm') : null;
             onChange(timeStr, keyboardInputValue);
             if (typeof rest.onChange === 'function') {
@@ -82,19 +85,21 @@ export default function TimeInput<TFields extends FieldValues>({
               rest.onChange(timeStr, keyboardInputValue);
             }
           }}
-          slots={{
-            textField: (params) => (
-              <BaseTextField
-                {...params}
-                name={name}
-                fullWidth={fullWidth ?? true}
-                variant={textFieldProps?.variant ?? 'outlined'}
-                size={dense ? 'small' : undefined}
-                disableStartAdorementOffset
-                readOnly={readOnly}
-                InputProps={{
-                  ...params?.InputProps,
+          slotProps={{
+            // @ts-ignore
+            textField(ownerState) { 
+              return {
+                ...ownerState,
+                name,
+                readOnly,
+                fullWidth: fullWidth ?? true,
+                variant: textFieldProps?.variant ?? 'outlined',
+                size: dense ? 'small' : undefined,
+                autoComplete: 'nope',
+                InputProps: {
+                  ...ownerState?.InputProps,
                   ...textFieldProps?.InputProps,
+                  startAdornment: textFieldProps?.InputProps?.startAdornment,
                   endAdornment: (
                     <>
                       {clearable && value ? (
@@ -102,37 +107,37 @@ export default function TimeInput<TFields extends FieldValues>({
                           onClick={() => onChange({ target: { value: null } })}
                         />
                       ) : null}
-                      {params?.InputProps?.endAdornment}
+                      {ownerState?.InputProps?.endAdornment}
                     </>
                   ),
-                }}
+                },
                 // eslint-disable-next-line react/jsx-no-duplicate-props
-                inputProps={{
-                  ...params?.inputProps,
+                inputProps: {
+                  ...ownerState?.inputProps,
                   ...textFieldProps?.inputProps,
-                }}
-                onBlur={(event) => {
+                },
+                onBlur: (event) => {
                   onBlur();
                   if (typeof rest.onBlur === 'function') {
                     rest.onBlur(event);
                   }
-                }}
-                {...textFieldProps}
-                required={required}
-                error={!!error}
-                helperText={error?.message || helperText || ' '}
+                },
+                ...textFieldProps,
+                required,
+                error: !!error,
+                helperText: error?.message || helperText || ' ',
                 // @ts-ignore
-                sx={{
+                sx: {
                   ':hover .input-clear-button': { display: 'flex' },
                   ...sx,
                   ...textFieldProps?.sx,
-                }}
-              />
-            ),
+                },
+              }
+            },
           }}
-          // renderInput={(params) => (
-          //
-          // )}
+          slots={{
+            textField: BaseTextField,
+          }}
         />
       )}
     />

@@ -13,7 +13,7 @@ export type DateInputProps<TFields extends FieldValues> =
   BaseInputProps<TFields> &
     Omit<DatePickerProps<any, any>, 'value' | 'onChange' | 'renderInput'> & {
       onBlur?: TextFieldProps['onBlur'];
-      onChange?: DatePickerProps<string, any>['onChange'];
+      onChange?: DatePickerProps<any, any>['onChange'];
       helperText?: TextFieldProps['helperText'];
       fullWidth?: TextFieldProps['fullWidth'];
       textFieldProps?: Omit<TextFieldProps, 'name' | 'required' | 'label'>;
@@ -66,73 +66,77 @@ export default function DateInput<TFields extends FieldValues>({
       render={({
         field: { value, onChange, onBlur },
         fieldState: { error },
-      }) => (
-        <DatePicker
-          {...rest}
-          value={value ? dayjs(value, 'YYYY-MM-DD') : null}
-          readOnly={readOnly}
-          InputAdornmentProps={{
-            position: 'start',
-          }}
-          onChange={(newValue: Dayjs | null, keyboardInputValue) => {
-            const dateStr = newValue ? newValue.format('YYYY-MM-DD') : null;
+      }) => {
+        return (
+          // @ts-ignore
+          <DatePicker
+            {...rest}
+            value={value ? (dayjs(value, 'YYYY-MM-DD') as any) : null}
+            readOnly={readOnly}
+            onChange={(newValue: Dayjs | null, keyboardInputValue) => {
+              const dateStr = newValue ? newValue.format('YYYY-MM-DD') : null;
 
-            onChange(dateStr, keyboardInputValue);
-            if (typeof rest.onChange === 'function') {
-              rest.onChange(dateStr, keyboardInputValue);
-            }
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              name={name}
-              readOnly={readOnly}
-              fullWidth={fullWidth ?? true}
-              variant={textFieldProps?.variant ?? 'outlined'}
-              size={dense ? 'small' : undefined}
-              autoComplete="nope"
-              InputProps={{
-                ...params?.InputProps,
-                ...textFieldProps?.InputProps,
-                startAdornment:
-                  (textFieldProps?.InputProps?.startAdornment,
-                  params?.InputProps?.startAdornment),
-                endAdornment: (
-                  <>
-                    {clearable && value ? (
-                      <InputClearButton
-                        onClick={() => onChange({ target: { value: null } })}
-                      />
-                    ) : null}
-                    {params?.InputProps?.endAdornment}
-                  </>
-                ),
-              }}
-              // eslint-disable-next-line react/jsx-no-duplicate-props
-              inputProps={{
-                ...params?.inputProps,
-                ...textFieldProps?.inputProps,
-              }}
-              onBlur={(event) => {
-                onBlur();
-                if (typeof rest.onBlur === 'function') {
-                  rest.onBlur(event);
-                }
-              }}
-              {...textFieldProps}
-              required={required}
-              error={!!error}
-              helperText={error?.message || helperText || ' '}
+              onChange(dateStr, keyboardInputValue);
+              if (typeof rest.onChange === 'function') {
+                rest.onChange(dateStr, keyboardInputValue);
+              }
+            }}
+            slots={{
+              textField: TextField,
+            }}
+            slotProps={{
               // @ts-ignore
-              sx={{
-                ':hover .input-clear-button': { display: 'flex' },
-                ...sx,
-                ...textFieldProps?.sx,
-              }}
-            />
-          )}
-        />
-      )}
+              textField(ownerState) {
+                return {
+                  ...ownerState,
+                  name,
+                  readOnly,
+                  fullWidth: fullWidth ?? true,
+                  variant: textFieldProps?.variant ?? 'outlined',
+                  size: dense ? 'small' : undefined,
+                  autoComplete: 'nope',
+                  InputProps: {
+                    ...ownerState?.InputProps,
+                    ...textFieldProps?.InputProps,
+                    startAdornment: textFieldProps?.InputProps?.startAdornment,
+                    endAdornment: (
+                      <>
+                        {clearable && value ? (
+                          <InputClearButton
+                            onClick={() => onChange({ target: { value: null } })}
+                          />
+                        ) : null}
+                        {ownerState?.InputProps?.endAdornment}
+                      </>
+                    ),
+                  },
+                  // eslint-disable-next-line react/jsx-no-duplicate-props
+                  inputProps: {
+                    ...ownerState?.inputProps,
+                    ...textFieldProps?.inputProps,
+                  },
+                  onBlur: (event) => {
+                    onBlur();
+                    if (typeof rest.onBlur === 'function') {
+                      rest.onBlur(event);
+                    }
+                  },
+                  ...textFieldProps,
+                  required,
+                  error: !!error,
+                  helperText: error?.message || helperText || ' ',
+                  // @ts-ignore
+                  sx: {
+                    ':hover .input-clear-button': { display: 'flex' },
+                    ...sx,
+                    ...textFieldProps?.sx,
+                  },
+                };
+              },
+            }}
+          />
+        );
+      }}
     />
   );
 }
