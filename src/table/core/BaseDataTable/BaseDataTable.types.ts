@@ -139,6 +139,11 @@ export type BaseDataTableFileColumnDef = Omit<GridColDef, 'type'> & {
   type: 'file';
   size?: number;
   hideText?: boolean;
+  fetchMetadata?: (row: any) => Promise<{
+    contentType: string;
+    name: string;
+    extension: string;
+  }>;
 } & Omit<BaseDataTableBaseColumnDef, 'type'>;
 
 export type BaseDataTableColumnDef = (

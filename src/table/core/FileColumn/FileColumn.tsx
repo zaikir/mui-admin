@@ -102,7 +102,11 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
   } = useContext(ConfigurationContext);
   const [file, setFile] = useState<null | FileInfo>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { hideText, size = 42 } = colDef as BaseDataTableFileColumnDef;
+  const {
+    hideText,
+    fetchMetadata,
+    size = 42,
+  } = colDef as BaseDataTableFileColumnDef;
 
   useEffect(() => {
     if (value == null) {
@@ -111,6 +115,12 @@ export default function FileColumn({ value, row, colDef }: FileColumnProps) {
     }
 
     (async () => {
+      if (fetchMetadata) {
+        setFile(await fetchMetadata(row));
+        setIsLoading(false);
+        return;
+      }
+
       const [data] = await hasura.request({
         type: 'query',
         source: 'file',
