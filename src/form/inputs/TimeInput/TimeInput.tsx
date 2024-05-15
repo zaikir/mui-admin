@@ -73,7 +73,7 @@ export default function TimeInput<TFields extends FieldValues>({
         <TimePicker
           {...rest}
           // @ts-ignore
-          value={value ? dayjs(value, 'HH:mm') : null}
+          value={value ? dayjs(`1900-01-01T${value}:00`, 'YYYY-MM-DDTHH:mm:ss') : null}
           readOnly={readOnly}
           // @ts-ignore
           onChange={(newValue, keyboardInputValue) => {
