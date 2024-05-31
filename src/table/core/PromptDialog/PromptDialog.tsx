@@ -23,7 +23,11 @@ import { SubmitButton } from '../../../form/core/SubmitButton';
 export type PromptDialogProps = {
   title: string;
   text?: string;
-  form: React.ReactNode;
+  form?: React.ReactNode;
+  dialog?: (dialogProps: {
+    onAccept: (item: any) => void;
+    onClose: () => void;
+  }) => React.ReactNode;
   cancel?: string | false;
   accept?: string;
   width?: number;
@@ -92,6 +96,17 @@ const PromptDialog = forwardRef(
       }),
       [],
     );
+
+    if (allDialogProps?.dialog) {
+      return (
+        <>
+          {allDialogProps?.dialog({
+            onAccept,
+            onClose: handleClose,
+          })}
+        </>
+      );
+    }
 
     return (
       <Dialog
