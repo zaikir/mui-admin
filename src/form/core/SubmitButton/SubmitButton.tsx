@@ -115,7 +115,8 @@ export default function SubmitButton({
           {...(rest as any)}
           type="submit"
           disabled={rest.disabled || (activateOnDirty && !isDirty)}
-          loading={isSubmitting || formState.isSubmitting}
+          // @ts-ignore
+          loading={rest.loading ?? (isSubmitting || formState.isSubmitting)}
         >
           {children}
         </LoadingButton>
