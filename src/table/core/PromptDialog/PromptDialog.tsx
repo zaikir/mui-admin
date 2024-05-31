@@ -21,10 +21,11 @@ import { FormElementRef } from '../../../form/Form.types';
 import { SubmitButton } from '../../../form/core/SubmitButton';
 
 export type PromptDialogProps = {
-  title: string;
+  title?: string;
   text?: string;
   form?: React.ReactNode;
   dialog?: (dialogProps: {
+    open: boolean;
     onAccept: (item: any) => void;
     onClose: () => void;
   }) => React.ReactNode;
@@ -81,7 +82,7 @@ const PromptDialog = forwardRef(
       ref,
       () => ({
         async show(dialogProps) {
-          setTitle(dialogProps.title);
+          setTitle(dialogProps.title ?? '');
           setText(dialogProps.text);
           setFormContent(dialogProps.form);
           setAcceptButtonText(dialogProps.accept ?? '');
@@ -101,8 +102,12 @@ const PromptDialog = forwardRef(
       return (
         <>
           {allDialogProps?.dialog({
+            open: isOpened,
             onAccept,
-            onClose: handleClose,
+            onClose: () => {
+              setIsOpened(false);
+              handleClose();
+            },
           })}
         </>
       );
