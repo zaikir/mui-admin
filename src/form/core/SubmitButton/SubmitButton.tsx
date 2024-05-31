@@ -65,7 +65,8 @@ function FormControlledSubmitButton({
       <DirtyStateListener control={control} onChange={setIsDirty} />
       <LoadingButton
         {...rest}
-        loading={isSubmitting}
+        // @ts-ignore
+        loading={rest.loading ?? isSubmitting}
         disabled={rest.disabled || (activateOnDirty && !isDirty)}
         onClick={() => {
           if (rest.onClick) {
