@@ -126,13 +126,12 @@ export default function RowsFilter({
             // customFilterInputs[0].type === 'date'
             setCustomFilterValue(
               Object.fromEntries(
-                Object.entries(newObj).map(([key, value]) => {
-                  const filter = customFilterInputs.find((x) => x.name === key);
-                  if (filter?.type === 'date' && value === 'Invalid Date') {
-                    return [key, null];
+                Object.entries(newObj).flatMap(([key, value]) => {
+                  if (value === 'Invalid Date') {
+                    return [];
                   }
 
-                  return [key, value];
+                  return [[key, value]];
                 }),
               ),
             );
