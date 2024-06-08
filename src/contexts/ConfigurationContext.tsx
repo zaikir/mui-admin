@@ -69,6 +69,7 @@ export type ConfigurationType = {
     columnFillAvailableSpace: string;
   };
   locale: string;
+  defaultDateFormat: string | null;
   defaultPhoneCountry: CountryCode;
   thousandsSeparator: string;
   decimalSeparator: string;
@@ -154,6 +155,7 @@ export const DefaultConfiguration: ConfigurationType = {
     exportCsv: 'Export CSV',
     columnFillAvailableSpace: 'Fill available space',
   },
+  defaultDateFormat: null,
   defaultPhoneCountry: 'US',
   thousandsSeparator: groupDelimiter!,
   decimalSeparator: decimalDelimiter!,

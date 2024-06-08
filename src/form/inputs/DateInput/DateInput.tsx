@@ -41,7 +41,7 @@ export default function DateInput<TFields extends FieldValues>({
   sx,
   ...rest
 }: DateInputProps<TFields>): JSX.Element {
-  const { translations } = useContext(ConfigurationContext);
+  const { translations, defaultDateFormat } = useContext(ConfigurationContext);
   const { dense, readOnly: globalReadOnly } = useContext(FormConfigContext);
   const readOnly = globalReadOnly || readOnlyProp;
   const clearable = !!((clearableProp ?? true) && !rest.disabled && !readOnly);
@@ -73,6 +73,9 @@ export default function DateInput<TFields extends FieldValues>({
             {...rest}
             value={value ? (dayjs(value, 'YYYY-MM-DD') as any) : null}
             readOnly={readOnly}
+            {...(defaultDateFormat && {
+              format: defaultDateFormat,
+            })}
             onChange={(newValue: Dayjs | null, keyboardInputValue) => {
               const dateStr = newValue ? newValue.format('YYYY-MM-DD') : null;
 
@@ -103,7 +106,9 @@ export default function DateInput<TFields extends FieldValues>({
                       <>
                         {clearable && value ? (
                           <InputClearButton
-                            onClick={() => onChange({ target: { value: null } })}
+                            onClick={() =>
+                              onChange({ target: { value: null } })
+                            }
                           />
                         ) : null}
                         {ownerState?.InputProps?.endAdornment}
