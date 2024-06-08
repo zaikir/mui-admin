@@ -15,6 +15,7 @@ import {
   useGridApiRef,
 } from '@mui/x-data-grid-pro';
 import { GridApiPro } from '@mui/x-data-grid-pro/models/gridApiPro';
+import dayjs from 'dayjs';
 import { ArrowSplitVertical } from 'mdi-material-ui';
 import {
   useCallback,
@@ -84,7 +85,7 @@ export default function BaseDataTable(props: BaseDataTableProps) {
   const skeletonWidths = useRef<Record<string, number>>({});
   const [reset, setReset] = useState(false);
 
-  const { store, hasura, locale, translations } =
+  const { store, hasura, locale, translations, defaultDateFormat } =
     useContext(ConfigurationContext);
   const navigate = useNavigate();
 
@@ -205,7 +206,9 @@ export default function BaseDataTable(props: BaseDataTableProps) {
           return column!.placeholder ?? '—';
         }
 
-        return new Date(params.value).toLocaleDateString();
+        return defaultDateFormat
+          ? dayjs(new Date(params.value)).format(defaultDateFormat)
+          : new Date(params.value).toLocaleDateString();
       },
     },
     dateTime: {
@@ -217,7 +220,11 @@ export default function BaseDataTable(props: BaseDataTableProps) {
         }
 
         const date = new Date(params.value);
-        return `${date.toLocaleDateString()} ${date.toLocaleTimeString(locale, {
+        return `${
+          defaultDateFormat
+            ? dayjs(date).format(defaultDateFormat)
+            : date.toLocaleDateString()
+        } ${date.toLocaleTimeString(locale, {
           hour: '2-digit',
           minute: '2-digit',
         })}`;
