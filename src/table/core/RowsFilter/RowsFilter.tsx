@@ -122,7 +122,21 @@ export default function RowsFilter({
       {customFilter && customFilterInputs.length > 0 && (
         <RowsCustomFilterForm
           value={customFilterValue}
-          onChange={setCustomFilterValue}
+          onChange={(newObj) => {
+            // customFilterInputs[0].type === 'date'
+            setCustomFilterValue(
+              Object.fromEntries(
+                Object.entries(newObj).map(([key, value]) => {
+                  const filter = customFilterInputs.find((x) => x.name === key);
+                  if (filter?.type === 'date' && value === 'Invalid Date') {
+                    return [key, null];
+                  }
+
+                  return [key, value];
+                }),
+              ),
+            );
+          }}
           inputs={customFilterInputs}
           onDeleteInput={(input) => {
             setCustomFilterInputs(

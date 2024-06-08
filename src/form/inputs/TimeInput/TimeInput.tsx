@@ -77,7 +77,11 @@ export default function TimeInput<TFields extends FieldValues>({
         <TimePicker
           {...rest}
           // @ts-ignore
-          value={value ? dayjs(`1900-01-01T${value}:00`, 'YYYY-MM-DDTHH:mm:ss') : null}
+          value={
+            value
+              ? dayjs(`1900-01-01T${value}:00`, 'YYYY-MM-DDTHH:mm:ss')
+              : null
+          }
           readOnly={readOnly}
           // @ts-ignore
           onChange={(newValue, keyboardInputValue) => {
@@ -90,8 +94,11 @@ export default function TimeInput<TFields extends FieldValues>({
             }
           }}
           slotProps={{
+            inputAdornment: {
+              position: 'start',
+            },
             // @ts-ignore
-            textField(ownerState) { 
+            textField(ownerState) {
               return {
                 ...ownerState,
                 name,
@@ -103,7 +110,9 @@ export default function TimeInput<TFields extends FieldValues>({
                 InputProps: {
                   ...ownerState?.InputProps,
                   ...textFieldProps?.InputProps,
-                  startAdornment: textFieldProps?.InputProps?.startAdornment,
+                  startAdornment:
+                    textFieldProps?.InputProps?.startAdornment ??
+                    ownerState?.InputProps?.startAdornment,
                   endAdornment: (
                     <>
                       {clearable && value ? (
@@ -136,7 +145,7 @@ export default function TimeInput<TFields extends FieldValues>({
                   ...sx,
                   ...textFieldProps?.sx,
                 },
-              }
+              };
             },
           }}
           slots={{

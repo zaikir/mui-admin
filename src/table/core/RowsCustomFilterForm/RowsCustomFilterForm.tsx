@@ -119,7 +119,7 @@ export default function RowsCustomFilterForm({
           }
 
           if (type === 'date') {
-            return { width: 200, Component: DateInput };
+            return { width: 220, Component: DateInput };
           }
 
           if (type === 'select') {
@@ -175,7 +175,7 @@ export default function RowsCustomFilterForm({
                 position="end"
                 sx={{ height: '100%', alignSelf: 'center' }}
               >
-                <Tooltip title="Удалить фильтр">
+                <Tooltip title="Delete">
                   <IconButton
                     edge="end"
                     onClick={() => {
@@ -203,7 +203,7 @@ export default function RowsCustomFilterForm({
             name={input}
             xs={filter.xs ?? 'auto'}
             sx={{ width: width ?? defaultWidth, ...filter.sx, ...props?.sx }}
-            placeholder="Значение фильтра"
+            placeholder="Filter value"
             {...(type === 'autocomplete' ? { inputProps } : inputProps)}
           />
         );

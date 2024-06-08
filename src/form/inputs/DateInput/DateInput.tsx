@@ -71,7 +71,11 @@ export default function DateInput<TFields extends FieldValues>({
           // @ts-ignore
           <DatePicker
             {...rest}
-            value={value ? (dayjs(value, 'YYYY-MM-DD') as any) : null}
+            value={
+              value && dayjs(value, 'YYYY-MM-DD').isValid()
+                ? (dayjs(value, 'YYYY-MM-DD') as any)
+                : null
+            }
             readOnly={readOnly}
             {...(defaultDateFormat && {
               format: defaultDateFormat,
@@ -88,6 +92,9 @@ export default function DateInput<TFields extends FieldValues>({
               textField: TextField,
             }}
             slotProps={{
+              inputAdornment: {
+                position: 'start',
+              },
               // @ts-ignore
               textField(ownerState) {
                 return {
@@ -101,8 +108,11 @@ export default function DateInput<TFields extends FieldValues>({
                   InputProps: {
                     ...ownerState?.InputProps,
                     ...textFieldProps?.InputProps,
-                    startAdornment: textFieldProps?.InputProps?.startAdornment,
-                    endAdornment: (
+                    startAdornment:
+                      textFieldProps?.InputProps?.startAdornment ??
+                      ownerState?.InputProps?.startAdornment,
+                    // @ts-ignore
+                    endAdornment: rest.InputProps?.endAdornment ?? (
                       <>
                         {clearable && value ? (
                           <InputClearButton
@@ -111,7 +121,6 @@ export default function DateInput<TFields extends FieldValues>({
                             }
                           />
                         ) : null}
-                        {ownerState?.InputProps?.endAdornment}
                       </>
                     ),
                   },
