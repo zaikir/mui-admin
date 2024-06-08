@@ -245,7 +245,12 @@ export function FormFetcher({
       fetchedEntity: entity,
       register,
       unregister,
-      refetch: fetchEntity,
+      refetch: async () => {
+        const onItemFetch = onFetch ?? ((x) => x);
+        const fetchedItem = await fetchEntity();
+
+        return onItemFetch(fetchedItem);
+      },
     }),
     [entity, register, unregister, fetchEntity],
   );
