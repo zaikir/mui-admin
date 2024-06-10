@@ -1,6 +1,47 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
+import { useState } from 'react';
 // @ts-ignore
 import { FileIcon, defaultStyles } from 'react-file-icon';
+
+function ImageWithSkeleton({
+  src,
+  width,
+  height,
+}: {
+  src: string;
+  width: number | string;
+  height: number | string;
+}) {
+  const [loading, setLoading] = useState(true);
+
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
+  return (
+    <Box position="relative" width={width} height={height}>
+      {loading && (
+        <Skeleton
+          variant="rectangular"
+          sx={{ width: '100%', height: '100%', borderRadius: '4px' }}
+        />
+      )}
+      <Box
+        component="img"
+        loading="lazy"
+        onLoad={handleImageLoad}
+        sx={{
+          display: loading ? 'none' : 'block',
+          width: '100%',
+          height: '100%',
+          borderRadius: '4px',
+          objectFit: 'cover',
+        }}
+        src={src}
+      />
+    </Box>
+  );
+}
 
 export function getFileIcon(
   extension: string,
@@ -32,20 +73,15 @@ export function getFileIcon(
                 position: 'relative',
               }}
             >
-              <Box
-                component="img"
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '4px',
-                  objectFit: 'cover',
-                }}
+              <ImageWithSkeleton
                 src={
                   file?.thumbnail ??
-                  `${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
-                    file.id
-                  }`
+                  `${file.baseUrl}/files/w_${file.size ?? 100},h_${
+                    file.size ?? 100
+                  },c_limit/${file.id}`
                 }
+                width="100%"
+                height="100%"
               />
               {file?.contentType.startsWith('video/') && (
                 <Box

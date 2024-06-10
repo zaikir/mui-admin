@@ -67,7 +67,7 @@ function FileContent(props: {
             size: 100,
             baseUrl: apiClient.defaults.baseURL!,
             contentType: file.contentType,
-            thumbnail: file.thumbnail,
+            thumbnail: file.thumbnail!,
           })}
         </Box>
         {FileName}
