@@ -9,6 +9,7 @@ export function getFileIcon(
     id: number | string;
     baseUrl: string;
     size?: number;
+    thumbnail?: string;
   },
 ) {
   const ext = extension.replace(/\./g, '');
@@ -22,24 +23,53 @@ export function getFileIcon(
       }}
     >
       {(() => {
-        if (file?.contentType.startsWith('image/')) {
+        if (file?.contentType.startsWith('image/') || file?.thumbnail) {
           return (
             <Box
-              component="img"
               sx={{
                 width: '100%',
                 height: '100%',
-                borderRadius: '4px',
-                objectFit: 'cover',
+                position: 'relative',
               }}
-              src={
-                file.id.toString().startsWith('data:')
-                  ? (file.id as string)
-                  : `${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
-                      file.id
-                    }`
-              }
-            />
+            >
+              <Box
+                component="img"
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '4px',
+                  objectFit: 'cover',
+                }}
+                src={
+                  file?.thumbnail ??
+                  `${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
+                    file.id
+                  }`
+                }
+              />
+              {file?.contentType.startsWith('video/') && (
+                <Box
+                  sx={{
+                    pointerEvents: 'none',
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    top: 0,
+                    left: 0,
+                    margin: '13%',
+                    opacity: 0.9,
+                    color: 'white',
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M8,5.14V19.14L19,12.14L8,5.14Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </Box>
+              )}
+            </Box>
           );
         }
 
