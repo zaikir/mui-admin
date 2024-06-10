@@ -14,6 +14,7 @@ type FileInfo = {
   contentType: string;
   name: string;
   extension: string;
+  thumbnail?: string | null;
 };
 
 function FileContent(props: {
@@ -66,6 +67,7 @@ function FileContent(props: {
             size: 100,
             baseUrl: apiClient.defaults.baseURL!,
             contentType: file.contentType,
+            thumbnail: file.thumbnail,
           })}
         </Box>
         {FileName}
