@@ -32,9 +32,13 @@ export function getFileIcon(
                 borderRadius: '4px',
                 objectFit: 'cover',
               }}
-              src={`${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
-                file.id
-              }`}
+              src={
+                file.id.toString().startsWith('data:')
+                  ? (file.id as string)
+                  : `${file.baseUrl}/files/w_${file.size ?? 100},c_limit/${
+                      file.id
+                    }`
+              }
             />
           );
         }
