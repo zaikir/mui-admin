@@ -1,7 +1,8 @@
 import { Box, Skeleton } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @ts-ignore
 import { FileIcon, defaultStyles } from 'react-file-icon';
+import { useInView } from 'react-intersection-observer';
 
 function ImageWithSkeleton({
   src,
@@ -12,33 +13,48 @@ function ImageWithSkeleton({
   width: number | string;
   height: number | string;
 }) {
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
+  const [startedLoading, setStartedLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const handleImageLoad = () => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (!inView || startedLoading) {
+      return;
+    }
+
+    setStartedLoading(true);
+  }, [inView, startedLoading]);
+
   return (
-    <Box position="relative" width={width} height={height}>
+    <Box position="relative" width={width} height={height} ref={ref}>
       {loading && (
         <Skeleton
           variant="rectangular"
           sx={{ width: '100%', height: '100%', borderRadius: '4px' }}
         />
       )}
-      <Box
-        component="img"
-        loading="lazy"
-        onLoad={handleImageLoad}
-        sx={{
-          display: loading ? 'none' : 'block',
-          width: '100%',
-          height: '100%',
-          borderRadius: '4px',
-          objectFit: 'cover',
-        }}
-        src={src}
-      />
+      {startedLoading && (
+        <Box
+          component="img"
+          onLoad={handleImageLoad}
+          sx={{
+            display: loading ? 'none' : 'block',
+            width: '100%',
+            height: '100%',
+            borderRadius: '4px',
+            objectFit: 'cover',
+          }}
+          src={src}
+        />
+      )}
     </Box>
   );
 }
