@@ -5,6 +5,7 @@ export type BreadcrumbsItem = {
   onClick?: () => void;
   copyOnClick?: boolean;
   element?: React.ReactNode;
+  skeletonWidth?: number;
 };
 
 export type BreadcrumbsSelector =

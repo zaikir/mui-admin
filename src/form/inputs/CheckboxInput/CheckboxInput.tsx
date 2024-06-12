@@ -20,6 +20,7 @@ export type CheckboxInputProps<TFields extends FieldValues> =
       label?: FormControlLabelProps['label'];
       helperText?: string;
       variant?: 'checkbox' | 'switch';
+      formControlLabelProps?: FormControlLabelProps;
     };
 
 export default function CheckboxInput<TFields extends FieldValues>({
@@ -38,6 +39,7 @@ export default function CheckboxInput<TFields extends FieldValues>({
   readOnly: readOnlyProp,
   formFetcherValueResolver,
   formSubmitterValueResolver,
+  formControlLabelProps,
   ...rest
 }: CheckboxInputProps<TFields>): JSX.Element {
   const ControlComponent = variant === 'switch' ? Switch : Checkbox;
@@ -68,8 +70,9 @@ export default function CheckboxInput<TFields extends FieldValues>({
         >
           <FormGroup row>
             <FormControlLabel
+              {...formControlLabelProps}
               label={label ?? ''}
-              sx={{ userSelect: 'none' }}
+              sx={formControlLabelProps?.sx ?? { userSelect: 'none' }}
               control={
                 <ControlComponent
                   {...rest}

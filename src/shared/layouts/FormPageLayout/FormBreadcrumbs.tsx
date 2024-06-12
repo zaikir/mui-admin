@@ -61,7 +61,7 @@ export function FormBreadcrumbs({
           const isLoading = typeof breadcrumb === 'function' && !entity;
           if (isLoading) {
             // eslint-disable-next-line react/no-array-index-key
-            return <Skeleton key={breadcrumbIdx} width={150} />;
+            return <Skeleton key={breadcrumbIdx} width={100} />;
           }
 
           const data =
