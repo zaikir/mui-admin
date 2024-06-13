@@ -93,6 +93,7 @@ export {
 } from './form/core/NumberInput';
 export {
   PhoneInput,
+  FlagIcon,
   type InternalPhoneInputProps,
 } from './form/core/PhoneInput';
 export { SubmitButton } from './form/core/SubmitButton';
