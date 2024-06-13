@@ -47,6 +47,10 @@ export type FormRestSubmitterProps = {
     | ((entity: any) => PromiseOrValue<{ url: string; method: string }>);
 };
 
+export type FormNoneSubmitterProps = {
+  mode: 'none';
+};
+
 export type FormSubmitterProps = {
   entityId?: string | number | Record<string, any> | null;
   clearEntity?: (item: any) => PromiseOrValue<any>;
@@ -55,4 +59,8 @@ export type FormSubmitterProps = {
   onError?: (error: any) => PromiseOrValue<void>;
   resetAfterSubmit?: boolean;
   showSuccessAlert?: boolean;
-} & (FormHasuraSubmitterProps | FormRestSubmitterProps);
+} & (
+  | FormHasuraSubmitterProps
+  | FormRestSubmitterProps
+  | FormNoneSubmitterProps
+);

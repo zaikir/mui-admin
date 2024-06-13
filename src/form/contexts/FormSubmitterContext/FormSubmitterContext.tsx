@@ -314,6 +314,8 @@ export function FormSubmitter({
           result = await hasuraSubmit(resultEntity);
         } else if (mode === 'rest') {
           result = await restSubmit(resultEntity);
+        } else if (mode === 'none') {
+          result = resultEntity;
         } else {
           throw new Error(`Unknown method: ${mode}`);
         }
