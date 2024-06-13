@@ -37,6 +37,7 @@ type HasuraMutationDef = {
   | HasuraMutationUpdateDef
   | HasuraMutationInsertDef
   | HasuraMutationInsertOneDef
+  | HasuraMutationDeleteDef
 );
 
 type HasuraMutationUpdateDef = {
@@ -54,6 +55,11 @@ type HasuraMutationInsertDef = {
 type HasuraMutationInsertOneDef = {
   action: 'insertOne';
   item: Record<string, any>;
+};
+
+type HasuraMutationDeleteDef = {
+  where?: Record<string, any>;
+  action: 'delete';
 };
 
 type ResultHasuraQuery = {
@@ -151,6 +157,23 @@ export function buildHasuraQuery(query: HasuraQuery): ResultHasuraQuery {
         .trim(),
       variables: {
         insert: query.item,
+      },
+      extractResult: (data) => data.data,
+    };
+  }
+
+  if (query.type === 'mutation' && query.action === 'delete') {
+    return {
+      query: `mutation Delete${Source}($where: ${Source}BoolExp!) {
+        data: delete${Source}(where: $where) {
+          __typename
+        }
+      }`
+        .replace(/\n/g, ' ')
+        .replace(/ +/g, ' ')
+        .trim(),
+      variables: {
+        where: query.where,
       },
       extractResult: (data) => data.data,
     };
