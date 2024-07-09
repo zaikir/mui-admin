@@ -103,7 +103,9 @@ export default function FormDialog({
             {...formFetcherProps}
           >
             <Form ref={formRef} {...formProps} dirtySubmit={false}>
+              {components?.beforeForm}
               {content}
+              {components?.afterForm}
               <DirtyStateListener
                 onChange={(isDirty) => {
                   isFormDirtyRef.current = isDirty;

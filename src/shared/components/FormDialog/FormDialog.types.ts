@@ -24,6 +24,7 @@ export type FormDialogProps = Omit<DialogProps, 'title' | 'onClose'> & {
   children: React.ReactNode;
   onSubmit?: (item: any) => void;
   components?: {
+    beforeForm?: React.ReactNode;
     ActionButtons?:
       | React.ReactNode
       | ((props: {
@@ -35,6 +36,7 @@ export type FormDialogProps = Omit<DialogProps, 'title' | 'onClose'> & {
           formRef: React.RefObject<FormElementRef>;
           entityId: FormFetcherProps['entityId'];
         }) => React.ReactNode);
+    afterForm?: React.ReactNode;
   };
   dismissable?: boolean;
 };
