@@ -1,7 +1,7 @@
 {
   "name": "@kirz/mui-admin",
   "license": "MIT",
-  "version": "0.5.62",
+  "version": "0.5.65",
   "files": [
     "dist"
   ],
@@ -69,6 +69,7 @@
     "@zaidulin_kirill/mui-otp-input": "^1.2.0",
     "axios": "^1.2.6",
     "color": "^4.2.3",
+    "dayjs": "^1.11.7",
     "graphql-tag": "^2.12.6",
     "material-ui-popup-state": "^4.1.0",
     "mdi-material-ui": "^7.5.0",
@@ -95,7 +96,6 @@
     "@typescript-eslint/parser": "^5.49.0",
     "@vitejs/plugin-react": "^2.0.1",
     "babel-loader": "^8.2.5",
-    "dayjs": "^1.11.13",
     "eslint": "^8.33.0",
     "eslint-config-universe": "^11.1.1",
     "eslint-import-resolver-alias": "^1.1.2",
