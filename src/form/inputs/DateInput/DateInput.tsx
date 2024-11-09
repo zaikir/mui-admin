@@ -71,7 +71,6 @@ export default function DateInput<TFields extends FieldValues>({
           // @ts-ignore
           <DatePicker
             {...rest}
-            disableHighlightToday
             value={
               value && dayjs(value, 'YYYY-MM-DD').isValid()
                 ? (dayjs(value, 'YYYY-MM-DD') as any)
