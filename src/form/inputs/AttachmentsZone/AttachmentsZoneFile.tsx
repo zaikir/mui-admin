@@ -38,6 +38,7 @@ export default function AttachmentsZoneFile({
   displayMode,
   onChange,
   onDelete,
+  onImageOpen,
 }: AttachmentsZoneFileProps) {
   const Source = source.charAt(0).toUpperCase() + source.slice(1);
   const isSkeletonVisible = !name;
@@ -155,6 +156,11 @@ export default function AttachmentsZoneFile({
       onClick={(event) => {
         event.stopPropagation();
         if (menuAnchorEl) {
+          return;
+        }
+
+        if (onImageOpen) {
+          onImageOpen();
           return;
         }
 

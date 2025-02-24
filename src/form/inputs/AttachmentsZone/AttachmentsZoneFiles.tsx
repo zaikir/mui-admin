@@ -21,6 +21,7 @@ export default function AttachmentsZoneFiles({
   displayMode,
   onFileChange,
   onFileDelete,
+  onImageOpen,
 }: AttachmentsZoneFilesProps) {
   const skeletonFiles = [...new Array(2).keys()].map((id) => ({
     id,
@@ -87,6 +88,13 @@ export default function AttachmentsZoneFiles({
                   onDelete={() => {
                     onFileDelete(file);
                   }}
+                  onImageOpen={
+                    file.contentType.startsWith('image/')
+                      ? () => {
+                          onImageOpen(file);
+                        }
+                      : undefined
+                  }
                 />
               </Grid>
             ))}

@@ -10,6 +10,7 @@ import { CloudUploadOutline } from 'mdi-material-ui';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FieldValues } from 'react-hook-form';
+import { Lightbox } from 'yet-another-react-lightbox';
 
 import { ConfigurationContext } from 'contexts/ConfigurationContext';
 import { NotificationsContext } from 'contexts/NotificationsContext';
@@ -19,6 +20,7 @@ import AttachmentsZoneFiles from './AttachmentsZoneFiles';
 import { AttachmentsZoneFile } from './AttachmentsZoneFiles.types';
 import { FormConfigContext } from '../../contexts/FormConfigContext';
 import { AutocompleteInput } from '../AutocompleteInput';
+import 'yet-another-react-lightbox/styles.css';
 
 export default function AttachmentsZone<TFields extends FieldValues>({
   value,
@@ -44,6 +46,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   const Source = source.charAt(0).toUpperCase() + source.slice(1);
   const { readOnly } = useContext(FormConfigContext);
   const isReadOnly = rest.readOnly || readOnly;
+  const [lightboxImageIndex, setLightboxImageIndex] = useState(-1);
 
   const theme = useTheme();
   const [files, setFiles] = useState<AttachmentsZoneFile[]>(value ?? []);
@@ -55,6 +58,8 @@ export default function AttachmentsZone<TFields extends FieldValues>({
     translations,
   } = useContext(ConfigurationContext)!;
   const { showPrompt, showAlert } = useContext(NotificationsContext);
+
+  const images = files.filter((x) => x.contentType.startsWith('image/'));
 
   const uploadFile = useCallback(
     async (file: File, attachmentType: string) => {
@@ -186,100 +191,119 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   }, []);
 
   return (
-    <Grid
-      xs={xs ?? 12}
-      sm={sm}
-      md={md}
-      lg={lg}
-      xl={xl}
-      sx={{ display: 'flex', alignItems: 'center' }}
-    >
-      <FormControl required={required} size="small" sx={{ flex: 1 }}>
-        <Box
-          component="div"
-          className={
-            !isLoading && !files.length ? 'ma-attachment-zone-empty' : ''
-          }
-        >
-          {title && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                height: '40px',
-                mb: 1,
-              }}
-            >
-              <Typography variant="subtitle1">{title}</Typography>
-            </Box>
-          )}
+    <>
+      <Grid
+        xs={xs ?? 12}
+        sm={sm}
+        md={md}
+        lg={lg}
+        xl={xl}
+        sx={{ display: 'flex', alignItems: 'center' }}
+      >
+        <FormControl required={required} size="small" sx={{ flex: 1 }}>
           <Box
-            {...getRootProps()}
-            sx={{
-              borderRadius: 1,
-              border: 'thin solid #e6e8f0',
-              p: 3,
-              ...(!rest.readOnly && { cursor: 'pointer' }),
-              backgroundColor: 'transparent',
-              ...(!files.length &&
-                !readOnly && {
-                  '&:hover': {
-                    border: `thin solid ${theme.palette.text.primary}`,
-                  },
-                }),
-              ...(isDragActive && {
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              }),
-            }}
+            component="div"
+            className={
+              !isLoading && !files.length ? 'ma-attachment-zone-empty' : ''
+            }
           >
-            <input {...getInputProps()} />
-            {isLoading || files.length ? (
-              <AttachmentsZoneFiles
-                isLoading={isLoading}
-                files={files}
-                attachmentsTypes={attachmentsTypes}
-                foreignKey={name}
-                foreignKeyValue={entityId}
-                source={source}
-                readOnly={isReadOnly}
-                showSections={rest?.showSections ?? attachmentsTypes.length > 1}
-                onFileChange={(newFile, oldFile) => {
-                  setFiles((items) =>
-                    items.map((x) => (x.id === oldFile.id ? newFile : x)),
-                  );
-                }}
-                onFileDelete={(file) => {
-                  setFiles((items) => items.filter((x) => x.id !== file.id));
-                }}
-                gridProps={gridProps}
-                displayMode={displayMode}
-              />
-            ) : (
+            {title && (
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'center',
                   alignItems: 'center',
-                  flexDirection: 'column',
-                  opacity: 0.7,
-                  height: 90 - (attachmentsTypes.length > 1 ? 0 : 22),
-                  textAlign: 'center',
+                  height: '40px',
+                  mb: 1,
                 }}
               >
-                {!isReadOnly ? (
-                  <>
-                    <CloudUploadOutline />
-                    {translations.attachmentsUploadedOrDropFileHere}
-                  </>
-                ) : (
-                  translations.attachmentsNoFiles
-                )}
+                <Typography variant="subtitle1">{title}</Typography>
               </Box>
             )}
+            <Box
+              {...getRootProps()}
+              sx={{
+                borderRadius: 1,
+                border: 'thin solid #e6e8f0',
+                p: 3,
+                ...(!rest.readOnly && { cursor: 'pointer' }),
+                backgroundColor: 'transparent',
+                ...(!files.length &&
+                  !readOnly && {
+                    '&:hover': {
+                      border: `thin solid ${theme.palette.text.primary}`,
+                    },
+                  }),
+                ...(isDragActive && {
+                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                }),
+              }}
+            >
+              <input {...getInputProps()} />
+              {isLoading || files.length ? (
+                <AttachmentsZoneFiles
+                  isLoading={isLoading}
+                  files={files}
+                  attachmentsTypes={attachmentsTypes}
+                  foreignKey={name}
+                  foreignKeyValue={entityId}
+                  source={source}
+                  readOnly={isReadOnly}
+                  showSections={
+                    rest?.showSections ?? attachmentsTypes.length > 1
+                  }
+                  onFileChange={(newFile, oldFile) => {
+                    setFiles((items) =>
+                      items.map((x) => (x.id === oldFile.id ? newFile : x)),
+                    );
+                  }}
+                  onFileDelete={(file) => {
+                    setFiles((items) => items.filter((x) => x.id !== file.id));
+                  }}
+                  onImageOpen={(file) => {
+                    setLightboxImageIndex(files.indexOf(file));
+                  }}
+                  gridProps={gridProps}
+                  displayMode={displayMode}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    opacity: 0.7,
+                    height: 90 - (attachmentsTypes.length > 1 ? 0 : 22),
+                    textAlign: 'center',
+                  }}
+                >
+                  {!isReadOnly ? (
+                    <>
+                      <CloudUploadOutline />
+                      {translations.attachmentsUploadedOrDropFileHere}
+                    </>
+                  ) : (
+                    translations.attachmentsNoFiles
+                  )}
+                </Box>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <FormHelperText error={!!error}>{helperText || ' '}</FormHelperText>
-      </FormControl>
-    </Grid>
+          <FormHelperText error={!!error}>{helperText || ' '}</FormHelperText>
+        </FormControl>
+      </Grid>
+      {files.length > 0 && (
+        <Lightbox
+          open={lightboxImageIndex !== -1}
+          close={() => setLightboxImageIndex(-1)}
+          index={lightboxImageIndex}
+          slides={images.map((file) => ({
+            src: encodeURI(
+              `${apiClient.defaults.baseURL}/files/${file.id}/${file.name}${file.extension}`,
+            ),
+          }))}
+        />
+      )}
+    </>
   );
 }
