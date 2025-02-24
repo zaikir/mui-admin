@@ -1,7 +1,7 @@
 {
   "name": "@kirz/mui-admin",
   "license": "MIT",
-  "version": "0.5.66",
+  "version": "0.5.67",
   "files": [
     "dist"
   ],
@@ -45,12 +45,12 @@
     "@mui/x-date-pickers": "^7.4.0",
     "@types/react": "^17.0.0 || ^18.0.0",
     "axios": "^1.2.6",
+    "dayjs": "*",
     "mdi-material-ui": "^7.5.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "react-hook-form": "^7.37.0",
-    "react-router-dom": "^6.4.4",
-    "dayjs": "*"
+    "react-router-dom": "^6.4.4"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -70,7 +70,7 @@
     "@zaidulin_kirill/mui-otp-input": "^1.2.0",
     "axios": "^1.2.6",
     "color": "^4.2.3",
-    "dayjs": "^1.11.7",
+    "dayjs": "*",
     "graphql-tag": "^2.12.6",
     "material-ui-popup-state": "^4.1.0",
     "mdi-material-ui": "^7.5.0",
@@ -87,7 +87,8 @@
     "react-hook-form": "^7.37.0",
     "react-imask": "^6.4.3",
     "react-intersection-observer": "^9.10.3",
-    "react-router-dom": "^6.4.4"
+    "react-router-dom": "^6.4.4",
+    "yet-another-react-lightbox": "^3.21.7"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
