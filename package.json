@@ -1,7 +1,7 @@
 {
   "name": "@kirz/mui-admin",
   "license": "MIT",
-  "version": "0.5.67",
+  "version": "0.5.68",
   "files": [
     "dist"
   ],
@@ -26,6 +26,9 @@
     "lint:fix": "npm run lint -- --fix",
     "release": "standard-version && npm publish --access public"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "standard-version": {
     "scripts": {
       "prerelease": "npm run build"
