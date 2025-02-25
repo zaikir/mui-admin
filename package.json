@@ -1,7 +1,7 @@
 {
   "name": "@kirz/mui-admin",
   "license": "MIT",
-  "version": "0.5.68",
+  "version": "0.5.69",
   "files": [
     "dist"
   ],
@@ -26,9 +26,6 @@
     "lint:fix": "npm run lint -- --fix",
     "release": "standard-version && npm publish --access public"
   },
-  "sideEffects": [
-    "*.css"
-  ],
   "standard-version": {
     "scripts": {
       "prerelease": "npm run build"
@@ -91,6 +88,7 @@
     "react-imask": "^6.4.3",
     "react-intersection-observer": "^9.10.3",
     "react-router-dom": "^6.4.4",
+    "vite-plugin-lib-inject-css": "^2.2.1",
     "yet-another-react-lightbox": "^3.21.7"
   },
   "devDependencies": {
