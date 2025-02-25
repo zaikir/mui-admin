@@ -1,10 +1,11 @@
 // @ts-ignore
-import react from '@vitejs/plugin-react'
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
-import dts from 'vite-plugin-dts'
-import { defineConfig } from 'vite'
-import { ViteAliases } from 'vite-aliases'
-import * as path from 'path'
+import react from '@vitejs/plugin-react';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import dts from 'vite-plugin-dts';
+import { defineConfig } from 'vite';
+import { ViteAliases } from 'vite-aliases';
+import * as path from 'path';
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 export default defineConfig({
   build: {
@@ -13,7 +14,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'mui-admin',
-      fileName: format => `mui-admin.${format}.js`
+      fileName: (format) => `mui-admin.${format}.js`,
     },
     rollupOptions: {
       output: {
@@ -24,21 +25,22 @@ export default defineConfig({
           '@mui/material/Box': 'Box',
           '@mui/material/TextField': 'TextField',
           '@mui/material/styles': 'styles',
-        }
-      }
-    }
+        },
+      },
+    },
   },
   plugins: [
     peerDepsExternal(),
+    libInjectCss(),
     ViteAliases({
       deep: false,
       createGlobalAlias: false,
       useTypescript: true,
-      prefix: ''
+      prefix: '',
     }),
     dts({
-      insertTypesEntry: true
+      insertTypesEntry: true,
     }),
-    react()
-  ]
-})
+    react(),
+  ],
+});
