@@ -21,6 +21,7 @@ import { AttachmentsZoneFile } from './AttachmentsZoneFiles.types';
 import { FormConfigContext } from '../../contexts/FormConfigContext';
 import { AutocompleteInput } from '../AutocompleteInput';
 import 'yet-another-react-lightbox/styles.css';
+import { FormInput } from '../FormInput';
 
 export default function AttachmentsZone<TFields extends FieldValues>({
   value,
@@ -72,40 +73,42 @@ export default function AttachmentsZone<TFields extends FieldValues>({
     [apiClient],
   );
 
+  const selectAttachmentType = useCallback(async () => {
+    if (attachmentsTypes.length === 1) {
+      return attachmentsTypes[0].value;
+    }
+
+    const result = await showPrompt({
+      title: translations.attachmentsZoneTitle,
+      text: translations.attachmentsZoneText,
+      form: (
+        <AutocompleteInput
+          name="attachmentType"
+          label={translations.attachmentsZoneLabel}
+          options={attachmentsTypes}
+          required
+          inputProps={{
+            autoFocus: true,
+            autoComplete: 'none',
+          }}
+        />
+      ),
+      accept: translations.attachmentsZoneAccept,
+      cancel: translations.attachmentsZoneCancel,
+    });
+
+    if (!result) {
+      return false;
+    }
+
+    return result.attachmentType;
+  }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     disabled: isReadOnly,
     onDrop: useCallback(
       async (acceptedFiles: File[]) => {
-        const attachmentType = await (async () => {
-          if (attachmentsTypes.length === 1) {
-            return attachmentsTypes[0].value;
-          }
-
-          const result = await showPrompt({
-            title: translations.attachmentsZoneTitle,
-            text: translations.attachmentsZoneText,
-            form: (
-              <AutocompleteInput
-                name="attachmentType"
-                label={translations.attachmentsZoneLabel}
-                options={attachmentsTypes}
-                required
-                inputProps={{
-                  autoFocus: true,
-                  autoComplete: 'none',
-                }}
-              />
-            ),
-            accept: translations.attachmentsZoneAccept,
-            cancel: translations.attachmentsZoneCancel,
-          });
-
-          if (!result) {
-            return false;
-          }
-
-          return result.attachmentType;
-        })();
+        const attachmentType = await selectAttachmentType();
 
         if (!attachmentType || !acceptedFiles.length) {
           return;
@@ -258,6 +261,104 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                   }}
                   onFileDelete={(file) => {
                     setFiles((items) => items.filter((x) => x.id !== file.id));
+                  }}
+                  onFileRename={async (file) => {
+                    const newName = await (async () => {
+                      const result = await showPrompt({
+                        title: translations.attachmentsZoneFileRenameTitle,
+                        text: translations.attachmentsZoneFileRenameText,
+                        form: (
+                          <FormInput
+                            name="name"
+                            label={translations.attachmentsZoneFileRenameLabel}
+                            required
+                            inputProps={{
+                              autoFocus: true,
+                              autoComplete: 'none',
+                            }}
+                          />
+                        ),
+                        accept: translations.save,
+                        cancel: translations.cancel,
+                      });
+
+                      if (!result) {
+                        return false;
+                      }
+
+                      return result.name;
+                    })();
+
+                    if (!newName) {
+                      return;
+                    }
+
+                    await hasura.request({
+                      type: 'custom',
+                      query: `mutation RenameFile($where: ${Source}BoolExp!, $set: ${Source}SetInput!) {
+                        update${Source}(where: $where, _set: $set) {
+                          __typename
+                        }
+                      }`,
+                      variables: {
+                        where: {
+                          id: { _eq: file.id },
+                        },
+                        set: {
+                          name: newName,
+                        },
+                      },
+                    });
+
+                    setFiles((items) =>
+                      items.map((x) =>
+                        x.id === file.id
+                          ? {
+                              ...x,
+                              name: newName,
+                            }
+                          : x,
+                      ),
+                    );
+
+                    showAlert(translations.saved, 'success');
+                  }}
+                  onFileMove={async (file) => {
+                    const newAttachmentType = await selectAttachmentType();
+
+                    if (!newAttachmentType) {
+                      return;
+                    }
+
+                    await hasura.request({
+                      type: 'custom',
+                      query: `mutation MoveFile($where: ${Source}BoolExp!, $set: ${Source}SetInput!) {
+                        update${Source}(where: $where, _set: $set) {
+                          __typename
+                        }
+                      }`,
+                      variables: {
+                        where: {
+                          id: { _eq: file.id },
+                        },
+                        set: {
+                          attachmentType: newAttachmentType,
+                        },
+                      },
+                    });
+
+                    setFiles((items) =>
+                      items.map((x) =>
+                        x.id === file.id
+                          ? {
+                              ...x,
+                              attachmentType: newAttachmentType,
+                            }
+                          : x,
+                      ),
+                    );
+
+                    showAlert(translations.saved, 'success');
                   }}
                   onImageOpen={(file) => {
                     setLightboxImageIndex(files.indexOf(file));

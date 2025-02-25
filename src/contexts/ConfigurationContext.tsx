@@ -48,11 +48,17 @@ export type ConfigurationType = {
     attachmentsUploadedSuccessfully: string;
     attachmentsUploadedOrDropFileHere: string;
     attachmentsNoFiles: string;
+    attachmentsFileMenuRename: string;
+    attachmentsFileMenuMove: string;
     attachmentsFileMenuDownload: string;
     attachmentsFileMenuDelete: string;
+    attachmentsZoneFileRenameTitle: string;
+    attachmentsZoneFileRenameText: string;
+    attachmentsZoneFileRenameLabel: string;
     addNewAutocompleteValue: string;
     cancel: string;
     save: string;
+    saved: string;
     saveAndExit: string;
     create: string;
     open: string;
@@ -135,11 +141,17 @@ export const DefaultConfiguration: ConfigurationType = {
     attachmentsUploadedSuccessfully: 'Files uploaded',
     attachmentsUploadedOrDropFileHere: 'Upload or drop file here',
     attachmentsNoFiles: 'No files uploaded',
+    attachmentsFileMenuRename: 'Rename',
+    attachmentsFileMenuMove: 'Move',
     attachmentsFileMenuDownload: 'Download',
     attachmentsFileMenuDelete: 'Delete',
+    attachmentsZoneFileRenameTitle: 'Rename file',
+    attachmentsZoneFileRenameText: 'Enter new file name',
+    attachmentsZoneFileRenameLabel: 'File name',
     addNewAutocompleteValue: 'Add value',
     cancel: 'Cancel',
     save: 'Save',
+    saved: 'Saved',
     saveAndExit: 'Save and exit',
     create: 'Create',
     open: 'Open',

@@ -21,6 +21,8 @@ export default function AttachmentsZoneFiles({
   displayMode,
   onFileChange,
   onFileDelete,
+  onFileRename,
+  onFileMove,
   onImageOpen,
 }: AttachmentsZoneFilesProps) {
   const skeletonFiles = [...new Array(2).keys()].map((id) => ({
@@ -88,6 +90,14 @@ export default function AttachmentsZoneFiles({
                   onDelete={() => {
                     onFileDelete(file);
                   }}
+                  onRename={() => {
+                    onFileRename(file);
+                  }}
+                  {...(attachmentsTypes.length > 1 && {
+                    onMove: () => {
+                      onFileMove(file);
+                    },
+                  })}
                   onImageOpen={
                     file.contentType.startsWith('image/')
                       ? () => {

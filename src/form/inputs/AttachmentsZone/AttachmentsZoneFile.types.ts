@@ -9,5 +9,7 @@ export type AttachmentsZoneFileProps = AttachmentsZoneFile & {
   displayMode?: 'informative' | 'simple';
   onChange: (newFile: AttachmentsZoneFile) => void;
   onDelete: () => void;
+  onRename: () => void;
+  onMove?: () => void;
   onImageOpen?: () => void;
 };

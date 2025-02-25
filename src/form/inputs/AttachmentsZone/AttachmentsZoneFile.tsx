@@ -1,4 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DriveFileMoveOutlinedIcon from '@mui/icons-material/DriveFileMoveOutlined';
+import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
@@ -38,6 +40,8 @@ export default function AttachmentsZoneFile({
   displayMode,
   onChange,
   onDelete,
+  onRename,
+  onMove,
   onImageOpen,
 }: AttachmentsZoneFileProps) {
   const Source = source.charAt(0).toUpperCase() + source.slice(1);
@@ -268,19 +272,39 @@ export default function AttachmentsZoneFile({
                     </ListItemText>
                   </MenuItem>
                   {!readOnly && (
-                    <MenuItem
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        handleDelete();
-                      }}
-                    >
-                      <ListItemIcon>
-                        <DeleteForeverIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>
-                        {translations.attachmentsFileMenuDelete}
-                      </ListItemText>
-                    </MenuItem>
+                    <>
+                      <MenuItem onClick={onRename}>
+                        <ListItemIcon>
+                          <EditIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          {translations.attachmentsFileMenuRename}
+                        </ListItemText>
+                      </MenuItem>
+                      {onMove && (
+                        <MenuItem onClick={onMove}>
+                          <ListItemIcon>
+                            <DriveFileMoveOutlinedIcon fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText>
+                            {translations.attachmentsFileMenuMove}
+                          </ListItemText>
+                        </MenuItem>
+                      )}
+                      <MenuItem
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleDelete();
+                        }}
+                      >
+                        <ListItemIcon>
+                          <DeleteForeverIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          {translations.attachmentsFileMenuDelete}
+                        </ListItemText>
+                      </MenuItem>
+                    </>
                   )}
                 </Menu>
               </>

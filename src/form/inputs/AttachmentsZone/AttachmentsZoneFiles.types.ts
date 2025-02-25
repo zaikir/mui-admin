@@ -29,6 +29,8 @@ export type AttachmentsZoneFilesProps = {
   ) => void;
   onFileDelete: (file: AttachmentsZoneFile) => void;
   onImageOpen: (file: AttachmentsZoneFile) => void;
+  onFileRename: (file: AttachmentsZoneFile) => void;
+  onFileMove: (file: AttachmentsZoneFile) => void;
   gridProps?: GridProps;
   displayMode?: 'simple' | 'informative';
 };
