@@ -56,8 +56,8 @@ function FileContent(props: {
   );
 
   if (
-    file.contentType.startsWith('image/') ||
-    file.contentType.startsWith('video/')
+    file.contentType?.startsWith('image/') ||
+    file.contentType?.startsWith('video/')
   ) {
     return (
       <>
@@ -75,7 +75,7 @@ function FileContent(props: {
     );
   }
 
-  if (file.contentType.startsWith('audio/')) {
+  if (file.contentType?.startsWith('audio/')) {
     return (
       <>
         <Box sx={{ width: size, height: size }}>

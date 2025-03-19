@@ -99,7 +99,7 @@ export default function AttachmentsZoneFiles({
                     },
                   })}
                   onImageOpen={
-                    file.contentType.startsWith('image/')
+                    file.contentType?.startsWith('image/')
                       ? () => {
                           onImageOpen(file);
                         }
