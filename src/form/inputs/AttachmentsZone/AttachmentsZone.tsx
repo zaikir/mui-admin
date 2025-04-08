@@ -60,7 +60,9 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   } = useContext(ConfigurationContext)!;
   const { showPrompt, showAlert } = useContext(NotificationsContext);
 
-  const images = files.filter((x) => x.contentType.startsWith('image/'));
+  const lightboxImages = files.filter((x: any) => x.contentType.startsWith('image/')).sort(
+    (a: any, b: any) => (a.attachmentType || '').localeCompare((b.attachmentType || '')),
+  );
 
   const uploadFile = useCallback(
     async (file: File, attachmentType: string) => {
@@ -361,7 +363,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
                     showAlert(translations.saved, 'success');
                   }}
                   onImageOpen={(file) => {
-                    setLightboxImageIndex(files.indexOf(file));
+                    setLightboxImageIndex(lightboxImages.indexOf(file));
                   }}
                   gridProps={gridProps}
                   displayMode={displayMode}
@@ -398,7 +400,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
           open={lightboxImageIndex !== -1}
           close={() => setLightboxImageIndex(-1)}
           index={lightboxImageIndex}
-          slides={images.map((file) => ({
+          slides={lightboxImages.map((file) => ({
             src: encodeURI(
               `${apiClient.defaults.baseURL}/files/${file.id}/${file.name}${file.extension}`,
             ),
