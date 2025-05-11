@@ -41,6 +41,8 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   dropzoneProps,
   gridProps,
   displayMode,
+  disableInitialLoad,
+  onFilesChange,
   ...rest
 }: AttachmentsZoneProps<TFields>) {
   const source = initialSource ?? 'file';
@@ -162,7 +164,7 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   ]);
 
   useEffect(() => {
-    if (value) {
+    if (value || disableInitialLoad) {
       return;
     }
 
@@ -196,6 +198,10 @@ export default function AttachmentsZone<TFields extends FieldValues>({
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    onFilesChange?.(files);
+  }, [files]);
 
   return (
     <>

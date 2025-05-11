@@ -2,6 +2,7 @@ import { GridProps } from '@mui/material';
 import { DropzoneOptions } from 'react-dropzone';
 import { FieldValues } from 'react-hook-form';
 
+import { AttachmentsZoneFile } from './AttachmentsZoneFiles.types';
 import { BaseInputProps } from '../../core/BaseInput';
 
 export type AttachmentsZoneProps<TFields extends FieldValues> =
@@ -19,4 +20,6 @@ export type AttachmentsZoneProps<TFields extends FieldValues> =
     gridProps?: GridProps;
     showSections?: boolean;
     displayMode?: 'informative' | 'simple';
+    onFilesChange?: (files: AttachmentsZoneFile[]) => void;
+    disableInitialLoad?: boolean;
   };
