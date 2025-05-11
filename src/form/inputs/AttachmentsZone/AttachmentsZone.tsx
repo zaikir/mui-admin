@@ -60,9 +60,11 @@ export default function AttachmentsZone<TFields extends FieldValues>({
   } = useContext(ConfigurationContext)!;
   const { showPrompt, showAlert } = useContext(NotificationsContext);
 
-  const lightboxImages = files.filter((x: any) => x.contentType.startsWith('image/')).sort(
-    (a: any, b: any) => (a.attachmentType || '').localeCompare((b.attachmentType || '')),
-  );
+  const lightboxImages = files
+    .filter((x: any) => x.contentType.startsWith('image/'))
+    .sort((a: any, b: any) =>
+      (a.attachmentType || '').localeCompare(b.attachmentType || ''),
+    );
 
   const uploadFile = useCallback(
     async (file: File, attachmentType: string) => {

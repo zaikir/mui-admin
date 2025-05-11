@@ -37,23 +37,8 @@ export default function FileAttachmentZone({
   const [file, setFile] = useState<AttachmentsZoneFile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
-  const {
-    rest: { client: apiClient },
-    hasura,
-    translations,
-  } = useContext(ConfigurationContext)!;
+  const { hasura, translations } = useContext(ConfigurationContext)!;
   const { showPrompt, showAlert } = useContext(NotificationsContext);
-
-  const uploadFile = useCallback(
-    async (file: File, attachmentType: string) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('attachmentType', attachmentType);
-
-      apiClient.post('/files', formData);
-    },
-    [apiClient],
-  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     disabled: isReadOnly,
@@ -77,7 +62,7 @@ export default function FileAttachmentZone({
           fileToUpload: acceptedFile,
         });
       },
-      [uploadFile, showPrompt],
+      [showPrompt],
     ),
     ...dropzoneProps,
   });
