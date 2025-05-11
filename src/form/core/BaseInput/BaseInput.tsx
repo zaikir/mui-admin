@@ -43,6 +43,7 @@ export type BaseInputProps<TFields extends FieldValues> = {
   formSubmitterValueResolver?: FormSubmitterValueResolver;
   // controlled mode
   value?: any;
+  rules?: ControllerProps['rules'];
 } & InputGridProps;
 
 export type InputProps<TFields extends FieldValues> =

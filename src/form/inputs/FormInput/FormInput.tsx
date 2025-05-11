@@ -40,6 +40,7 @@ export default function FormInput<TFields extends FieldValues>({
   readOnly: readOnlyProp,
   formFetcherValueResolver,
   formSubmitterValueResolver,
+  rules,
   ...rest
 }: FormInputProps<TFields>): JSX.Element {
   const { translations } = useContext(ConfigurationContext);
@@ -150,7 +151,10 @@ export default function FormInput<TFields extends FieldValues>({
       grid={grid}
       formFetcherValueResolver={formFetcherValueResolver}
       formSubmitterValueResolver={formSubmitterValueResolver}
-      rules={type && Rules[type]}
+      rules={{
+        ...(type && Rules[type]),
+        ...(rules ?? {}),
+      }}
       render={({
         field: { value, onChange, onBlur },
         fieldState: { error },
